@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.cache/
+runs/
+dist/
+build/
+
+# Local evaluation data: prompts, model responses, event streams, detailed
+# grades, and generated diffs. Aggregate study summaries stay public.
+experiments/round-*/
+experiments/validation/
+experiments/held-out/
+experiments/long-blocks/round-*/
+experiments/long-blocks/validation/
+experiments/long-blocks/held-out/
+experiments/long-blocks/examples.md
+
+# Recreate immutable LLVM sources from the published lock manifests.
+corpus/upstream/
+corpus/long-blocks/upstream/

@@ -1,0 +1,17 @@
+{
+  "frozen_at": "2026-09-11T17:07:12Z",
+  "candidate": "round-02/spec.md",
+  "status": "experimental_candidate_not_a_promoted_winner",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "spec_sha256": "4441a7b8d0f5af8bc1e1bfec179dd25e86d1bdcae66cfd2bae10a5aadae1a099",
+  "dictionary_sha256": "e3183a824e017dc13d0cb08e91b9d50bcbb47d049477a2b5b898eae33a4c9012",
+  "rubric_sha256": "0e9ea3fbd541f443c1b236139fdc19604943e152b87fa7af3b019389fb8b4afe",
+  "task_sha256": "8adce2e0a087ef812aa09eb123916b651ad9f9355a90f422608c86325dfcff6c",
+  "cases_sha256": "52cffc55cb7e50f8af6016c97887c0d9dac514a008654de3720707c6812b4bf1",
+  "source_lock_sha256": "dcbf0a600f1d9a7613af3ea5225ff44e4df27d0a4f53eff2ca05d7dd6348b3af",
+  "selection_basis": "The only training-derived revision passed the advisory screen on four training pairs: style improved, meaning and usefulness did not worsen on average, and there were no paired meaning regressions. This is preliminary evidence, not significance or human calibration.",
+  "remaining_evaluation": "One validation run and one test run, four pairs each, with this same frozen candidate. No further spec or rubric edits in this series.",
+  "qualitative_examples": "Present the three test cases with the longest upstream reference word counts, regardless of their outcomes. Full results for all cases remain available.",
+  "test_policy": "Once exposed test results influence future choices, treat these cases as development data and obtain a new holdout."
+}

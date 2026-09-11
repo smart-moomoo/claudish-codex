@@ -1,0 +1,129 @@
+{
+  "pairs": 8,
+  "grades": {
+    "without_spec": {
+      "claudishness": 0.625,
+      "words": 0.625,
+      "structure": 0.875,
+      "simplicity": 1.125,
+      "meaning": 1.625,
+      "usefulness": 0.875
+    },
+    "with_spec": {
+      "claudishness": 0.25,
+      "words": 0.125,
+      "structure": 0.375,
+      "simplicity": 0.625,
+      "meaning": 1.75,
+      "usefulness": 0.875
+    },
+    "upstream": {
+      "claudishness": 0,
+      "words": 0.125,
+      "structure": 0.5,
+      "simplicity": 0.75,
+      "meaning": 0.25,
+      "usefulness": 0
+    }
+  },
+  "style": {
+    "without_spec": {
+      "word_count": 217.375,
+      "sentence_count": 9.75,
+      "paragraph_count": 2.75,
+      "words_per_paragraph": 79.61458333333333,
+      "max_sentence_words": 35.25,
+      "words_per_sentence": 22.512017496392495,
+      "mean_word_length": 5.421493258767365,
+      "long_word_fraction": 0.16142841768884084,
+      "hyphenated_words": 3.375,
+      "semicolons": 1.375,
+      "parentheses": 0.25,
+      "repeated_bigram_fraction": 0.04740678556294983,
+      "lexical_diversity": 0.6185458462653799
+    },
+    "with_spec": {
+      "word_count": 189.875,
+      "sentence_count": 8.375,
+      "paragraph_count": 2.875,
+      "words_per_paragraph": 65.71875,
+      "max_sentence_words": 37.125,
+      "words_per_sentence": 22.919642857142858,
+      "mean_word_length": 5.256973920730449,
+      "long_word_fraction": 0.13498949659807372,
+      "hyphenated_words": 2.5,
+      "semicolons": 1.375,
+      "parentheses": 0.25,
+      "repeated_bigram_fraction": 0.05754393151667585,
+      "lexical_diversity": 0.6140999050007976
+    },
+    "upstream": {
+      "word_count": 175.125,
+      "sentence_count": 7.625,
+      "paragraph_count": 2.625,
+      "words_per_paragraph": 110.27916666666667,
+      "max_sentence_words": 45.125,
+      "words_per_sentence": 22.97251533189033,
+      "mean_word_length": 4.584490222782534,
+      "long_word_fraction": 0.0975804454254113,
+      "hyphenated_words": 0.5,
+      "semicolons": 2.25,
+      "parentheses": 3.5,
+      "repeated_bigram_fraction": 0.08747412936473001,
+      "lexical_diversity": 0.562321672585827
+    }
+  },
+  "distance_to_reference": {
+    "without_spec": {
+      "lexical_js_divergence": 0.5889995898872517,
+      "abs_word_count_gap": 67.25,
+      "abs_sentence_count_gap": 2.875,
+      "abs_paragraph_count_gap": 1.875,
+      "abs_words_per_paragraph_gap": 72.54375,
+      "abs_max_sentence_words_gap": 17.375,
+      "abs_words_per_sentence_gap": 4.1767676767676765,
+      "abs_mean_word_length_gap": 0.8859478411796355,
+      "abs_long_word_fraction_gap": 0.06875868654914383,
+      "abs_hyphenated_words_gap": 2.875,
+      "abs_semicolons_gap": 1.625,
+      "abs_parentheses_gap": 3.25,
+      "abs_repeated_bigram_fraction_gap": 0.052486591395218864,
+      "abs_lexical_diversity_gap": 0.09575401746598969
+    },
+    "with_spec": {
+      "lexical_js_divergence": 0.599025215533027,
+      "abs_word_count_gap": 55.75,
+      "abs_sentence_count_gap": 2.5,
+      "abs_paragraph_count_gap": 1.75,
+      "abs_words_per_paragraph_gap": 70.60625,
+      "abs_max_sentence_words_gap": 14.5,
+      "abs_words_per_sentence_gap": 3.7845193001443005,
+      "abs_mean_word_length_gap": 0.784584097548314,
+      "abs_long_word_fraction_gap": 0.05422973049334173,
+      "abs_hyphenated_words_gap": 2.25,
+      "abs_semicolons_gap": 2.125,
+      "abs_parentheses_gap": 3.25,
+      "abs_repeated_bigram_fraction_gap": 0.043204663358254534,
+      "abs_lexical_diversity_gap": 0.09801702940633192
+    }
+  },
+  "paired_grade_delta": {
+    "claudishness": -0.375,
+    "words": -0.5,
+    "structure": -0.5,
+    "simplicity": -0.5,
+    "meaning": 0.125,
+    "usefulness": 0
+  },
+  "meaning_regressions": [
+    "long-lvi-intersection",
+    "long-memdep-nonlocal-query"
+  ],
+  "style_wins_ties_losses": {
+    "wins": 5,
+    "ties": 2,
+    "losses": 1
+  },
+  "candidate_passes_screen": false,
+  "interpretation": "Descriptive paired results, not statistical proof. Screen is advisory; never silently promotes a spec."
+}

@@ -1,0 +1,20 @@
+{
+  "train": [
+    "llvm/lib/Transforms/Scalar/GVN.cpp",
+    "llvm/lib/Transforms/Scalar/JumpThreading.cpp",
+    "llvm/lib/Transforms/Scalar/SROA.cpp",
+    "llvm/lib/Transforms/Utils/LoopUnrollRuntime.cpp"
+  ],
+  "validation": [
+    "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp",
+    "llvm/lib/Analysis/LazyValueInfo.cpp",
+    "llvm/lib/Transforms/Utils/LoopRotationUtils.cpp"
+  ],
+  "test": [
+    "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp",
+    "llvm/lib/Transforms/Utils/LoopSimplify.cpp",
+    "llvm/lib/CodeGen/LiveIntervals.cpp",
+    "llvm/lib/CodeGen/MachineBlockPlacement.cpp",
+    "llvm/lib/Analysis/BasicAliasAnalysis.cpp"
+  ]
+}

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claudish-codex"
+version = "0.1.0"
+description = "Evidence-driven plain-English comments for Codex, evaluated against historical LLVM comments"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []
+
+[project.scripts]
+claudish = "claudish.cli:main"
+
+[tool.setuptools]
+packages = ["claudish"]
+

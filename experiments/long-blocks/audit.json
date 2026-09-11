@@ -1,0 +1,30 @@
+{
+  "completed_runs": 4,
+  "paired_observations": 16,
+  "distinct_cases": 12,
+  "generation_calls": 32,
+  "judge_calls": 16,
+  "fresh_unique_sessions": 48,
+  "new_calls_this_continuation": 36,
+  "codex_versions": [
+    "codex-cli 0.154.0"
+  ],
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "frozen_inputs_and_prompt_parity_verified": true,
+  "exact_reference_matches": [],
+  "usage_all_long_block_calls": {
+    "input_tokens": 541955,
+    "cached_input_tokens": 72064,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 41040,
+    "reasoning_output_tokens": 23916
+  },
+  "usage_this_continuation": {
+    "input_tokens": 405284,
+    "cached_input_tokens": 45952,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 30324,
+    "reasoning_output_tokens": 17668
+  }
+}

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "stringref-numeric-order",
+    "split": "train",
+    "path": "llvm/lib/Support/StringRef.cpp",
+    "line": 68,
+    "context_before": 15,
+    "context_after": 25,
+    "reference_sha256": "07e67c790ab1ceb213e800f82b4f7d17cfecbb4f618093171eab9c4d28307eb7"
+  },
+  {
+    "id": "stringref-search-table",
+    "split": "train",
+    "path": "llvm/lib/Support/StringRef.cpp",
+    "line": 163,
+    "context_before": 15,
+    "context_after": 35,
+    "reference_sha256": "c9b93c78ed2a197f253a1b9c93a6db5079f07f4735de79e8f667d807d58488e1"
+  },
+  {
+    "id": "stringref-negative-overflow",
+    "split": "train",
+    "path": "llvm/lib/Support/StringRef.cpp",
+    "line": 481,
+    "context_before": 20,
+    "context_after": 10,
+    "reference_sha256": "8c1a9e5580f4f50c1a465ca9fb44ef1a7c8ae83a2c3122a2928477cae34a49b6"
+  },
+  {
+    "id": "local-switch-metadata",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Utils/Local.cpp",
+    "line": 185,
+    "context_before": 20,
+    "context_after": 30,
+    "reference_sha256": "a49bb8b899d8100460e0811e6467b4a93e65e5a17831d091eb5c8dfb1b62ccfb"
+  },
+  {
+    "id": "local-dead-operands",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Utils/Local.cpp",
+    "line": 475,
+    "context_before": 25,
+    "context_after": 15,
+    "reference_sha256": "6ea02f89dbac2500ee04d88792d2f68e61ca14ec3c27888134a65fa5fea1bfae"
+  },
+  {
+    "id": "local-phi-iterator",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Utils/Local.cpp",
+    "line": 661,
+    "context_before": 25,
+    "context_after": 15,
+    "reference_sha256": "33e910c4e8fc77286a02586c9c268ed5158f9d04537e77646b4d8d5f722dba35"
+  },
+  {
+    "id": "loopinfo-hoist-metadata",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LoopInfo.cpp",
+    "line": 112,
+    "context_before": 25,
+    "context_after": 20,
+    "reference_sha256": "4d0417f9741fdc475a977f65127e58dbec19521db9ac540b703da885a6316eed"
+  },
+  {
+    "id": "loopinfo-canonical-indvar",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LoopInfo.cpp",
+    "line": 155,
+    "context_before": 15,
+    "context_after": 35,
+    "reference_sha256": "921c2eef229f80f81448b0df184513c3a83e65fa43cf7f3bfbd346ba42f4f0cf"
+  },
+  {
+    "id": "loopinfo-predicate-direction",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LoopInfo.cpp",
+    "line": 241,
+    "context_before": 25,
+    "context_after": 20,
+    "reference_sha256": "6124dbe4d0540bf9aca47699b23e9f1a72d60492c0a094ceb0418e5f28e522f8"
+  },
+  {
+    "id": "loopinfo-unique-exit",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LoopInfo.cpp",
+    "line": 376,
+    "context_before": 25,
+    "context_after": 20,
+    "reference_sha256": "5f4dd86b2e0c3b7390ef5c6cc8d621ee2f9b47820ed8f07ef078d9bdcc59728f"
+  },
+  {
+    "id": "bbutils-dead-successors",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+    "line": 59,
+    "context_before": 15,
+    "context_after": 30,
+    "reference_sha256": "c876203e2fdb5d443268dee0985e826f7eb1a7c12cf96c2acf9117578f8ab663"
+  },
+  {
+    "id": "bbutils-phi-handles",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+    "line": 157,
+    "context_before": 20,
+    "context_after": 20,
+    "reference_sha256": "400fd943ed3e8878032ce75f3a5581aa96d32e46a8431b94bfec6e22fc9f5a29"
+  },
+  {
+    "id": "bbutils-loop-membership",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+    "line": 527,
+    "context_before": 25,
+    "context_after": 25,
+    "reference_sha256": "e6eec3899a671cabbbb8e6c15f2fe2364f0787dbea56f2be0c1d85156d3c8fac"
+  },
+  {
+    "id": "bbutils-condition-dominance",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+    "line": 1042,
+    "context_before": 25,
+    "context_after": 25,
+    "reference_sha256": "38df818a69b57d9fc568f6810c337c56978d279e8db78ef88e0279e3d611793c"
+  }
+]

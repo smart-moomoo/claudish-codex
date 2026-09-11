@@ -1,0 +1,14 @@
+[
+  {"id": "long-gvn-foldable-branch", "split": "train", "path": "llvm/lib/Transforms/Scalar/GVN.cpp", "line": 2631, "context_before": 151, "context_after": 24, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-jump-loop-headers", "split": "train", "path": "llvm/lib/Transforms/Scalar/JumpThreading.cpp", "line": 546, "context_before": 0, "context_after": 7, "extra_context_ranges": [[380, 438], [2018, 2042]], "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-sroa-adjusted-pointer", "split": "train", "path": "llvm/lib/Transforms/Scalar/SROA.cpp", "line": 1564, "context_before": 40, "context_after": 103, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-sroa-presplit", "split": "train", "path": "llvm/lib/Transforms/Scalar/SROA.cpp", "line": 3599, "context_before": 0, "context_after": 476, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-memdep-atomics", "split": "validation", "path": "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp", "line": 451, "context_before": 130, "context_after": 236, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-memdep-nonlocal-query", "split": "validation", "path": "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp", "line": 1080, "context_before": 0, "context_after": 387, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-lvi-intersection", "split": "validation", "path": "llvm/lib/Analysis/LazyValueInfo.cpp", "line": 81, "context_before": 0, "context_after": 35, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-lvi-predicate-edges", "split": "validation", "path": "llvm/lib/Analysis/LazyValueInfo.cpp", "line": 1873, "context_before": 30, "context_after": 58, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-unswitch-quota", "split": "test", "path": "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp", "line": 124, "context_before": 40, "context_after": 264, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-unswitch-traversal", "split": "test", "path": "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp", "line": 1063, "context_before": 30, "context_after": 136, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-basicaa-object-size", "split": "test", "path": "llvm/lib/Analysis/BasicAliasAnalysis.cpp", "line": 200, "context_before": 16, "context_after": 11, "min_reference_words": 100, "max_reference_words": 300},
+  {"id": "long-basicaa-negative-offset", "split": "test", "path": "llvm/lib/Analysis/BasicAliasAnalysis.cpp", "line": 1241, "context_before": 0, "context_after": 66, "min_reference_words": 100, "max_reference_words": 300}
+]

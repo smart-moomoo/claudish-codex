@@ -1,0 +1,101 @@
+[
+  {
+    "id": "decorative-abstraction",
+    "dimension": "words",
+    "guidance": "Name the concrete value, operation, or condition instead of giving it a metaphorical label.",
+    "before": "The caller is the owner at this load-bearing boundary for the returned buffer's ownership handoff.",
+    "after": "The caller owns the returned buffer.",
+    "exceptions": ["Keep boundary when discussing an actual basic block, memory, or range boundary."],
+    "signals": ["load-bearing", "handoff", "surface", "spine"],
+    "evidence": [],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "artificial-contrast",
+    "dimension": "structure",
+    "guidance": "State the relevant condition directly. Keep contrasts only when both alternatives matter to understanding the code.",
+    "before": "The gate for releasing the buffer is ownership, not convenience. Ownership is the constraint.",
+    "after": "Only the owner may release the buffer.",
+    "exceptions": ["Keep a real distinction such as signed versus unsigned overflow."],
+    "signals": ["not .* but", "that distinction matters", "is the constraint"],
+    "evidence": [],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "staged-emphasis",
+    "dimension": "simplicity",
+    "guidance": "Remove introductions and conclusions that add no technical information.",
+    "before": "The key insight here is that the cache can be stale. That is the important distinction.",
+    "after": "The cache may be stale.",
+    "exceptions": ["Retain a warning when it describes a specific failure and when it can happen."],
+    "signals": ["key insight", "importantly", "in other words", "the key distinction"],
+    "evidence": [],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "invented-compounds",
+    "dimension": "words",
+    "guidance": "Expand invented noun stacks into an ordinary relationship when that is clearer.",
+    "before": "Apply the caller-ownership-gated buffer-release path.",
+    "after": "Release the buffer if the caller owns it.",
+    "exceptions": ["Preserve established terms such as use-def chain, loop-invariant, and zero-extend."],
+    "signals": ["-gated", "-backed", "-first", "-surface", "-path"],
+    "evidence": [],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "preserve-local-facts",
+    "dimension": "meaning",
+    "guidance": "State the particular operation and its conditions. Keep meaningful edge cases, negation, and the direction of a change; do not replace them with vague words such as update or handle.",
+    "before": "When counters are valid and tasks remain, perform the removed task's count-to-pending-total aggregation.",
+    "after": "Add the removed task's count to the pending total if the counters are valid and tasks remain.",
+    "exceptions": ["A short summary is sufficient when the surrounding comment already states the condition and exact change."],
+    "signals": ["update", "handle", "process"],
+    "evidence": ["experiments/round-01/report.md#local-switch-metadata"],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "explain-local-choice",
+    "dimension": "usefulness",
+    "guidance": "Explain a non-obvious reason for the local implementation choice when supported by the code: representation, bounds, mutation order, invalidation, or a special case. Keep that reason even if it needs another sentence or paragraph. Do not invent historical intent or a performance claim.",
+    "before": "Entry removal is the invalidation trigger for the saved-position restart path.",
+    "after": "Restart the scan if removing an entry invalidated the saved position.",
+    "exceptions": ["If the reason cannot be inferred from the task or code, describe the known behavior precisely instead of guessing."],
+    "signals": ["compare", "check", "restart"],
+    "evidence": ["experiments/round-01/report.md#stringref-negative-overflow", "experiments/round-01/report.md#local-phi-iterator"],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "keep-explanations-local",
+    "dimension": "structure",
+    "guidance": "Explain the operation at the comment's location. Avoid a tour of neighboring statements. Check causal explanations and claims about the opposite branch: a guard alone does not prove either.",
+    "before": "When multiple items are present, this is the eligibility gate for updating the summary.",
+    "after": "Update the summary if more than one item remains.",
+    "exceptions": ["Discuss adjacent operations when their order or interaction is the reason this code is correct."],
+    "signals": ["first", "then", "cannot", "always"],
+    "evidence": ["experiments/round-02/report.md#stringref-numeric-order", "experiments/round-02/report.md#local-switch-metadata"],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "organize-long-explanations",
+    "dimension": "structure",
+    "guidance": "Organize a substantial block around the problem, the important mechanism, and its constraints, not the order of every statement in the implementation. Preserve the contract and significant alternatives or fallbacks. Use a concrete example when it explains an otherwise difficult interaction. Stop after the useful explanation; do not repeat it as a concluding slogan. There is no required number of sentences, paragraphs, or sections.",
+    "before": "First, the records are read. Next, they are copied to a temporary file. Then the temporary file is renamed over the destination. This means readers see either the old complete file or the new complete file. Finally, true is returned on success and false on failure. In short, this sequence provides a complete-file replacement process.",
+    "after": "Write the records to a temporary file, then rename it over the destination so readers see either the old complete file or the new one. Return true on success and false on failure.",
+    "exceptions": ["Keep a step-by-step account when the ordering itself is subtle or necessary to explain correctness; keep examples and multiple paragraphs when they carry useful information."],
+    "signals": ["first", "next", "finally", "in short"],
+    "evidence": ["experiments/long-blocks/round-01/report.md#long-sroa-presplit", "experiments/long-blocks/round-01/report.md#long-sroa-adjusted-pointer", "experiments/long-blocks/round-01/report.md#long-jump-loop-headers"],
+    "example_origin": "synthetic"
+  },
+  {
+    "id": "preserve-claim-strength",
+    "dimension": "meaning",
+    "guidance": "Distinguish a proven invariant from an approximation or a conservative implementation choice. State what a check establishes, not a stronger property suggested by its name. Do not turn an unsupported case into a claim that no correct implementation could handle it. Retain useful caveats without hedging facts the code actually establishes.",
+    "before": "We conservatively skip overlapping ranges because this implementation does not resolve their dependencies. This establishes an overlap-exclusion guarantee for the processing path.",
+    "after": "Skip overlapping ranges because this implementation does not resolve their dependencies.",
+    "exceptions": ["State a genuine invariant directly when the supplied code or task establishes it. Do not weaken a proven guarantee merely to sound cautious."],
+    "signals": ["guarantees", "necessarily", "cannot", "must"],
+    "evidence": ["experiments/long-blocks/round-01/report.md#long-jump-loop-headers"],
+    "example_origin": "synthetic"
+  }
+]

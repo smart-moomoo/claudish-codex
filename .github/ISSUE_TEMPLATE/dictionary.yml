@@ -1,0 +1,25 @@
+name: Improve a comment pattern
+description: Suggest a dictionary rule backed by a real comment
+title: "Dictionary: "
+body:
+  - type: textarea
+    id: output
+    attributes:
+      label: Actual comment and code context
+      description: Include the Codex model, effort, and the relevant source or experiment link. Remove private information.
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: What is hard to read, and how would you rewrite it?
+      description: Explain the recurring problem and preserve every technical fact.
+    validations:
+      required: true
+  - type: textarea
+    id: exception
+    attributes:
+      label: When is this wording appropriate?
+      description: Give a legitimate technical use so the rule does not become a word ban.
+    validations:
+      required: true

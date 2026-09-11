@@ -1,0 +1,35 @@
+{
+  "repository": "https://github.com/llvm/llvm-project",
+  "tag": "llvmorg-10.0.0",
+  "commit": "d32170dbd5b0d54436537b6b75beaf44324e0c28",
+  "release_date": "2020-03-24",
+  "license_url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/LICENSE.TXT",
+  "license_sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+  "human_reference_basis": "Verbatim comments upstreamed by March 2020, before modern code assistants. Historical provenance, not an individual authorship attestation.",
+  "files": [
+    {
+      "path": "llvm/lib/Support/StringRef.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Support/StringRef.cpp",
+      "sha256": "5b15729ed443751a3ed7d87026e3b74804da4c2b9018cac20691cde75213c27c"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/Local.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/Local.cpp",
+      "sha256": "881e3d5976c6977f7771a087de261f5ae1f8d69c1eccc6e11ab32e8ecf46f05a"
+    },
+    {
+      "path": "llvm/lib/Analysis/LoopInfo.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/LoopInfo.cpp",
+      "sha256": "1484a65017acbd510b4d783f820f68ced0bbe036f905d7f9f17910c566fe64e1"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/BasicBlockUtils.cpp",
+      "sha256": "61184c7035520309125959f6ced95afba553f8e045c1849bb2797d6fb85a94a7"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "candidate": "round-03",
+  "spec_sha256": "336a9a8a3b7a23568c9995fac9199e8e43721ef117ff88dcea8e599a12651e32",
+  "rubric_sha256": "0e9ea3fbd541f443c1b236139fdc19604943e152b87fa7af3b019389fb8b4afe",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "status": "experimental; advisory promotion screen not passed",
+  "decision_basis": "Training results and review of actual comment pairs only. No validation or test outputs were available at freeze.",
+  "next": "Run validation, then test without changing the spec or rubric. Report all results; do not tune on the test split."
+}

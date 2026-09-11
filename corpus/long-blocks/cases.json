@@ -1,0 +1,144 @@
+[
+  {
+    "id": "long-gvn-foldable-branch",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Scalar/GVN.cpp",
+    "line": 2631,
+    "context_before": 151,
+    "context_after": 24,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "b10acacdbe420444f5d0f1715022ff93b7583907d3e185a750930c00d2b63784"
+  },
+  {
+    "id": "long-jump-loop-headers",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Scalar/JumpThreading.cpp",
+    "line": 546,
+    "context_before": 0,
+    "context_after": 7,
+    "extra_context_ranges": [
+      [
+        380,
+        438
+      ],
+      [
+        2018,
+        2042
+      ]
+    ],
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "6b067fb0a1cec1b27cfcb3a98e180e11f939a72ff7f2172557fcea42a7c67592"
+  },
+  {
+    "id": "long-sroa-adjusted-pointer",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Scalar/SROA.cpp",
+    "line": 1564,
+    "context_before": 40,
+    "context_after": 103,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "df59c34a742970aed1430d9c410072ab371c7b9a93238fdbcfaf6e8b66b31701"
+  },
+  {
+    "id": "long-sroa-presplit",
+    "split": "train",
+    "path": "llvm/lib/Transforms/Scalar/SROA.cpp",
+    "line": 3599,
+    "context_before": 0,
+    "context_after": 476,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "6b460d39271cc55d3ad9ae76c9514995aaa6af55d3545900a33ef547dfc5d961"
+  },
+  {
+    "id": "long-memdep-atomics",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp",
+    "line": 451,
+    "context_before": 130,
+    "context_after": 236,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "bbd73f405ff529ec02396b71b94859d96893262cf8c7a1bc7b1d3a98c350541a"
+  },
+  {
+    "id": "long-memdep-nonlocal-query",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp",
+    "line": 1080,
+    "context_before": 0,
+    "context_after": 387,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "e77c084ee4c9e3fa07de31353546e3d680f56841f9f886e687ec331a7076836c"
+  },
+  {
+    "id": "long-lvi-intersection",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LazyValueInfo.cpp",
+    "line": 81,
+    "context_before": 0,
+    "context_after": 35,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "357c059a7beb339528f7d4a37495c1f8b24fb57b50876d79d74deb06dafa57cf"
+  },
+  {
+    "id": "long-lvi-predicate-edges",
+    "split": "validation",
+    "path": "llvm/lib/Analysis/LazyValueInfo.cpp",
+    "line": 1873,
+    "context_before": 30,
+    "context_after": 58,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "a634469dace8b0dc740a612d0740ec5cee58d192409e969ec51da7df2cd76ac2"
+  },
+  {
+    "id": "long-unswitch-quota",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp",
+    "line": 124,
+    "context_before": 40,
+    "context_after": 264,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "e22951122c17d1078dd91d8697f4c944aa2200c4c085efcc1bb1842e7231497f"
+  },
+  {
+    "id": "long-unswitch-traversal",
+    "split": "test",
+    "path": "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp",
+    "line": 1063,
+    "context_before": 30,
+    "context_after": 136,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "0998a2327441ae8a6015f5bb14a6bd2ee46b017854258fca653d46584a4b4e08"
+  },
+  {
+    "id": "long-basicaa-object-size",
+    "split": "test",
+    "path": "llvm/lib/Analysis/BasicAliasAnalysis.cpp",
+    "line": 200,
+    "context_before": 16,
+    "context_after": 11,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "c6f707998830f6a0273a3d34d49f13b94b1a6e9a1e1f1e2f7d5f2c1f836ad7a1"
+  },
+  {
+    "id": "long-basicaa-negative-offset",
+    "split": "test",
+    "path": "llvm/lib/Analysis/BasicAliasAnalysis.cpp",
+    "line": 1241,
+    "context_before": 0,
+    "context_after": 66,
+    "min_reference_words": 100,
+    "max_reference_words": 300,
+    "reference_sha256": "a42b331c70f2df9ff88c52ed5fba52b774dce996e59832ce456824aa5d95118a"
+  }
+]

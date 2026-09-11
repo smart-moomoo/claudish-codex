@@ -1,0 +1,83 @@
+{
+  "repository": "https://github.com/llvm/llvm-project",
+  "tag": "llvmorg-10.0.0",
+  "commit": "d32170dbd5b0d54436537b6b75beaf44324e0c28",
+  "release_date": "2020-03-24",
+  "license_url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/LICENSE.TXT",
+  "license_sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+  "human_reference_basis": "Verbatim comments upstreamed by March 2020, before modern code assistants. Historical provenance, not an individual authorship attestation.",
+  "files": [
+    {
+      "path": "llvm/lib/Transforms/Scalar/GVN.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/GVN.cpp",
+      "sha256": "793b84069fc44e5702fca23c78513702b17e0f664154fed10ccc46eb172b8fbc"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/JumpThreading.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/JumpThreading.cpp",
+      "sha256": "7402072bcecca02433d098e1c9c2af233043589a44de74c857b439577fa13bb3"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/SROA.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/SROA.cpp",
+      "sha256": "60e55c9a665a080bbbd2f8f5803f14a90bdf8ad25c34ec09beadca7d8d2d602e"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/LoopUnrollRuntime.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/LoopUnrollRuntime.cpp",
+      "sha256": "c95a9341ec87e79ad452d3cc3c1c42787b8ba198e6d23ce0a269114c701a525f"
+    },
+    {
+      "path": "llvm/lib/Analysis/MemoryDependenceAnalysis.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/MemoryDependenceAnalysis.cpp",
+      "sha256": "0fd48bd98ff97dd462e20ca2c056a3da5f059c346f52a497bcc5b84fc54be77e"
+    },
+    {
+      "path": "llvm/lib/Analysis/LazyValueInfo.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/LazyValueInfo.cpp",
+      "sha256": "44150bb451d371ba4922ab22c5bdc140e9f47086cc17b2d1f501b244ebe78994"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/LoopRotationUtils.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/LoopRotationUtils.cpp",
+      "sha256": "371af806b06b5494c407be96c24b3e94e27a081eb113d1be2ce964c961264b8f"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/LoopUnswitch.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/LoopUnswitch.cpp",
+      "sha256": "202d048107167e27f707f2661a5745dd0d979c9b2d5bad489f3bdbfb8a562697"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/LoopSimplify.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/LoopSimplify.cpp",
+      "sha256": "c17c47e42b1bdfa48c1174895c34d063e89bb6e6b8eaf1d6ced0f91dc5c9636f"
+    },
+    {
+      "path": "llvm/lib/CodeGen/LiveIntervals.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/LiveIntervals.cpp",
+      "sha256": "4de9963a07492c23c7d577b6b645d0477e9a23a8216ce7b57fb18b94b3be5cc0"
+    },
+    {
+      "path": "llvm/lib/CodeGen/MachineBlockPlacement.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/MachineBlockPlacement.cpp",
+      "sha256": "2924c708b9eae2dde9a3e75caf369b108a453ab272161963087a57d701f33958"
+    },
+    {
+      "path": "llvm/lib/Analysis/BasicAliasAnalysis.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/BasicAliasAnalysis.cpp",
+      "sha256": "f5ff76becbcf50e59583f0c222ed6fa2bce0515b2dd14f1ef76781ffc5d69bc1"
+    }
+  ]
+}
