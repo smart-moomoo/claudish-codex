@@ -1,0 +1,101 @@
+{
+  "seed": 20260911,
+  "max_per_file": 6,
+  "requested_counts": {
+    "train": 75,
+    "validation": 40,
+    "test": 35
+  },
+  "selected": 150,
+  "inventory": {
+    "train": {
+      "long": {
+        "eligible": 44,
+        "selected": 25,
+        "selected_by_function": {
+          "example": 5,
+          "rationale": 10,
+          "mechanism": 10
+        }
+      },
+      "medium": {
+        "eligible": 218,
+        "selected": 25,
+        "selected_by_function": {
+          "example": 5,
+          "rationale": 10,
+          "mechanism": 10
+        }
+      },
+      "short": {
+        "eligible": 894,
+        "selected": 25,
+        "selected_by_function": {
+          "example": 5,
+          "rationale": 10,
+          "mechanism": 10
+        }
+      }
+    },
+    "validation": {
+      "long": {
+        "eligible": 14,
+        "selected": 13,
+        "selected_by_function": {
+          "example": 3,
+          "rationale": 7,
+          "mechanism": 3
+        }
+      },
+      "medium": {
+        "eligible": 72,
+        "selected": 13,
+        "selected_by_function": {
+          "example": 3,
+          "rationale": 5,
+          "mechanism": 5
+        }
+      },
+      "short": {
+        "eligible": 287,
+        "selected": 14,
+        "selected_by_function": {
+          "example": 3,
+          "rationale": 6,
+          "mechanism": 5
+        }
+      }
+    },
+    "test": {
+      "long": {
+        "eligible": 28,
+        "selected": 11,
+        "selected_by_function": {
+          "example": 2,
+          "rationale": 4,
+          "mechanism": 5
+        }
+      },
+      "medium": {
+        "eligible": 123,
+        "selected": 12,
+        "selected_by_function": {
+          "example": 2,
+          "rationale": 5,
+          "mechanism": 5
+        }
+      },
+      "short": {
+        "eligible": 541,
+        "selected": 12,
+        "selected_by_function": {
+          "example": 2,
+          "rationale": 5,
+          "mechanism": 5
+        }
+      }
+    }
+  },
+  "selection_sha256": "384b8c9fbb468512fa342ed65fc156423aae95840f557fed7faadc6d160ec621",
+  "functional_labels": "Lexical sampling aids, not semantic ground truth."
+}

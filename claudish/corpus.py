@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import re
 import urllib.request
 
 from .cpp import scan
@@ -78,11 +79,160 @@ def candidates(root, corpus_dir=None, min_words=12, max_words=65):
         comments, _ = scan(source)
         for c in comments:
             metrics = measure(c.text)
-            if min_words <= metrics["word_count"] <= max_words and c.line > 20 and not c.text.startswith(("===", "---")):
+            line_start = source.rfind("\n", 0, c.start) + 1
+            standalone = not source[line_start:c.start].strip()
+            if (standalone and min_words <= metrics["word_count"] <= max_words and
+                    c.line > 20 and not c.text.startswith(("===", "---"))):
                 result.append({"path": record["path"], "split": record["split"],
                                "line": c.line, "end_line": c.end_line, "text": c.text,
                                "words": metrics["word_count"], "sentences": metrics["sentence_count"]})
     return result
+
+
+LENGTH_BANDS = {
+    "short": (20, 49),
+    "medium": (50, 99),
+    "long": (100, 300),
+}
+
+
+def functional_class(text):
+    """Return a reproducible sampling label, not a semantic ground truth."""
+    if re.search(r"\b(example|e\.g\.|for instance|such as)\b", text, re.IGNORECASE):
+        return "example"
+    if re.search(r"\b(because|otherwise|so that|in order to|avoid|prevent|ensure|reason|necessary|required|cannot|must)\b",
+                 text, re.IGNORECASE):
+        return "rationale"
+    return "mechanism"
+
+
+def _band(words):
+    return next(name for name, (low, high) in LENGTH_BANDS.items() if low <= words <= high)
+
+
+def _eligible(candidate):
+    text = candidate["text"].strip()
+    compact = "".join(text.split())
+    if not compact or text.upper().startswith(("TODO", "FIXME", "XXX")):
+        return False
+    if re.search(r"generated (file|code)|do not edit", text, re.IGNORECASE):
+        return False
+    return sum(ch.isalpha() for ch in compact) / len(compact) >= 0.45
+
+
+def _type_targets(total, available):
+    preferred = {"example": round(total * 0.2), "rationale": round(total * 0.4)}
+    preferred["mechanism"] = total - sum(preferred.values())
+    targets = {name: min(preferred[name], available.get(name, 0)) for name in preferred}
+    while sum(targets.values()) < total:
+        choices = [name for name in targets if targets[name] < available.get(name, 0)]
+        if not choices:
+            raise ValueError("Not enough candidates to fill functional strata")
+        name = min(choices, key=lambda item: (targets[item] / max(1, preferred[item]), item))
+        targets[name] += 1
+    return targets
+
+
+def select_stratified(root, corpus_dir, counts, *, seed=20260911, max_per_file=6):
+    """Freeze a deterministic length/function-stratified corpus selection."""
+    if set(counts) != {"train", "validation", "test"} or any(value < 1 for value in counts.values()):
+        raise ValueError("Counts must provide positive train, validation and test totals")
+    data_dir = directory(root, corpus_dir)
+    if (data_dir / "selection.json").exists() or (data_dir / "cases.json").exists():
+        raise ValueError("Selection is already frozen")
+    source_cache = {}
+    comment_cache = {}
+    for record in read_json(data_dir / "sources.lock.json")["files"]:
+        source = safe_path(data_dir / "upstream", record["path"]).read_text()
+        source_cache[record["path"]] = source
+        comments, _ = scan(source)
+        comment_cache[record["path"]] = {comment.line: comment for comment in comments}
+
+    def context_is_safe(candidate):
+        source = source_cache[candidate["path"]]
+        comment = comment_cache[candidate["path"]][candidate["line"]]
+        masked = source[:comment.start] + "// <COMMENT_TO_WRITE>" + source[comment.end:]
+        lines = masked.splitlines()
+        first = max(0, comment.line - 1 - 45)
+        last = min(len(lines), comment.line + 90)
+        normalized = " ".join("\n".join(lines[first:last]).split())
+        return not any(len(line.strip()) > 30 and " ".join(line.split()) in normalized
+                       for line in comment.text.splitlines())
+
+    pool = []
+    for candidate in candidates(root, corpus_dir, 20, 300):
+        if _eligible(candidate) and context_is_safe(candidate):
+            candidate = {**candidate, "length_band": _band(candidate["words"]),
+                         "functional_class": functional_class(candidate["text"])}
+            candidate["order_sha256"] = digest(
+                f"{seed}:{candidate['path']}:{candidate['line']}:{candidate['text']}")
+            pool.append(candidate)
+
+    selected = []
+    inventory = {}
+    for split in ("train", "validation", "test"):
+        total = counts[split]
+        base, remainder = divmod(total, len(LENGTH_BANDS))
+        band_targets = {name: base + (index < remainder)
+                        for index, name in enumerate(LENGTH_BANDS)}
+        file_counts = {}
+        split_rows = []
+        inventory[split] = {}
+        # Scarce long blocks are assigned before shorter blocks.
+        for band in ("long", "medium", "short"):
+            rows = [row for row in pool if row["split"] == split and row["length_band"] == band]
+            available = {kind: sum(row["functional_class"] == kind for row in rows)
+                         for kind in ("example", "rationale", "mechanism")}
+            targets = _type_targets(band_targets[band], available)
+            chosen = []
+            while any(targets.values()):
+                kinds = [kind for kind, left in targets.items() if left]
+                kind = min(kinds, key=lambda item: (available[item], item))
+                choices = [row for row in rows if row not in chosen and
+                           row["functional_class"] == kind and
+                           file_counts.get(row["path"], 0) < max_per_file]
+                if not choices:
+                    # Retain the length quota if a type quota conflicts with the file cap.
+                    choices = [row for row in rows if row not in chosen and
+                               file_counts.get(row["path"], 0) < max_per_file]
+                    if not choices:
+                        raise ValueError(f"Cannot fill {split}/{band} under per-file cap")
+                    kind = choices[0]["functional_class"]
+                row = min(choices, key=lambda item: (file_counts.get(item["path"], 0),
+                                                     item["order_sha256"]))
+                chosen.append(row)
+                file_counts[row["path"]] = file_counts.get(row["path"], 0) + 1
+                if targets.get(kind, 0):
+                    targets[kind] -= 1
+                else:
+                    fallback = next(name for name, left in targets.items() if left)
+                    targets[fallback] -= 1
+            split_rows.extend(chosen)
+            inventory[split][band] = {
+                "eligible": len(rows), "selected": len(chosen),
+                "selected_by_function": {kind: sum(row["functional_class"] == kind for row in chosen)
+                                         for kind in ("example", "rationale", "mechanism")},
+            }
+        if len(split_rows) != total:
+            raise ValueError(f"Incorrect selection count for {split}")
+        for row in split_rows:
+            stem = Path(row["path"]).stem.lower()
+            low, high = LENGTH_BANDS[row["length_band"]]
+            selected.append({
+                "id": f"scaled-{stem}-{row['line']}", "split": split, "path": row["path"],
+                "line": row["line"], "context_before": 45, "context_after": 90,
+                "min_reference_words": low, "max_reference_words": high,
+                "length_band": row["length_band"], "functional_class": row["functional_class"],
+                "selection_order_sha256": row["order_sha256"],
+            })
+    selected.sort(key=lambda row: (row["split"], row["path"], row["line"]))
+    write_json(data_dir / "selection.json", selected)
+    report = {"seed": seed, "max_per_file": max_per_file, "requested_counts": counts,
+              "selected": len(selected), "inventory": inventory,
+              "selection_sha256": digest(selected),
+              "functional_labels": "Lexical sampling aids, not semantic ground truth."}
+    write_json(data_dir / "selection-report.json", report)
+    return report
 
 
 def cases(root, split=None, corpus_dir=None):

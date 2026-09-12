@@ -22,8 +22,15 @@ blocks of 102–263 words to examine explanations beyond one-liners. It is now
 complete: the revised spec improved average style on eight unseen blocks,
 but meaning regressed on two validation cases. It remains experimental.
 Three full-length contrasts, including a regression, remain in the private
-local experiment artifacts. The current nine-rule spec is the long-block
-candidate; the initial study evaluated earlier versions.
+local experiment artifacts.
+
+The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
+file-disjoint, length- and function-stratified comments with two fresh judges
+per pair. The frozen ten-rule candidate improved all four style deficits on 74
+unseen analyzable pairs and modestly improved meaning; usefulness was
+inconclusive. It passed the advisory screen, while remaining substantially more
+verbose than the historical upstream comments. The current spec is this scaled
+candidate; the earlier studies evaluated prior versions.
 
 Raw experiment directories and downloaded LLVM files are private local
 artifacts by default and are excluded from Git. The repository publishes the
@@ -134,6 +141,13 @@ saved calls without any model requests. It does not resume an agent. Incomplete
 calls require a new run; do not selectively reroll bad comments. Increase
 `--repeats` for more evidence and `--timeout` for slower calls. The seed controls
 task interleaving and anonymous labels, not model sampling.
+
+`--judges 2` requests two independently randomized fresh judgments per pair.
+`select-corpus` deterministically freezes a scaled, file-disjoint selection
+from a prepared source manifest. If every generation call completed but a
+generated comment failed the prose contract before judging began, `resume-run`
+can judge the remaining valid pairs without rerunning generations; exclusions
+remain explicit in the aggregate result.
 
 ## Evidence and limits
 

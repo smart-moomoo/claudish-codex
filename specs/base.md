@@ -11,6 +11,11 @@ Include the information a maintainer would otherwise have to reconstruct.
 Match the scope of the location. A local operation may need only one sentence;
 a function or algorithm comment may need several paragraphs. Explain the
 problem and the important mechanism, then the constraints a maintainer needs.
+Infer that scope from placement and neighboring conventions. A marker before
+one statement or compact block does not request documentation for the entire
+function. Default to the shortest comment that preserves the local non-obvious
+fact; expand only when the code at that location needs a contract, rationale,
+example, or interacting constraints.
 Keep return-value contracts, significant fallbacks, and reasons for doing work
 in a particular order. Do not turn a long block into a tour of every statement,
 temporary variable, cleanup step, or downstream caller.

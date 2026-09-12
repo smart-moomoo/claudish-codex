@@ -1,0 +1,28 @@
+{
+  "frozen_before_validation": true,
+  "decision_basis": "Training only. The ten-rule candidate retained the style gains, improved mean meaning, had no severe meaning regression, and reduced the treatment word-count gap. Validation and test results must not alter it.",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "spec_sha256": "d27da4548db55d85eaff4c244d4dd0a78a0eb08d163cd61b43384754994a0f72",
+  "dictionary_sha256": "1586011fbeec7d2898d79c2e2c9fd6f4c467ef9f2b4a9ebf1e2a1a2cb1bc2c27",
+  "rubric_sha256": "0e9ea3fbd541f443c1b236139fdc19604943e152b87fa7af3b019389fb8b4afe",
+  "training_round_1_summary_sha256": "ef1e5c2e37365bc7faec445392d0b5747f9bf5db8fb084230527dda2334182b8",
+  "training_round_2_summary_sha256": "b7e902a757034d339d79bb65e806f895fe9361fdd4978363ed51df51eb45d3bf",
+  "training_round_2": {
+    "pairs": 75,
+    "valid_judgments": 149,
+    "invalid_judgments": 1,
+    "paired_grade_delta": {
+      "claudishness": -0.4,
+      "words": -0.3466666666666667,
+      "structure": -0.28,
+      "simplicity": -0.35333333333333333,
+      "meaning": -0.24666666666666667,
+      "usefulness": -0.06
+    },
+    "treatment_mean_words": 144.34666666666666,
+    "upstream_mean_words": 82.66666666666667,
+    "severe_meaning_regressions": 0,
+    "candidate_passes_screen": true
+  }
+}

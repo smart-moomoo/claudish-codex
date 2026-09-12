@@ -1,0 +1,44 @@
+{
+  "train": [
+    "llvm/lib/Analysis/AliasAnalysis.cpp",
+    "llvm/lib/Analysis/AssumptionCache.cpp",
+    "llvm/lib/Analysis/BlockFrequencyInfo.cpp",
+    "llvm/lib/Analysis/BranchProbabilityInfo.cpp",
+    "llvm/lib/Analysis/CaptureTracking.cpp",
+    "llvm/lib/Analysis/ConstantFolding.cpp",
+    "llvm/lib/Analysis/GlobalsModRef.cpp",
+    "llvm/lib/Analysis/InstructionSimplify.cpp",
+    "llvm/lib/Analysis/ScalarEvolution.cpp",
+    "llvm/lib/Analysis/TargetTransformInfo.cpp",
+    "llvm/lib/Transforms/IPO/FunctionAttrs.cpp",
+    "llvm/lib/Transforms/IPO/Inliner.cpp",
+    "llvm/lib/Transforms/Scalar/IndVarSimplify.cpp",
+    "llvm/lib/Transforms/Scalar/LICM.cpp",
+    "llvm/lib/Transforms/Scalar/LoopDeletion.cpp",
+    "llvm/lib/Transforms/Scalar/LoopIdiomRecognize.cpp",
+    "llvm/lib/Transforms/Scalar/Reassociate.cpp",
+    "llvm/lib/Transforms/Scalar/SCCP.cpp"
+  ],
+  "validation": [
+    "llvm/lib/Analysis/Loads.cpp",
+    "llvm/lib/Analysis/MemoryBuiltins.cpp",
+    "llvm/lib/Analysis/PostDominators.cpp",
+    "llvm/lib/Analysis/ValueTracking.cpp",
+    "llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+    "llvm/lib/Analysis/DemandedBits.cpp",
+    "llvm/lib/Transforms/Utils/ValueMapper.cpp",
+    "llvm/lib/CodeGen/MachineScheduler.cpp",
+    "llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp"
+  ],
+  "test": [
+    "llvm/lib/Analysis/DomTreeUpdater.cpp",
+    "llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+    "llvm/lib/Transforms/Scalar/NewGVN.cpp",
+    "llvm/lib/Transforms/Utils/CloneFunction.cpp",
+    "llvm/lib/Transforms/Utils/InlineFunction.cpp",
+    "llvm/lib/CodeGen/RegAllocGreedy.cpp",
+    "llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+    "llvm/lib/CodeGen/BranchFolding.cpp",
+    "llvm/lib/CodeGen/LiveRangeEdit.cpp"
+  ]
+}

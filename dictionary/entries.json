@@ -97,5 +97,16 @@
     "signals": ["guarantees", "necessarily", "cannot", "must"],
     "evidence": ["experiments/long-blocks/round-01/report.md#long-jump-loop-headers"],
     "example_origin": "synthetic"
+  },
+  {
+    "id": "match-placement-scope",
+    "dimension": "simplicity",
+    "guidance": "Infer the comment's scope from its placement. Before one statement or a compact block, state only the non-obvious local operation or reason; do not summarize the enclosing function or every nearby branch. Before a function or algorithm, preserve the broader contract and constraints. Default to the shortest form that keeps the needed fact.",
+    "before": "This function tracks every resource used by the request and coordinates cleanup across its branches. At this point, the cleanup path checks the ownership bit before it releases the current buffer, ensuring that borrowed buffers remain available to their callers.",
+    "after": "Release the buffer only if this request owns it.",
+    "exceptions": ["Use a longer block when the placement introduces a function, algorithm, subtle proof, or interaction that cannot be understood locally."],
+    "signals": ["this function", "the logic below", "at this point"],
+    "evidence": ["experiments/scaled/train-01"],
+    "example_origin": "synthetic"
   }
 ]
