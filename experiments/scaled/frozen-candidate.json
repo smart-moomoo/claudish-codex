@@ -4,6 +4,8 @@
   "model": "gpt-5.6-sol",
   "effort": "medium",
   "spec_sha256": "d27da4548db55d85eaff4c244d4dd0a78a0eb08d163cd61b43384754994a0f72",
+  "spec_body_sha256": "e1c9b98ce9233a16622f910976cc407ca00b22f283e8f8233a6323c00f07997f",
+  "spec_hash_note": "spec_sha256 covers the file as evaluated, including its generated provenance stamp. That stamp was later recomputed to exclude reviewer notes that never appear in the spec, so the current file's whole-file hash differs. The guidance text is byte-identical: spec_body_sha256 is the file without its first line, and python -m claudish build-spec reports the same value.",
   "dictionary_sha256": "1586011fbeec7d2898d79c2e2c9fd6f4c467ef9f2b4a9ebf1e2a1a2cb1bc2c27",
   "rubric_sha256": "0e9ea3fbd541f443c1b236139fdc19604943e152b87fa7af3b019389fb8b4afe",
   "training_round_1_summary_sha256": "ef1e5c2e37365bc7faec445392d0b5747f9bf5db8fb084230527dda2334182b8",

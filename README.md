@@ -136,18 +136,38 @@ Each run saves:
   words per paragraph and maximum sentence length; old results are unchanged.
 
 Output directories must be new. Failures remain visible and never become
-passing results. `replay --run runs/my-revision` rebuilds reports from complete
-saved calls without any model requests. It does not resume an agent. Incomplete
-calls require a new run; do not selectively reroll bad comments. Increase
-`--repeats` for more evidence and `--timeout` for slower calls. The seed controls
-task interleaving and anonymous labels, not model sampling.
+passing results. Do not selectively reroll bad comments. Increase `--repeats`
+for more evidence and `--timeout` for slower calls. The seed controls task
+interleaving and anonymous labels, not model sampling.
 
-`--judges 2` requests two independently randomized fresh judgments per pair.
-`select-corpus` deterministically freezes a scaled, file-disjoint selection
-from a prepared source manifest. If every generation call completed but a
-generated comment failed the prose contract before judging began, `resume-run`
-can judge the remaining valid pairs without rerunning generations; exclusions
-remain explicit in the aggregate result.
+A model answer that breaks the prose contract is excluded from its run and
+recorded in `excluded_generation_pairs`; it is never rerolled. `--judges 2`
+requests two independently randomized fresh judgments per pair. A judgment that
+violates the response schema is preserved with its raw answer and excluded from
+the scores.
+
+`select-corpus` deterministically freezes a scaled, file-disjoint selection from
+a prepared source manifest. If every generation call completed but the run
+failed before judging began, `resume-run` judges the remaining valid pairs
+without repeating a generation.
+
+Two commands make no model requests. `reaggregate --run runs/my-revision`
+rebuilds a run's summary and report from its saved rows, so a repaired
+aggregation or validator can be applied to stored responses without new calls
+and without editing a score; a preserved judgment that becomes valid is
+recovered and counted in `recovered_judgments`. `aggregate` combines finished
+runs into one published result:
+
+```sh
+python -m claudish aggregate --out experiments/scaled/results.json \
+  --run training_round_1=experiments/scaled/train-01 \
+  --run training_round_2=experiments/scaled/train-02 \
+  --run validation=experiments/scaled/validation \
+  --run test=experiments/scaled/test \
+  --combine combined_unseen=validation,test
+```
+
+Pooled rows keep the order of the labels given, which fixes the bootstrap draws.
 
 ## Evidence and limits
 

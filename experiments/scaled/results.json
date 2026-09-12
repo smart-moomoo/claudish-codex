@@ -3,7 +3,6 @@
   "model": "gpt-5.6-sol",
   "effort": "medium",
   "corpus_cases": 150,
-  "analyzable_unseen_pairs": 74,
   "model_calls": 898,
   "valid_generation_calls": 449,
   "invalid_generation_calls": 1,
@@ -12,37 +11,224 @@
   "token_usage": {
     "input_tokens": 9516038,
     "cached_input_tokens": 5657728,
+    "cache_write_input_tokens": 0,
     "output_tokens": 851445,
     "reasoning_output_tokens": 536653
   },
   "splits": {
     "training_round_1": {
-      "pairs": 75,
-      "paired_delta": {"claudishness": -0.36, "words": -0.3466666667, "structure": -0.2933333333, "simplicity": -0.4066666667, "meaning": -0.1466666667, "usefulness": -0.04}
+      "requested_pairs": 75,
+      "analyzable_pairs": 75,
+      "paired_delta": {
+        "claudishness": -0.36,
+        "words": -0.3466666666666667,
+        "structure": -0.29333333333333333,
+        "simplicity": -0.4066666666666667,
+        "meaning": -0.14666666666666667,
+        "usefulness": -0.04
+      },
+      "ci95": {
+        "claudishness": [
+          -0.47333333333333333,
+          -0.24666666666666667
+        ],
+        "words": [
+          -0.4666666666666667,
+          -0.22666666666666666
+        ],
+        "structure": [
+          -0.4066666666666667,
+          -0.18666666666666668
+        ],
+        "simplicity": [
+          -0.54,
+          -0.28
+        ],
+        "meaning": [
+          -0.28,
+          -0.006666666666666667
+        ],
+        "usefulness": [
+          -0.12666666666666668,
+          0.04666666666666667
+        ]
+      },
+      "meaning_regressions": 11,
+      "severe_meaning_regressions": 0,
+      "candidate_passes_screen": true
     },
     "training_round_2": {
-      "pairs": 75,
-      "paired_delta": {"claudishness": -0.4, "words": -0.3466666667, "structure": -0.28, "simplicity": -0.3533333333, "meaning": -0.2466666667, "usefulness": -0.06}
+      "requested_pairs": 75,
+      "analyzable_pairs": 75,
+      "paired_delta": {
+        "claudishness": -0.4,
+        "words": -0.3466666666666667,
+        "structure": -0.28,
+        "simplicity": -0.35333333333333333,
+        "meaning": -0.24666666666666667,
+        "usefulness": -0.06
+      },
+      "ci95": {
+        "claudishness": [
+          -0.5266666666666666,
+          -0.2733333333333333
+        ],
+        "words": [
+          -0.46,
+          -0.22666666666666666
+        ],
+        "structure": [
+          -0.4066666666666667,
+          -0.15333333333333332
+        ],
+        "simplicity": [
+          -0.5066666666666667,
+          -0.20666666666666667
+        ],
+        "meaning": [
+          -0.38,
+          -0.11333333333333333
+        ],
+        "usefulness": [
+          -0.16,
+          0.03333333333333333
+        ]
+      },
+      "meaning_regressions": 14,
+      "severe_meaning_regressions": 0,
+      "candidate_passes_screen": true
     },
     "validation": {
       "requested_pairs": 40,
       "analyzable_pairs": 39,
-      "paired_delta": {"claudishness": -0.4230769231, "words": -0.4230769231, "structure": -0.3717948718, "simplicity": -0.5, "meaning": -0.0512820513, "usefulness": -0.0128205128},
-      "ci95": {"claudishness": [-0.5897435898, -0.2564102564], "words": [-0.5641025641, -0.2820512821], "structure": [-0.5128205128, -0.2307692308], "simplicity": [-0.6794871795, -0.3205128205], "meaning": [-0.1923076923, 0.1025641026], "usefulness": [-0.1282051282, 0.1153846154]}
+      "paired_delta": {
+        "claudishness": -0.4230769230769231,
+        "words": -0.4230769230769231,
+        "structure": -0.3717948717948718,
+        "simplicity": -0.5,
+        "meaning": -0.05128205128205128,
+        "usefulness": -0.01282051282051282
+      },
+      "ci95": {
+        "claudishness": [
+          -0.5897435897435898,
+          -0.2564102564102564
+        ],
+        "words": [
+          -0.5641025641025641,
+          -0.28205128205128205
+        ],
+        "structure": [
+          -0.5128205128205128,
+          -0.23076923076923078
+        ],
+        "simplicity": [
+          -0.6794871794871795,
+          -0.32051282051282054
+        ],
+        "meaning": [
+          -0.19230769230769232,
+          0.10256410256410256
+        ],
+        "usefulness": [
+          -0.1282051282051282,
+          0.11538461538461539
+        ]
+      },
+      "meaning_regressions": 5,
+      "severe_meaning_regressions": 0,
+      "candidate_passes_screen": true
     },
     "test": {
-      "pairs": 35,
-      "paired_delta": {"claudishness": -0.6428571429, "words": -0.6142857143, "structure": -0.3428571429, "simplicity": -0.4857142857, "meaning": -0.2142857143, "usefulness": -0.1},
-      "ci95": {"claudishness": [-0.8142857143, -0.4571428571], "words": [-0.7714285715, -0.4571428571], "structure": [-0.5142857142, -0.1857142857], "simplicity": [-0.6571428571, -0.3142857143], "meaning": [-0.3571428571, -0.0714285714], "usefulness": [-0.2, -0.0142857143]}
+      "requested_pairs": 35,
+      "analyzable_pairs": 35,
+      "paired_delta": {
+        "claudishness": -0.6428571428571429,
+        "words": -0.6142857142857143,
+        "structure": -0.34285714285714286,
+        "simplicity": -0.4857142857142857,
+        "meaning": -0.21428571428571427,
+        "usefulness": -0.1
+      },
+      "ci95": {
+        "claudishness": [
+          -0.8142857142857143,
+          -0.45714285714285713
+        ],
+        "words": [
+          -0.7714285714285715,
+          -0.45714285714285713
+        ],
+        "structure": [
+          -0.5142857142857142,
+          -0.18571428571428572
+        ],
+        "simplicity": [
+          -0.6571428571428571,
+          -0.3142857142857143
+        ],
+        "meaning": [
+          -0.35714285714285715,
+          -0.07142857142857142
+        ],
+        "usefulness": [
+          -0.2,
+          -0.014285714285714285
+        ]
+      },
+      "meaning_regressions": 2,
+      "severe_meaning_regressions": 0,
+      "candidate_passes_screen": true
     },
     "combined_unseen": {
-      "pairs": 74,
-      "paired_delta": {"claudishness": -0.527027027, "words": -0.5135135135, "structure": -0.3581081081, "simplicity": -0.4932432432, "meaning": -0.1283783784, "usefulness": -0.0540540541},
-      "ci95": {"claudishness": [-0.6486486486, -0.4054054054], "words": [-0.6216216216, -0.4121621622], "structure": [-0.4662162162, -0.25], "simplicity": [-0.6283783784, -0.3581081081], "meaning": [-0.2297297297, -0.027027027], "usefulness": [-0.1283783784, 0.027027027]},
-      "mean_words": {"without_spec": 172.9594594595, "with_spec": 146.9459459459, "upstream": 76.7297297297},
+      "analyzable_pairs": 74,
+      "combines": [
+        "validation",
+        "test"
+      ],
+      "paired_delta": {
+        "claudishness": -0.527027027027027,
+        "words": -0.5135135135135135,
+        "structure": -0.3581081081081081,
+        "simplicity": -0.49324324324324326,
+        "meaning": -0.12837837837837837,
+        "usefulness": -0.05405405405405406
+      },
+      "ci95": {
+        "claudishness": [
+          -0.6486486486486487,
+          -0.40540540540540543
+        ],
+        "words": [
+          -0.6216216216216216,
+          -0.41216216216216217
+        ],
+        "structure": [
+          -0.46621621621621623,
+          -0.25
+        ],
+        "simplicity": [
+          -0.6283783783783784,
+          -0.3581081081081081
+        ],
+        "meaning": [
+          -0.22972972972972974,
+          -0.02702702702702703
+        ],
+        "usefulness": [
+          -0.12837837837837837,
+          0.02702702702702703
+        ]
+      },
+      "mean_words": {
+        "without_spec": 172.95945945945945,
+        "with_spec": 146.94594594594594,
+        "upstream": 76.72972972972973
+      },
       "meaning_regressions": 7,
       "severe_meaning_regressions": 0,
       "candidate_passes_screen": true
     }
-  }
+  },
+  "interpretation": "Model-judge measurements on a constructed historical corpus. Intervals describe case-level sampling uncertainty only."
 }

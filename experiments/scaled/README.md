@@ -6,7 +6,8 @@ Every pair used fresh baseline and treatment sessions, followed by two fresh
 anonymous judges. All calls used `codex exec`, `gpt-5.6-sol`, and medium
 reasoning. See the preregistered [protocol](PROTOCOL.md), frozen
 [candidate](frozen-candidate.json), and machine-readable aggregate
-[results](results.json).
+[results](results.json). That file is regenerated from the four run
+directories with `python -m claudish aggregate`; it is not maintained by hand.
 
 Scores are deficits from 0 (best) to 4 (worst). Negative paired changes favor
 the spec.

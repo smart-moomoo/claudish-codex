@@ -51,7 +51,7 @@
     "after": "Add the removed task's count to the pending total if the counters are valid and tasks remain.",
     "exceptions": ["A short summary is sufficient when the surrounding comment already states the condition and exact change."],
     "signals": ["update", "handle", "process"],
-    "evidence": ["experiments/round-01/report.md#local-switch-metadata"],
+    "evidence": ["experiments/ITERATIONS.md#round-01-initial-simplification-rules"],
     "example_origin": "synthetic"
   },
   {
@@ -62,7 +62,7 @@
     "after": "Restart the scan if removing an entry invalidated the saved position.",
     "exceptions": ["If the reason cannot be inferred from the task or code, describe the known behavior precisely instead of guessing."],
     "signals": ["compare", "check", "restart"],
-    "evidence": ["experiments/round-01/report.md#stringref-negative-overflow", "experiments/round-01/report.md#local-phi-iterator"],
+    "evidence": ["experiments/ITERATIONS.md#round-01-initial-simplification-rules"],
     "example_origin": "synthetic"
   },
   {
@@ -73,7 +73,7 @@
     "after": "Update the summary if more than one item remains.",
     "exceptions": ["Discuss adjacent operations when their order or interaction is the reason this code is correct."],
     "signals": ["first", "then", "cannot", "always"],
-    "evidence": ["experiments/round-02/report.md#stringref-numeric-order", "experiments/round-02/report.md#local-switch-metadata"],
+    "evidence": ["experiments/ITERATIONS.md#round-02-result"],
     "example_origin": "synthetic"
   },
   {
@@ -84,7 +84,7 @@
     "after": "Write the records to a temporary file, then rename it over the destination so readers see either the old complete file or the new one. Return true on success and false on failure.",
     "exceptions": ["Keep a step-by-step account when the ordering itself is subtle or necessary to explain correctness; keep examples and multiple paragraphs when they carry useful information."],
     "signals": ["first", "next", "finally", "in short"],
-    "evidence": ["experiments/long-blocks/round-01/report.md#long-sroa-presplit", "experiments/long-blocks/round-01/report.md#long-sroa-adjusted-pointer", "experiments/long-blocks/round-01/report.md#long-jump-loop-headers"],
+    "evidence": ["experiments/long-blocks/ITERATIONS.md#round-01-original-seven-rule-spec"],
     "example_origin": "synthetic"
   },
   {
@@ -95,7 +95,7 @@
     "after": "Skip overlapping ranges because this implementation does not resolve their dependencies.",
     "exceptions": ["State a genuine invariant directly when the supplied code or task establishes it. Do not weaken a proven guarantee merely to sound cautious."],
     "signals": ["guarantees", "necessarily", "cannot", "must"],
-    "evidence": ["experiments/long-blocks/round-01/report.md#long-jump-loop-headers"],
+    "evidence": ["experiments/long-blocks/ITERATIONS.md#round-01-original-seven-rule-spec"],
     "example_origin": "synthetic"
   },
   {
@@ -106,7 +106,7 @@
     "after": "Release the buffer only if this request owns it.",
     "exceptions": ["Use a longer block when the placement introduces a function, algorithm, subtle proof, or interaction that cannot be understood locally."],
     "signals": ["this function", "the logic below", "at this point"],
-    "evidence": ["experiments/scaled/train-01"],
+    "evidence": ["experiments/scaled/ITERATIONS.md#training-round-1"],
     "example_origin": "synthetic"
   }
 ]

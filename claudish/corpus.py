@@ -98,7 +98,7 @@ LENGTH_BANDS = {
 
 def functional_class(text):
     """Return a reproducible sampling label, not a semantic ground truth."""
-    if re.search(r"\b(example|e\.g\.|for instance|such as)\b", text, re.IGNORECASE):
+    if re.search(r"\be\.g\.|\b(examples?|for instance|such as)\b", text, re.IGNORECASE):
         return "example"
     if re.search(r"\b(because|otherwise|so that|in order to|avoid|prevent|ensure|reason|necessary|required|cannot|must)\b",
                  text, re.IGNORECASE):

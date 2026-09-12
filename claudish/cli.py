@@ -14,6 +14,14 @@ from .metrics import measure
 from .runner import MODEL, EFFORT
 
 
+def pair(text):
+    """Split a LABEL=VALUE command-line argument."""
+    label, separator, value = text.partition("=")
+    if not separator or not label.strip() or not value.strip():
+        raise ValueError(f"Expected LABEL=VALUE, got: {text}")
+    return label.strip(), value.strip()
+
+
 def llm_options(parser):
     parser.add_argument("--model", default=MODEL)
     parser.add_argument("--effort", default=EFFORT, choices=("low", "medium", "high", "xhigh", "max"))
@@ -49,8 +57,14 @@ def main(argv=None):
     ablation.add_argument("--judges", type=int, default=1, help="Fresh anonymous judgments per generated pair")
     ablation.add_argument("--seed", type=int, default=42)
     llm_options(ablation)
-    replay = commands.add_parser("replay", help="Rebuild reports from saved calls without invoking Codex")
-    replay.add_argument("--run", type=Path, required=True)
+    reaggregate = commands.add_parser("reaggregate", help="Rebuild a run's summary and report from saved rows")
+    reaggregate.add_argument("--run", type=Path, required=True)
+    combine = commands.add_parser("aggregate", help="Combine finished runs into one published study result")
+    combine.add_argument("--run", action="append", default=[], metavar="LABEL=DIR",
+                         help="Labelled run directory; repeat for each run")
+    combine.add_argument("--combine", action="append", default=[], metavar="LABEL=A,B",
+                         help="Pool the rows of named runs under a new label")
+    combine.add_argument("--out", type=Path, help="Write the result here instead of stdout only")
     resume = commands.add_parser("resume-run", help="Judge a failed run after all generations completed")
     resume.add_argument("--run", type=Path, required=True)
     resume.add_argument("--jobs", type=int, default=2)
@@ -80,8 +94,14 @@ def main(argv=None):
                                     seed=args.seed, spec_path=args.spec, jobs=args.jobs,
                                     corpus_dir=args.corpus_dir, task_path=args.task, rubric_path=args.rubric,
                                     model=args.model, effort=args.effort, timeout=args.timeout)
-        elif args.command == "replay":
-            result = experiment.replay(args.run)
+        elif args.command == "reaggregate":
+            result = experiment.reaggregate(args.run)
+        elif args.command == "aggregate":
+            result = experiment.aggregate(
+                [pair(item) for item in args.run],
+                [(label, members.split(",")) for label, members in map(pair, args.combine)])
+            if args.out:
+                write_json(args.out, result)
         elif args.command == "resume-run":
             result = experiment.resume_after_generation(args.run, jobs=args.jobs, timeout=args.timeout)
         else:

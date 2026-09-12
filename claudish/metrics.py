@@ -95,7 +95,6 @@ def summarize(rows):
         "ties": sum(value == 0 for value in values),
         "losses": sum(value > 0 for value in values),
     } for key, values in deltas.items()}
-    summary["style_wins_ties_losses"] = summary["wins_ties_losses"]["simplicity"]
     judge_pairs = [(items[0], items[1]) for row in rows
                    if len(items := row.get("judgments", [])) >= 2]
     if judge_pairs:
