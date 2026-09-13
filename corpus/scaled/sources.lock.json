@@ -1,0 +1,227 @@
+{
+  "repository": "https://github.com/llvm/llvm-project",
+  "tag": "llvmorg-10.0.0",
+  "commit": "d32170dbd5b0d54436537b6b75beaf44324e0c28",
+  "release_date": "2020-03-24",
+  "license_url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/LICENSE.TXT",
+  "license_sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+  "human_reference_basis": "Verbatim comments upstreamed by March 2020, before modern code assistants. Historical provenance, not an individual authorship attestation.",
+  "files": [
+    {
+      "path": "llvm/lib/Analysis/AliasAnalysis.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/AliasAnalysis.cpp",
+      "sha256": "623a5041b42bf5e1ac493207e44b67c0ffb1c1288e07864408ec7075333ff24a"
+    },
+    {
+      "path": "llvm/lib/Analysis/AssumptionCache.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/AssumptionCache.cpp",
+      "sha256": "f3a276ca4ed686affbdaeaceb4e58f9256c90f978a6ac0638275c300d6929196"
+    },
+    {
+      "path": "llvm/lib/Analysis/BlockFrequencyInfo.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/BlockFrequencyInfo.cpp",
+      "sha256": "7cb71702ed1a1ecc72b917aaa35b033bfd22ecb77bc2eba1b5a8fd06a7025655"
+    },
+    {
+      "path": "llvm/lib/Analysis/BranchProbabilityInfo.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/BranchProbabilityInfo.cpp",
+      "sha256": "679b3bf0e7e034861e4cdbc11b8576f347d4f1dfb1ba40fcb91e095909dee3bd"
+    },
+    {
+      "path": "llvm/lib/Analysis/CaptureTracking.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/CaptureTracking.cpp",
+      "sha256": "4d2cd59c1e8cf558bd55d494b8e9cf1aa82b7121ff998bab195aa30af57590b2"
+    },
+    {
+      "path": "llvm/lib/Analysis/ConstantFolding.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/ConstantFolding.cpp",
+      "sha256": "bb605ca39c151d29724d908ef6ad3b9f16c85bf4497ca051db7e239d6683c644"
+    },
+    {
+      "path": "llvm/lib/Analysis/GlobalsModRef.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/GlobalsModRef.cpp",
+      "sha256": "906004491d25e2f81a5877b0ea2a7622a44350c113258466e0d8988123df39c1"
+    },
+    {
+      "path": "llvm/lib/Analysis/InstructionSimplify.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/InstructionSimplify.cpp",
+      "sha256": "d94ce8478423e312a8feeffb450c335348af9031dd9820c5900ad67db979f5dc"
+    },
+    {
+      "path": "llvm/lib/Analysis/ScalarEvolution.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/ScalarEvolution.cpp",
+      "sha256": "d1671f67f5a1ec0f357fa20618591f4ff6a1e32b2221a4a0b37efc8eb592088f"
+    },
+    {
+      "path": "llvm/lib/Analysis/TargetTransformInfo.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/TargetTransformInfo.cpp",
+      "sha256": "f2192e527f59ae6e88be3b791e67fbd0cc754d88f887c3998b6a232172434321"
+    },
+    {
+      "path": "llvm/lib/Transforms/IPO/FunctionAttrs.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/IPO/FunctionAttrs.cpp",
+      "sha256": "dd4066fa024f6ab3167feb9a5b6e28d0a2a245d765c6cdcea363a23a447fa7da"
+    },
+    {
+      "path": "llvm/lib/Transforms/IPO/Inliner.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/IPO/Inliner.cpp",
+      "sha256": "ec2548caa728ad8f751b44153a5273695924b53a45fb0a9908847e7c96b3e52c"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/IndVarSimplify.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/IndVarSimplify.cpp",
+      "sha256": "a7a75ea5fee1e35f137867cba74bca075ef2e397ea083e8798c8a97de0958647"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/LICM.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/LICM.cpp",
+      "sha256": "2f0994d368ad2484fbc15a9a68c0135c7eca98955d6dc964c14216a6311684a6"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/LoopDeletion.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/LoopDeletion.cpp",
+      "sha256": "4db60efa43fc7eb624de5ac0f66ac18625ebab64c70022a54adf0dd25a8bd86b"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/LoopIdiomRecognize.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/LoopIdiomRecognize.cpp",
+      "sha256": "4413c3b9ff847c6fc95904ead1efecaa95cc4059d81584ba70037dde8b3985b0"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/Reassociate.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/Reassociate.cpp",
+      "sha256": "49d84173b749d84532bf34e94166d38c947a881225e96090a1056ca9cfc26f52"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/SCCP.cpp",
+      "split": "train",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/SCCP.cpp",
+      "sha256": "9a8b597e264bcf89bfb9bb6662ee9a40ff3c621a98ed8b68278b81c53676feea"
+    },
+    {
+      "path": "llvm/lib/Analysis/Loads.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/Loads.cpp",
+      "sha256": "9e2359ef7d008aaec85dc18134bc7545d077ba032335459851c55d37009dec25"
+    },
+    {
+      "path": "llvm/lib/Analysis/MemoryBuiltins.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/MemoryBuiltins.cpp",
+      "sha256": "3646c1097b1a4a5337d6a6fa61a7687a968a37488897e3b08da434f0668cf16f"
+    },
+    {
+      "path": "llvm/lib/Analysis/PostDominators.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/PostDominators.cpp",
+      "sha256": "fbef5afd685f70734c590478d741618affa4de1436030d6b6194501f82a0df3a"
+    },
+    {
+      "path": "llvm/lib/Analysis/ValueTracking.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/ValueTracking.cpp",
+      "sha256": "f5e8f3ede232b1e963b7e84c6f9aa50554ffe0950703ab7c71c757ae7d975cf2"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+      "sha256": "4f242468e63889aac7c3f6a33d588cd8d9447b3848e176cd658528ec0d9f2811"
+    },
+    {
+      "path": "llvm/lib/Analysis/DemandedBits.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/DemandedBits.cpp",
+      "sha256": "eaf8e6880aedfe408eeb659141fe0b0087ab61808512513cdf1d03d9be8e39f6"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/ValueMapper.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/ValueMapper.cpp",
+      "sha256": "1472b9b44aaa0e850f0f6a0d7857c95593e300346395992207dba259cc83885f"
+    },
+    {
+      "path": "llvm/lib/CodeGen/MachineScheduler.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/MachineScheduler.cpp",
+      "sha256": "e8c4797b66d62a22fe496a11f1a314154f1a6500cfcd9fbcaab41ab068c2e8dd"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp",
+      "split": "validation",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp",
+      "sha256": "92a3eb6da96985ed2484940030939e440e88d5b71cffa421bbec20a5bad10993"
+    },
+    {
+      "path": "llvm/lib/Analysis/DomTreeUpdater.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Analysis/DomTreeUpdater.cpp",
+      "sha256": "45fa91203db92e4e96f1c0befc16609592d517a20f596e1d7a4b36d743b517ac"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+      "sha256": "b4df85b04de18e57ec7c5d1a8b56efb4a0238b302dd41f5af454f158343ee970"
+    },
+    {
+      "path": "llvm/lib/Transforms/Scalar/NewGVN.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Scalar/NewGVN.cpp",
+      "sha256": "35f62bda0791ad322160306346028ce8fd6c648782238b2cc7ff144c56626f5d"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/CloneFunction.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/CloneFunction.cpp",
+      "sha256": "c70dd7d1e652d56934316ff1e4acca6cc47b95ac669588b0bb9e20deaf54f32c"
+    },
+    {
+      "path": "llvm/lib/Transforms/Utils/InlineFunction.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/Transforms/Utils/InlineFunction.cpp",
+      "sha256": "f2bf2cb4a453f10f6a698bc6c4451409c4ab02920c32c2926b81decd913191e1"
+    },
+    {
+      "path": "llvm/lib/CodeGen/RegAllocGreedy.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/RegAllocGreedy.cpp",
+      "sha256": "8db4b865e53f19d57d04dcde39a23a19fc954208e47abebd8eddf816be9755b0"
+    },
+    {
+      "path": "llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+      "sha256": "92d62137791c13bbed69a9dc61924dafeca5e9208c86e619b7d1e1b00d7e1b7f"
+    },
+    {
+      "path": "llvm/lib/CodeGen/BranchFolding.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/BranchFolding.cpp",
+      "sha256": "7204121301bd0f6ba432185b9fc03b5e0f67a34750a581702b2a7becc89aa250"
+    },
+    {
+      "path": "llvm/lib/CodeGen/LiveRangeEdit.cpp",
+      "split": "test",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/d32170dbd5b0d54436537b6b75beaf44324e0c28/llvm/lib/CodeGen/LiveRangeEdit.cpp",
+      "sha256": "c2e49d0b9f15ef9a5ca01644422b94e3cd5f231d001dee9e35d878de3bb2e633"
+    }
+  ]
+}

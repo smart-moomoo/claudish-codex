@@ -4,7 +4,7 @@ This page records the original short-comment series. Its references were only
 12–38 words, mostly single sentences; it cannot establish long-comment quality.
 See the separate [long-block resampling study](long-blocks/README.md).
 Spec snapshots on this page record the earlier versions; the repository's
-current spec was subsequently revised for the long-block series.
+current spec was revised again for the [scaled study](scaled/README.md).
 
 The project and experiment workflow are implemented. The initial study does
 **not establish that the spec improves Codex's comments on unseen LLVM files**.

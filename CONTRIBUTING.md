@@ -11,8 +11,10 @@ fails CI. This connection addresses the ambiguity raised in
    source link or experiment ID. A word alone is not evidence of bad prose.
 2. Edit `dictionary/entries.json`: choose a stable ID and dimension; explain
    when the pattern is unhelpful; give a faithful synthetic before/after pair;
-   include at least one legitimate exception. Link evidence. Do not present a
-   synthetic example as human writing or as an actual model quotation.
+   include at least one legitimate exception. Link evidence to a committed file
+   or a public URL; a path into a private run directory is rejected, because a
+   reviewer has to be able to open it. Do not present a synthetic example as
+   human writing or as an actual model quotation.
 3. Run `python -m claudish build-spec`. The generated Markdown is part of the PR.
 4. Run a fresh paired training ablation. Inspect changes in words, structure,
    simplicity, meaning and usefulness. Include failures as well as successes.

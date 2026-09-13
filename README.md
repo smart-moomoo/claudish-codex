@@ -22,8 +22,15 @@ blocks of 102–263 words to examine explanations beyond one-liners. It is now
 complete: the revised spec improved average style on eight unseen blocks,
 but meaning regressed on two validation cases. It remains experimental.
 Three full-length contrasts, including a regression, remain in the private
-local experiment artifacts. The current nine-rule spec is the long-block
-candidate; the initial study evaluated earlier versions.
+local experiment artifacts.
+
+The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
+file-disjoint, length- and function-stratified comments with two fresh judges
+per pair. The frozen ten-rule candidate improved all four style deficits on 74
+unseen analyzable pairs and modestly improved meaning; usefulness was
+inconclusive. It passed the advisory screen, while remaining substantially more
+verbose than the historical upstream comments. The current spec is this scaled
+candidate; the earlier studies evaluated prior versions.
 
 Raw experiment directories and downloaded LLVM files are private local
 artifacts by default and are excluded from Git. The repository publishes the
@@ -129,11 +136,38 @@ Each run saves:
   words per paragraph and maximum sentence length; old results are unchanged.
 
 Output directories must be new. Failures remain visible and never become
-passing results. `replay --run runs/my-revision` rebuilds reports from complete
-saved calls without any model requests. It does not resume an agent. Incomplete
-calls require a new run; do not selectively reroll bad comments. Increase
-`--repeats` for more evidence and `--timeout` for slower calls. The seed controls
-task interleaving and anonymous labels, not model sampling.
+passing results. Do not selectively reroll bad comments. Increase `--repeats`
+for more evidence and `--timeout` for slower calls. The seed controls task
+interleaving and anonymous labels, not model sampling.
+
+A model answer that breaks the prose contract is excluded from its run and
+recorded in `excluded_generation_pairs`; it is never rerolled. `--judges 2`
+requests two independently randomized fresh judgments per pair. A judgment that
+violates the response schema is preserved with its raw answer and excluded from
+the scores.
+
+`select-corpus` deterministically freezes a scaled, file-disjoint selection from
+a prepared source manifest. If every generation call completed but the run
+failed before judging began, `resume-run` judges the remaining valid pairs
+without repeating a generation.
+
+Two commands make no model requests. `reaggregate --run runs/my-revision`
+rebuilds a run's summary and report from its saved rows, so a repaired
+aggregation or validator can be applied to stored responses without new calls
+and without editing a score; a preserved judgment that becomes valid is
+recovered and counted in `recovered_judgments`. `aggregate` combines finished
+runs into one published result:
+
+```sh
+python -m claudish aggregate --out experiments/scaled/results.json \
+  --run training_round_1=experiments/scaled/train-01 \
+  --run training_round_2=experiments/scaled/train-02 \
+  --run validation=experiments/scaled/validation \
+  --run test=experiments/scaled/test \
+  --combine combined_unseen=validation,test
+```
+
+Pooled rows keep the order of the labels given, which fixes the bootstrap draws.
 
 ## Evidence and limits
 

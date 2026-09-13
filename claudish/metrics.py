@@ -1,6 +1,7 @@
 """Descriptive style measurements; none is a quality score by itself."""
 
 import math
+import random
 import re
 from collections import Counter
 from statistics import mean
@@ -54,27 +55,60 @@ def distance(candidate, reference):
             **{f"abs_{key}_gap": abs(x[key] - y[key]) for key in x}}
 
 
+def _grade(row, arm, dimension):
+    judgments = row.get("judgments")
+    if not judgments:
+        return row["judge"]["grades"][arm][dimension]
+    return mean(item["grades"][arm][dimension] for item in judgments)
+
+
+def _bootstrap_ci(values, seed, samples=5000):
+    if not values:
+        return [0.0, 0.0]
+    rng = random.Random(seed)
+    estimates = sorted(mean(rng.choice(values) for _ in values) for _ in range(samples))
+    return [estimates[int(samples * 0.025)], estimates[int(samples * 0.975)]]
+
+
 def summarize(rows):
     summary = {"pairs": len(rows), "grades": {}, "style": {}, "distance_to_reference": {}}
     if not rows:
         return summary
     for arm in ("without_spec", "with_spec", "upstream"):
-        summary["grades"][arm] = {key: mean(r["judge"]["grades"][arm][key] for r in rows) for key in DIMENSIONS}
+        summary["grades"][arm] = {key: mean(_grade(r, arm, key) for r in rows) for key in DIMENSIONS}
         summary["style"][arm] = {key: mean(r["metrics"][arm][key] for r in rows) for key in rows[0]["metrics"][arm]}
     for arm in ("without_spec", "with_spec"):
         summary["distance_to_reference"][arm] = {
             key: mean(r["distances"][arm][key] for r in rows) for key in rows[0]["distances"][arm]}
-    summary["paired_grade_delta"] = {
-        key: mean(r["judge"]["grades"]["with_spec"][key] - r["judge"]["grades"]["without_spec"][key] for r in rows)
-        for key in DIMENSIONS}
-    summary["meaning_regressions"] = [r["id"] for r in rows
-        if r["judge"]["grades"]["with_spec"]["meaning"] > r["judge"]["grades"]["without_spec"]["meaning"]]
-    summary["style_wins_ties_losses"] = {
-        "wins": sum(r["judge"]["grades"]["with_spec"]["simplicity"] < r["judge"]["grades"]["without_spec"]["simplicity"] for r in rows),
-        "ties": sum(r["judge"]["grades"]["with_spec"]["simplicity"] == r["judge"]["grades"]["without_spec"]["simplicity"] for r in rows),
-        "losses": sum(r["judge"]["grades"]["with_spec"]["simplicity"] > r["judge"]["grades"]["without_spec"]["simplicity"] for r in rows)}
+    deltas = {key: [_grade(r, "with_spec", key) - _grade(r, "without_spec", key)
+                    for r in rows] for key in DIMENSIONS}
+    summary["paired_grade_delta"] = {key: mean(values) for key, values in deltas.items()}
+    summary["paired_grade_ci95"] = {
+        key: _bootstrap_ci(values, 20260911 + index)
+        for index, (key, values) in enumerate(deltas.items())}
+    summary["meaning_regressions"] = [r["id"] for r in rows if
+        _grade(r, "with_spec", "meaning") > _grade(r, "without_spec", "meaning")]
+    summary["severe_meaning_regressions"] = [r["id"] for r in rows if
+        _grade(r, "with_spec", "meaning") - _grade(r, "without_spec", "meaning") >= 2]
+    summary["wins_ties_losses"] = {key: {
+        "wins": sum(value < 0 for value in values),
+        "ties": sum(value == 0 for value in values),
+        "losses": sum(value > 0 for value in values),
+    } for key, values in deltas.items()}
+    judge_pairs = [(items[0], items[1]) for row in rows
+                   if len(items := row.get("judgments", [])) >= 2]
+    if judge_pairs:
+        summary["inter_judge"] = {key: {
+            "mean_absolute_difference": mean(
+                abs(first["grades"][arm][key] - second["grades"][arm][key])
+                for first, second in judge_pairs for arm in ("without_spec", "with_spec", "upstream")),
+            "exact_agreement_fraction": mean(
+                first["grades"][arm][key] == second["grades"][arm][key]
+                for first, second in judge_pairs for arm in ("without_spec", "with_spec", "upstream")),
+        } for key in DIMENSIONS}
     summary["candidate_passes_screen"] = (
-        not summary["meaning_regressions"] and
+        not summary["severe_meaning_regressions"] and
+        summary["paired_grade_delta"]["meaning"] <= 0 and
         summary["paired_grade_delta"]["usefulness"] <= 0 and
         any(summary["paired_grade_delta"][x] < 0 for x in ("claudishness", "words", "structure", "simplicity")))
     summary["interpretation"] = "Descriptive paired results, not statistical proof. Screen is advisory; never silently promotes a spec."

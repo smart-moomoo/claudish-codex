@@ -16,7 +16,12 @@ experiments/long-blocks/round-*/
 experiments/long-blocks/validation/
 experiments/long-blocks/held-out/
 experiments/long-blocks/examples.md
+experiments/scaled/train-*/
+experiments/scaled/validation/
+experiments/scaled/test/
+experiments/scaled/examples.md
 
 # Recreate immutable LLVM sources from the published lock manifests.
 corpus/upstream/
 corpus/long-blocks/upstream/
+corpus/scaled/upstream/

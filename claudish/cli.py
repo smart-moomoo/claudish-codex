@@ -14,6 +14,14 @@ from .metrics import measure
 from .runner import MODEL, EFFORT
 
 
+def pair(text):
+    """Split a LABEL=VALUE command-line argument."""
+    label, separator, value = text.partition("=")
+    if not separator or not label.strip() or not value.strip():
+        raise ValueError(f"Expected LABEL=VALUE, got: {text}")
+    return label.strip(), value.strip()
+
+
 def llm_options(parser):
     parser.add_argument("--model", default=MODEL)
     parser.add_argument("--effort", default=EFFORT, choices=("low", "medium", "high", "xhigh", "max"))
@@ -31,6 +39,13 @@ def main(argv=None):
     verify = commands.add_parser("verify-corpus", help="Verify source and reference hashes and split isolation")
     for command in (prepare, verify):
         command.add_argument("--corpus-dir", type=Path, help="Corpus directory, relative to --root or absolute")
+    select = commands.add_parser("select-corpus", help="Freeze a deterministic scaled corpus selection")
+    select.add_argument("--corpus-dir", required=True, type=Path)
+    select.add_argument("--train", type=int, default=75)
+    select.add_argument("--validation", type=int, default=40)
+    select.add_argument("--test", type=int, default=35)
+    select.add_argument("--seed", type=int, default=20260911)
+    select.add_argument("--max-per-file", type=int, default=6)
     ablation = commands.add_parser("ablate", help="Run fresh paired agents on an LLVM corpus split")
     ablation.add_argument("--split", choices=("train", "validation", "test"), default="train")
     ablation.add_argument("--out", required=True, type=Path)
@@ -39,10 +54,21 @@ def main(argv=None):
     ablation.add_argument("--task", type=Path, help="Shared generation task, relative to --root or absolute")
     ablation.add_argument("--rubric", type=Path, help="Fixed judge rubric, relative to --root or absolute")
     ablation.add_argument("--repeats", type=int, default=1)
+    ablation.add_argument("--judges", type=int, default=1, help="Fresh anonymous judgments per generated pair")
     ablation.add_argument("--seed", type=int, default=42)
     llm_options(ablation)
-    replay = commands.add_parser("replay", help="Rebuild reports from saved calls without invoking Codex")
-    replay.add_argument("--run", type=Path, required=True)
+    reaggregate = commands.add_parser("reaggregate", help="Rebuild a run's summary and report from saved rows")
+    reaggregate.add_argument("--run", type=Path, required=True)
+    combine = commands.add_parser("aggregate", help="Combine finished runs into one published study result")
+    combine.add_argument("--run", action="append", default=[], metavar="LABEL=DIR",
+                         help="Labelled run directory; repeat for each run")
+    combine.add_argument("--combine", action="append", default=[], metavar="LABEL=A,B",
+                         help="Pool the rows of named runs under a new label")
+    combine.add_argument("--out", type=Path, help="Write the result here instead of stdout only")
+    resume = commands.add_parser("resume-run", help="Judge a failed run after all generations completed")
+    resume.add_argument("--run", type=Path, required=True)
+    resume.add_argument("--jobs", type=int, default=2)
+    resume.add_argument("--timeout", type=int, default=240)
     grade = commands.add_parser("grade-diff", help="Grade added/changed comments in a C/C++ diff")
     grade.add_argument("--diff", required=True, type=Path, help="Unified diff, or - for stdin")
     grade.add_argument("--base-dir", required=True, type=Path, help="Source tree BEFORE applying the diff")
@@ -57,13 +83,27 @@ def main(argv=None):
             result = corpus.prepare(args.root, args.corpus_dir)
         elif args.command == "verify-corpus":
             result = {"verified_cases": len(corpus.cases(args.root, corpus_dir=args.corpus_dir))}
+        elif args.command == "select-corpus":
+            result = corpus.select_stratified(
+                args.root, args.corpus_dir,
+                {"train": args.train, "validation": args.validation, "test": args.test},
+                seed=args.seed, max_per_file=args.max_per_file)
         elif args.command == "ablate":
             result = experiment.run(args.root, args.out, split=args.split, repeats=args.repeats,
+                                    judges=args.judges,
                                     seed=args.seed, spec_path=args.spec, jobs=args.jobs,
                                     corpus_dir=args.corpus_dir, task_path=args.task, rubric_path=args.rubric,
                                     model=args.model, effort=args.effort, timeout=args.timeout)
-        elif args.command == "replay":
-            result = experiment.replay(args.run)
+        elif args.command == "reaggregate":
+            result = experiment.reaggregate(args.run)
+        elif args.command == "aggregate":
+            result = experiment.aggregate(
+                [pair(item) for item in args.run],
+                [(label, members.split(",")) for label, members in map(pair, args.combine)])
+            if args.out:
+                write_json(args.out, result)
+        elif args.command == "resume-run":
+            result = experiment.resume_after_generation(args.run, jobs=args.jobs, timeout=args.timeout)
         else:
             if not 1 <= args.jobs <= 8:
                 raise ValueError("Use between 1 and 8 jobs")
