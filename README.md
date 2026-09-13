@@ -24,6 +24,15 @@ but meaning regressed on two validation cases. It remains experimental.
 Three full-length contrasts, including a regression, remain in the private
 local experiment artifacts.
 
+A separate [ladder study](experiments/ladder/README.md) asks four questions in
+increasing order of difficulty: is the comment well written, does it belong
+there at that length, is it the smallest thing that works, and is it right for
+the whole file. On 224 pairs the first step is where almost everything is lost:
+93% of comments written with the spec read well, and 31% of those are the right
+length and explain the right thing. It also adds a corpus of
+[40 real LLVM commits](corpus/commits/README.md), because what a change touches
+cannot be asked of a comment.
+
 The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
 file-disjoint, length- and function-stratified comments with two fresh judges
 per pair. The frozen ten-rule candidate improved all four style deficits on 74
@@ -171,6 +180,51 @@ python -m claudish aggregate --out experiments/scaled/results.json \
 ```
 
 Pooled rows keep the order of the labels given, which fixes the bootstrap draws.
+
+## Four criteria, hardest last
+
+The judge rubric asks whether a comment is well written. Three further
+questions it cannot reach are whether a comment belongs at that location and
+at that length, whether it is the smallest thing that does the job, and
+whether it is right for the file rather than only for its own line. Those are
+scored in order, each only for the cases that passed the one before, and the
+[ladder study](experiments/ladder/README.md) reports how far comments get.
+
+Two of the commands make no model requests:
+
+```sh
+python -m claudish score-tiers --run runs/a --run label=runs/b --out ladder.json
+python -m claudish measure-generations --run runs/a
+```
+
+`score-tiers` scores finished runs and pools several into one ladder.
+`measure-generations` works on a run that was stopped before judging: it
+reports the length and coupling of every saved comment, including how closely
+length follows the location.
+
+The other three need model calls:
+
+```sh
+python -m claudish placement-run --split train --out runs/placement
+python -m claudish judge-files --run runs/a
+python -m claudish commit-run --split train --corpus-dir corpus/commits --out runs/patches
+```
+
+`placement-run` asks whether a comment belongs at each of the 60 frozen
+positions in `corpus/scaled-500/placement.json`, half of which LLVM left
+uncommented; the model may decline. `judge-files` judges each file's comments
+as a set against [a second rubric](evaluation/file-rubric.md), which is where
+repetition across a file becomes visible. `commit-run` gives fresh agents the
+files as they stood before a real LLVM commit and that commit's message, and
+compares the edits it gets back with what upstream actually did. Passing
+`--spec` to either run turns it into a paired ablation; without one,
+`commit-run` has a single arm, since the comment spec is not guidance for
+writing code. All three accept `--resume` to reuse completed calls.
+
+Nothing in the commit study compiles or runs LLVM, so none of it says whether
+a generated change is correct. It measures what a change touches and where.
+An answer that changes nothing would look ideal on both, so an answer counts
+only when every edit applies and it overlaps the real commit at all.
 
 ## Evidence and limits
 
