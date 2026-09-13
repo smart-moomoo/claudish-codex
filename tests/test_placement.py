@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 
 from claudish.io import read_json, safe_path
-from claudish.placement import MARKER, anchors, cases, outcome, summarize
+from claudish.placement import MARKER, anchors, cases, outcome, summarize, take
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = "corpus/scaled-500"
@@ -57,6 +57,27 @@ class Corpus(unittest.TestCase):
             source = safe_path(ROOT / CORPUS / "upstream", row["path"]).read_text()
             above = source.splitlines()[row["line"] - 3:row["line"] - 1]
             self.assertFalse(any(line.strip().startswith(("//", "/*", "*")) for line in above))
+
+
+class Subsets(unittest.TestCase):
+    def setUp(self):
+        self.rows = cases(ROOT, "train", CORPUS)
+
+    def test_a_partial_run_keeps_both_kinds_evenly(self):
+        chosen = take(self.rows, 10)
+        kinds = [case["kind"] for case in chosen]
+        self.assertEqual((kinds.count("commented"), kinds.count("uncommented")), (5, 5))
+
+    def test_a_smaller_run_asks_a_subset_of_the_larger_one(self):
+        self.assertTrue({case["id"] for case in take(self.rows, 10)}
+                        .issubset({case["id"] for case in take(self.rows, 20)}))
+        self.assertEqual(len(take(self.rows, None)), len(self.rows))
+
+    def test_an_odd_or_oversized_request_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "even, positive"):
+            take(self.rows, 7)
+        with self.assertRaisesRegex(ValueError, "available"):
+            take(self.rows, len(self.rows) + 2)
 
 
 class Decisions(unittest.TestCase):

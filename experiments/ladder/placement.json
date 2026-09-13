@@ -1,0 +1,49 @@
+{
+  "run": "placement-01",
+  "split": "train",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "task_sha256": "e13742bc98f398b9342dea667d4885a3ca6eb7105a15cb065f3ba5dbfd62f22a",
+  "spec_sha256": "f271a6340124c2b3b748f0ca1c1d164c8286ebfc66a8da3b4337a6c6934d7bb9",
+  "positions": 30,
+  "cases_requested": 30,
+  "summary": {
+    "without_spec": {
+      "decisions": 30,
+      "commented": {
+        "cases": 15,
+        "said_needed": 11,
+        "agreement": 0.7333333333333333
+      },
+      "uncommented": {
+        "cases": 15,
+        "said_needed": 4,
+        "agreement": 0.7333333333333333
+      },
+      "agreement": 0.7333333333333333,
+      "always_says_yes": false,
+      "discrimination": 0.4666666666666666,
+      "interpretation": "Discrimination is how much likelier the model is to ask for a comment where LLVM wrote one than where it did not. Zero means the marker alone decides it. Upstream silence is weak evidence that no comment belongs there."
+    },
+    "with_spec": {
+      "decisions": 30,
+      "commented": {
+        "cases": 15,
+        "said_needed": 10,
+        "agreement": 0.6666666666666666
+      },
+      "uncommented": {
+        "cases": 15,
+        "said_needed": 3,
+        "agreement": 0.8
+      },
+      "agreement": 0.7333333333333333,
+      "always_says_yes": false,
+      "discrimination": 0.4666666666666666,
+      "interpretation": "Discrimination is how much likelier the model is to ask for a comment where LLVM wrote one than where it did not. Zero means the marker alone decides it. Upstream silence is weak evidence that no comment belongs there."
+    },
+    "excluded": [],
+    "cases": 30
+  },
+  "note": "A partial run: 30 of the 60 frozen positions, kept balanced between the two kinds. Upstream's choice is the reference and is weak in the uncommented direction."
+}

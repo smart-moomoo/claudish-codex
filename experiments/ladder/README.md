@@ -59,9 +59,87 @@ third of their length. Neither task produced length that tracked the location,
 and the earlier study's finding that the spec is "substantially more verbose
 than upstream" is at least partly a property of the task it was given.
 
+## All four criteria, 74 unseen pairs
+
+Once each file's comments were judged as a set, the validation and test runs
+could be scored on all four.
+
+| Criterion | Without spec | With spec |
+| --- | ---: | ---: |
+| Clean | 53/74 | 73/74 |
+| Effective, of those | 20/53 | 23/73 |
+| Invasive, of those | 9/20 | 12/23 |
+| Optimal, of those | 5/9 | 6/12 |
+| Clears all four | 5 (7%) | 6 (8%) |
+
+## Placement: the model does decline
+
+30 of the 60 frozen positions, both arms, 60 calls. The hypothesis written
+before running was that the model would ask for a comment nearly everywhere
+and barely distinguish the two kinds. That was wrong.
+
+| | Without spec | With spec |
+| --- | ---: | ---: |
+| Asked for a comment where LLVM wrote one | 11/15 | 10/15 |
+| Asked for one where LLVM wrote none | 4/15 | 3/15 |
+| Agreement with upstream | 73% | 73% |
+| Discrimination | +0.47 | +0.47 |
+
+Both arms behave almost identically, so the spec makes no difference to the
+decision. Reading the 16 disagreements, most are defensible in both
+directions. Where it asked for a comment and LLVM had not, it named things
+that genuinely are not obvious from the code: which references make a summary
+ineligible for ThinLTO import, why a catchswitch redirects insertion to
+another block. Where it declined and LLVM had written one, it usually pointed
+at a comment already present a few lines away. Upstream silence was never
+strong evidence, and these answers are the reason to say so plainly.
+
+When it did write a comment it averaged 20 words, consistent with the length
+finding above.
+
+## A file's comments together
+
+One call per file, all of that file's comments judged as a set against
+[a second rubric](../../evaluation/file-rubric.md), 17 calls.
+
+| | Files | Without spec | With spec | Upstream |
+| --- | ---: | ---: | ---: | ---: |
+| Test, sets with no noticeable deficit | 9 | 8 | 8 | 7 |
+| Validation, sets with no noticeable deficit | 8 | 2 | 3 | 8 |
+
+The two splits disagree sharply and the difference tracks how many comments a
+file contributes: test files carry three or four, validation files four to
+six. Redundancy has to have somewhere to show itself. On validation the
+generated sets average a redundancy deficit of about 1.9 against upstream's
+0.25, which is the first measurement in this project that upstream wins
+clearly. Nine files is too few to settle it, and it is reported as a signal to
+follow rather than a result.
+
+## Commits: it finds the area a quarter of the time
+
+20 training commits, one arm, 20 calls. The comment spec is not guidance for
+writing code, so there is nothing to ablate.
+
+| | Count |
+| --- | ---: |
+| Answers that applied to the sources | 20/20 |
+| Answers that overlapped the real change at all | 15/20 |
+| Of those, no more invasive than the real change | 3/15 |
+| Of those, in the right place (overlap 0.5 or more) | 1/3 |
+| Mean overlap with the real change | 0.25 |
+
+Every answer applied, which says the edit format works. Five missed the real
+change completely. Among the fifteen that did not, invasiveness fails for one
+reason and one only: the model changes more lines than the commit did, median
+7 against 3. It never touched an extra file, never touched a header the real
+change left alone, and never introduced more new symbols. It writes a larger
+version of roughly the right change.
+
+Nothing here was compiled or tested, so none of it says whether a change is
+correct.
+
 ## Still to run
 
-Placement, the third part of effective, needs the 60 frozen positions in
-`corpus/scaled-500/placement.json`. The file-level judgments for optimal and
-the commit corpus in `corpus/commits` are described in the protocol. None has
-been run.
+The other 30 placement positions, the validation and test commit splits, and
+file-level judgments on any run with more comments per file. None of the
+results above has been used to change the spec, the dictionary or the rubric.

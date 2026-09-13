@@ -88,6 +88,7 @@ def main(argv=None):
     decide.add_argument("--spec", type=Path)
     decide.add_argument("--corpus-dir", type=Path)
     decide.add_argument("--task", type=Path)
+    decide.add_argument("--cases", type=int, help="Answer only this many positions, kept balanced")
     decide.add_argument("--resume", action="store_true", help="Reuse completed calls in an existing directory")
     llm_options(decide)
     files = commands.add_parser("judge-files", help="Judge each file's comments as a set")
@@ -169,12 +170,12 @@ def main(argv=None):
             result = placement.run(args.root, args.out, split=args.split, jobs=args.jobs,
                                    spec_path=args.spec, corpus_dir=args.corpus_dir,
                                    task_path=args.task, model=args.model, effort=args.effort,
-                                   timeout=args.timeout, resume=args.resume)
+                                   timeout=args.timeout, resume=args.resume, limit=args.cases)
         elif args.command == "judge-files":
             manifest = read_json(args.run / "manifest.json")
             rubric = (args.root / (args.rubric or "evaluation/file-rubric.md")).read_text()
             result = filelevel.judge_run(args.run, experiment.reload_corpus(manifest), rubric,
-                                         seed=args.seed, jobs=args.jobs, resume=args.resume,
+                                         seed=args.seed, jobs=args.jobs, reuse=args.resume,
                                          min_comments=args.min_comments, model=args.model,
                                          effort=args.effort, timeout=args.timeout)
         elif args.command == "select-commits":

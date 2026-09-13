@@ -265,8 +265,28 @@ def report(manifest, decisions, summary):
     return "\n".join(lines) + "\n"
 
 
+def take(corpus, limit):
+    """The first `limit` cases, kept balanced between the two kinds.
+
+    The frozen order is deterministic, so a partial run is a prefix of the
+    full one and reruns of it ask about exactly the same positions.
+    """
+    if limit is None:
+        return corpus
+    if limit < 2 or limit % 2:
+        raise ValueError("Use an even, positive number of cases")
+    half = limit // 2
+    chosen = []
+    for kind in ("commented", "uncommented"):
+        subset = [case for case in corpus if case["kind"] == kind]
+        if len(subset) < half:
+            raise ValueError(f"Only {len(subset)} {kind} positions available")
+        chosen.extend(subset[:half])
+    return sorted(chosen, key=lambda case: (case["kind"], case["path"], case["line"]))
+
+
 def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
-        task_path=None, model=None, effort=None, timeout=240, resume=False):
+        task_path=None, model=None, effort=None, timeout=240, resume=False, limit=None):
     """One decision per case per arm. No judge: upstream's choice is the answer."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
     from datetime import datetime, timezone
@@ -278,7 +298,7 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
     root, output = Path(root).resolve(), Path(output).resolve()
     if not 1 <= jobs <= 8:
         raise ValueError("Use between 1 and 8 jobs")
-    corpus = cases(root, split, corpus_dir)
+    corpus = take(cases(root, split, corpus_dir), limit)
     spec = (Path(spec_path) if spec_path else root / "specs/codex-comments.md").read_text()
     task = (root / task_path).read_text() if task_path else TASK
     if not task.strip():
@@ -292,7 +312,7 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
                 "spec_sha256": digest(spec), "task_sha256": digest(task),
                 "cases_sha256": digest(read_json(directory(root, corpus_dir) / "placement.json")),
                 "corpus_dir": str(directory(root, corpus_dir)),
-                "case_ids": [case["id"] for case in corpus],
+                "case_ids": [case["id"] for case in corpus], "cases_requested": limit,
                 "design": "fresh isolated call per case and arm; the model may decline"}
     write_json(output / "manifest.json", manifest)
     (output / "spec.md").write_text(spec)

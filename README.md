@@ -27,11 +27,14 @@ local experiment artifacts.
 A separate [ladder study](experiments/ladder/README.md) asks four questions in
 increasing order of difficulty: is the comment well written, does it belong
 there at that length, is it the smallest thing that works, and is it right for
-the whole file. On 224 pairs the first step is where almost everything is lost:
-93% of comments written with the spec read well, and 31% of those are the right
-length and explain the right thing. It also adds a corpus of
-[40 real LLVM commits](corpus/commits/README.md), because what a change touches
-cannot be asked of a comment.
+the whole file. The first step is where almost everything is lost. On 74 unseen
+pairs, 73 of 74 comments written with the spec read well, 23 of those are the
+right length and explain the right thing, and 6 clear all four. Asked whether a
+comment belongs at a position at all, the model declines about as often as LLVM
+did, which contradicts the study's own written prediction. Given the files
+before a real commit from a corpus of
+[40 LLVM changes](corpus/commits/README.md), it finds the area the real fix
+touched in 15 of 20 cases and changes about twice as many lines.
 
 The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
 file-disjoint, length- and function-stratified comments with two fresh judges
