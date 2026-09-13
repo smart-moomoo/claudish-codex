@@ -1,0 +1,101 @@
+{
+  "seed": 20260912,
+  "max_per_file": 6,
+  "requested_counts": {
+    "train": 250,
+    "validation": 130,
+    "test": 120
+  },
+  "selected": 500,
+  "inventory": {
+    "train": {
+      "long": {
+        "eligible": 166,
+        "selected": 83,
+        "selected_by_function": {
+          "example": 17,
+          "rationale": 33,
+          "mechanism": 33
+        }
+      },
+      "medium": {
+        "eligible": 460,
+        "selected": 83,
+        "selected_by_function": {
+          "example": 17,
+          "rationale": 33,
+          "mechanism": 33
+        }
+      },
+      "short": {
+        "eligible": 2114,
+        "selected": 84,
+        "selected_by_function": {
+          "example": 17,
+          "rationale": 34,
+          "mechanism": 33
+        }
+      }
+    },
+    "validation": {
+      "long": {
+        "eligible": 80,
+        "selected": 43,
+        "selected_by_function": {
+          "example": 9,
+          "rationale": 17,
+          "mechanism": 17
+        }
+      },
+      "medium": {
+        "eligible": 228,
+        "selected": 43,
+        "selected_by_function": {
+          "example": 9,
+          "rationale": 17,
+          "mechanism": 17
+        }
+      },
+      "short": {
+        "eligible": 949,
+        "selected": 44,
+        "selected_by_function": {
+          "example": 9,
+          "rationale": 18,
+          "mechanism": 17
+        }
+      }
+    },
+    "test": {
+      "long": {
+        "eligible": 76,
+        "selected": 40,
+        "selected_by_function": {
+          "example": 8,
+          "rationale": 16,
+          "mechanism": 16
+        }
+      },
+      "medium": {
+        "eligible": 206,
+        "selected": 40,
+        "selected_by_function": {
+          "example": 8,
+          "rationale": 16,
+          "mechanism": 16
+        }
+      },
+      "short": {
+        "eligible": 1048,
+        "selected": 40,
+        "selected_by_function": {
+          "example": 8,
+          "rationale": 16,
+          "mechanism": 16
+        }
+      }
+    }
+  },
+  "selection_sha256": "911a6cc478b69f53285c96147a43ad376c4b99d3f9321819b6845f699bb656d4",
+  "functional_labels": "Lexical sampling aids, not semantic ground truth."
+}

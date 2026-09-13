@@ -14,5 +14,6 @@ jobs:
       - run: python -m claudish prepare-corpus
       - run: python -m claudish prepare-corpus --corpus-dir corpus/long-blocks
       - run: python -m claudish prepare-corpus --corpus-dir corpus/scaled
+      - run: python -m claudish prepare-corpus --corpus-dir corpus/scaled-500
       - run: python -m claudish verify-corpus
       - run: python -m unittest discover -s tests
