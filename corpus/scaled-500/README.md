@@ -68,3 +68,18 @@ Each generator sees 45 lines before and 90 lines after the masked location,
 with the reference replaced by a single `<COMMENT_TO_WRITE>` marker. The
 reference, the rubric, the repository checkout and every other candidate stay
 outside that window.
+
+## Positions where a comment may not belong
+
+`placement.json` freezes 60 positions in the training files: 30 where LLVM
+wrote a comment and 30 where it wrote nothing. Both are shown the same way, as
+a single `// <DECISION_POINT>` line with the same context window, so the model
+decides rather than being told. An uncommented position is only used where
+nothing is commented in the eight lines above it, so a class already explained
+above its enclosing namespace is not counted as unexplained.
+
+`python -m claudish select-placement --corpus-dir corpus/scaled-500
+--per-split 60 --seed 20260913 --split train` rebuilds it. Positions are
+ordered by a recorded hash and capped at three per file. Upstream's own choice
+is the reference, and it is a weak one in the uncommented direction: LLVM
+leaves plenty of places uncommented that could fairly carry a comment.
