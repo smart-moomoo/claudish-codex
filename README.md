@@ -147,9 +147,12 @@ violates the response schema is preserved with its raw answer and excluded from
 the scores.
 
 `select-corpus` deterministically freezes a scaled, file-disjoint selection from
-a prepared source manifest. If every generation call completed but the run
-failed before judging began, `resume-run` judges the remaining valid pairs
-without repeating a generation.
+a prepared source manifest. `resume-run --run runs/my-revision` continues a run
+that was interrupted or failed: every completed call is reused from its saved
+answer, and only the calls that never finished are made again. Stopping a long
+run therefore costs nothing already paid for. Resuming refuses a run whose
+spec, rubric, task or corpus no longer matches its manifest, so a resumed run
+cannot mix inputs.
 
 Two commands make no model requests. `reaggregate --run runs/my-revision`
 rebuilds a run's summary and report from its saved rows, so a repaired

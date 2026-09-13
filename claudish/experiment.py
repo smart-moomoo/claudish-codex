@@ -5,11 +5,12 @@ from datetime import datetime, timezone
 import difflib
 from pathlib import Path
 import random
+import shutil
 
 from .corpus import cases, directory
 from .cpp import render_comment, scan, assert_code_preserved
 from .io import digest, read_json, write_json
-from .judge import GENERATION_SCHEMA, evaluate, validate
+from .judge import GENERATION_SCHEMA, blind_labels, evaluate, score, validate
 from .metrics import distance, measure, summarize
 from .runner import call, MODEL, EFFORT
 
@@ -78,6 +79,74 @@ def _collect_usage(output):
     return calls, usage
 
 
+def _completed(call_dir):
+    """A finished call's saved answer, or None when the call must be made."""
+    metadata = call_dir / "metadata.json"
+    if metadata.exists() and read_json(metadata).get("status") == "completed":
+        if (call_dir / "answer.json").exists():
+            return read_json(call_dir / "answer.json")
+    return None
+
+
+def _discard(call_dir):
+    """Drop an unfinished attempt so the call can be made cleanly."""
+    if call_dir.exists():
+        shutil.rmtree(call_dir)
+
+
+def _generate_one(case, arm, repeat, *, output, task, spec, options, reuse=False):
+    call_dir = output / "calls" / f"{case['id']}-{repeat}" / arm
+    key = (case["id"], repeat, arm)
+    answer = _completed(call_dir) if reuse else None
+    if answer is None:
+        _discard(call_dir)
+        prompt = task + "\n" + case["path"] + "\n\n" + case["context"]
+        answer = call(prompt, GENERATION_SCHEMA, call_dir,
+                      guidance=spec if arm == "with_spec" else "", **options)
+    if not isinstance(answer, dict) or set(answer) != {"comment"}:
+        return key, None, "Generator did not return exactly one comment field"
+    text = answer["comment"]
+    # A model answer that breaks the prose contract is excluded, never rerolled.
+    try:
+        rendered = render_comment(text, case["raw_reference"], case["indent"])
+        after = case["source"][:case["start"]] + rendered + case["source"][case["end"]:]
+        after_comments, _ = scan(after)
+        assert_code_preserved(case["source"], after)
+        if not any(c.start == case["start"] for c in after_comments):
+            raise ValueError("Generated comment did not remain a comment")
+    except ValueError as exc:
+        return key, text, str(exc)
+    patch = "".join(difflib.unified_diff(case["source"].splitlines(keepends=True),
+                                        after.splitlines(keepends=True),
+                                        fromfile="a/" + case["path"], tofile="b/" + case["path"]))
+    (call_dir / "comment.diff").write_text(patch)
+    return key, text, None
+
+
+def _generate_all(output, corpus, *, task, spec, repeats, jobs, seed, options,
+                  reuse=False, manifest=None):
+    tasks = [(case, arm, repeat) for repeat in range(repeats) for case in corpus for arm in ARMS]
+    random.Random(seed).shuffle(tasks)
+    if manifest is not None:
+        manifest["generation_order"] = [[case["id"], arm, repeat] for case, arm, repeat in tasks]
+        write_json(output / "manifest.json", manifest)
+    generated, excluded = {}, {}
+    with ThreadPoolExecutor(max_workers=jobs) as pool:
+        pending = [pool.submit(_generate_one, case, arm, repeat, output=output, task=task,
+                               spec=spec, options=options, reuse=reuse)
+                   for case, arm, repeat in tasks]
+        for future in as_completed(pending):
+            key, text, invalid = future.result()
+            if text is not None:
+                generated[key] = text
+            if invalid:
+                excluded[key] = invalid
+                print(f"Invalid generation {key[0]} {key[2]} repeat {key[1] + 1}: {invalid}", flush=True)
+            else:
+                print(f"Generated {key[0]} {key[2]} repeat {key[1] + 1}", flush=True)
+    return generated, excluded
+
+
 def _eligible_pairs(corpus, repeats, excluded):
     """Pairs whose two generations both satisfied the prose contract."""
     return [(case, repeat) for repeat in range(repeats) for case in corpus
@@ -98,15 +167,23 @@ def _build_row(case, repeat, comments, all_judgments):
             "distances": {arm: distance(comments[arm], case["reference"]) for arm in ARMS}}
 
 
-def _judge_all(output, rubric, eligible, generated, *, judges, jobs, seed, options):
+def _judge_all(output, rubric, eligible, generated, *, judges, jobs, seed, options, reuse=False):
     """Run `judges` independently randomized fresh judgments for each eligible pair."""
     def judge_one(case, repeat, judge_index):
         comments = {arm: generated[case["id"], repeat, arm] for arm in ARMS}
         comments["upstream"] = case["reference"]
         blind_seed = int(digest(f"{seed}:{case['id']}:{repeat}:{judge_index}")[:12], 16)
-        result = evaluate(case["context"], comments, rubric,
-                          output / "calls" / f"{case['id']}-{repeat}" / f"judge-{judge_index}",
-                          seed=blind_seed, facts=case["reference"], preserve_invalid=True, **options)
+        call_dir = output / "calls" / f"{case['id']}-{repeat}" / f"judge-{judge_index}"
+        saved = _completed(call_dir) if reuse else None
+        if saved is not None:
+            # Labels come from the seed, so a saved answer is read back as graded.
+            result = score(saved, blind_labels(comments, blind_seed), comments, rubric,
+                           preserve_invalid=True)
+        else:
+            _discard(call_dir)
+            result = evaluate(case["context"], comments, rubric, call_dir,
+                              seed=blind_seed, facts=case["reference"],
+                              preserve_invalid=True, **options)
         return case["id"], repeat, judge_index, result
 
     judged = {}
@@ -201,49 +278,10 @@ def run(root, output, *, split="train", repeats=1, judges=1, jobs=2, seed=42,
     write_json(output / "dictionary.json", read_json(root / "dictionary/entries.json"))
     write_json(output / "cases.json", [{k: v for k, v in c.items() if k != "source"} for c in corpus])
     options = {"model": model, "effort": effort, "timeout": timeout}
-    generated, excluded = {}, {}
-
-    def generate(case, arm, repeat):
-        directory = output / "calls" / f"{case['id']}-{repeat}" / arm
-        prompt = task + "\n" + case["path"] + "\n\n" + case["context"]
-        answer = call(prompt, GENERATION_SCHEMA, directory,
-                      guidance=spec if arm == "with_spec" else "", **options)
-        key = (case["id"], repeat, arm)
-        if not isinstance(answer, dict) or set(answer) != {"comment"}:
-            return key, None, "Generator did not return exactly one comment field"
-        text = answer["comment"]
-        # A model answer that breaks the prose contract is excluded, never rerolled.
-        try:
-            rendered = render_comment(text, case["raw_reference"], case["indent"])
-            after = case["source"][:case["start"]] + rendered + case["source"][case["end"]:]
-            after_comments, _ = scan(after)
-            assert_code_preserved(case["source"], after)
-            if not any(c.start == case["start"] for c in after_comments):
-                raise ValueError("Generated comment did not remain a comment")
-        except ValueError as exc:
-            return key, text, str(exc)
-        patch = "".join(difflib.unified_diff(case["source"].splitlines(keepends=True),
-                                            after.splitlines(keepends=True),
-                                            fromfile="a/" + case["path"], tofile="b/" + case["path"]))
-        (directory / "comment.diff").write_text(patch)
-        return key, text, None
-
     try:
-        tasks = [(c, arm, repeat) for repeat in range(repeats) for c in corpus for arm in ARMS]
-        random.Random(seed).shuffle(tasks)
-        manifest["generation_order"] = [[c["id"], arm, repeat] for c, arm, repeat in tasks]
-        write_json(output / "manifest.json", manifest)
-        with ThreadPoolExecutor(max_workers=jobs) as pool:
-            pending = [pool.submit(generate, *task) for task in tasks]
-            for future in as_completed(pending):
-                key, text, invalid = future.result()
-                if text is not None:
-                    generated[key] = text
-                if invalid:
-                    excluded[key] = invalid
-                    print(f"Invalid generation {key[0]} {key[2]} repeat {key[1] + 1}: {invalid}", flush=True)
-                else:
-                    print(f"Generated {key[0]} {key[2]} repeat {key[1] + 1}", flush=True)
+        generated, excluded = _generate_all(output, corpus, task=task, spec=spec,
+                                            repeats=repeats, jobs=jobs, seed=seed,
+                                            options=options, manifest=manifest)
         eligible = _eligible_pairs(corpus, repeats, excluded)
         judged = _judge_all(output, rubric, eligible, generated,
                             judges=judges, jobs=jobs, seed=seed, options=options)
@@ -257,44 +295,42 @@ def run(root, output, *, split="train", repeats=1, judges=1, jobs=2, seed=42,
         raise
 
 
-def resume_after_generation(output, *, jobs=2, timeout=240):
-    """Finish a failed run whose generation calls all completed; never rerun a generation."""
+def resume(output, *, jobs=2, timeout=240):
+    """Continue an interrupted or failed run, reusing every completed call.
+
+    A stopped run keeps everything it already paid for. Only the calls that
+    never finished are made again, so stopping a long run is cheap.
+    """
     output = Path(output).resolve()
     manifest = read_json(output / "manifest.json")
-    corpus = read_json(output / "cases.json")
+    if manifest["status"] not in ("running", "failed"):
+        raise ValueError("resume-run needs an interrupted or failed run")
+    spec = (output / "spec.md").read_text()
     rubric = (output / "rubric.md").read_text()
-    if manifest["status"] != "failed":
-        raise ValueError("resume-run requires a failed run")
-    if any(output.glob("calls/*/judge-*/metadata.json")):
-        raise ValueError("resume-run only handles failures before judging begins")
-    judges = manifest.get("judges_per_pair", 1)
-    repeats = manifest["repeats"]
-    generated, excluded = {}, {}
-    for repeat in range(repeats):
-        for case in corpus:
-            for arm in ARMS:
-                call_dir = output / "calls" / f"{case['id']}-{repeat}" / arm
-                metadata = read_json(call_dir / "metadata.json")
-                if metadata.get("status") != "completed":
-                    raise ValueError(f"Generation call did not complete: {call_dir}")
-                answer = read_json(call_dir / "answer.json")
-                if not isinstance(answer, dict) or set(answer) != {"comment"}:
-                    excluded[case["id"], repeat, arm] = "Generator did not return exactly one comment field"
-                    continue
-                generated[case["id"], repeat, arm] = answer["comment"]
-                try:
-                    render_comment(answer["comment"], case["raw_reference"], case["indent"])
-                except ValueError as exc:
-                    excluded[case["id"], repeat, arm] = str(exc)
-
+    task = (output / "task.md").read_text()
+    for text, key in ((spec, "spec_sha256"), (rubric, "rubric_sha256"), (task, "task_sha256")):
+        if digest(text) != manifest[key]:
+            raise ValueError(f"Saved input does not match the run manifest: {key}")
+    # Reload the corpus, since generation needs source text that cases.json omits.
+    data_dir = Path(manifest["corpus_dir"])
+    if digest(read_json(data_dir / "cases.json")) != manifest["cases_sha256"]:
+        raise ValueError("Corpus changed since the run started")
+    corpus = cases(data_dir, manifest["split"], data_dir)
+    if [case["id"] for case in corpus] != manifest["case_ids"]:
+        raise ValueError("Corpus cases differ from the run manifest")
+    repeats, judges = manifest["repeats"], manifest.get("judges_per_pair", 1)
+    seed = manifest["seed"]
     options = {"model": manifest["model"], "effort": manifest["effort"], "timeout": timeout}
+    generated, excluded = _generate_all(output, corpus, task=task, spec=spec, repeats=repeats,
+                                        jobs=jobs, seed=seed, options=options, reuse=True)
     eligible = _eligible_pairs(corpus, repeats, excluded)
-    judged = _judge_all(output, rubric, eligible, generated,
-                        judges=judges, jobs=jobs, seed=manifest["seed"], options=options)
+    judged = _judge_all(output, rubric, eligible, generated, judges=judges, jobs=jobs,
+                        seed=seed, options=options, reuse=True)
     rows = _assemble(output, eligible, generated, judged, judges)
     summary = _summarize_run(output, rows, excluded, len(corpus) * repeats)
     manifest["previous_status"] = manifest["status"]
     manifest["previous_error"] = manifest.pop("error", None)
+    manifest["resumed_at"] = datetime.now(timezone.utc).isoformat()
     return _finalize(output, manifest, rows, summary, excluded)
 
 

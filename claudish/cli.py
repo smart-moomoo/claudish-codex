@@ -65,7 +65,7 @@ def main(argv=None):
     combine.add_argument("--combine", action="append", default=[], metavar="LABEL=A,B",
                          help="Pool the rows of named runs under a new label")
     combine.add_argument("--out", type=Path, help="Write the result here instead of stdout only")
-    resume = commands.add_parser("resume-run", help="Judge a failed run after all generations completed")
+    resume = commands.add_parser("resume-run", help="Continue an interrupted or failed run, reusing completed calls")
     resume.add_argument("--run", type=Path, required=True)
     resume.add_argument("--jobs", type=int, default=2)
     resume.add_argument("--timeout", type=int, default=240)
@@ -103,7 +103,7 @@ def main(argv=None):
             if args.out:
                 write_json(args.out, result)
         elif args.command == "resume-run":
-            result = experiment.resume_after_generation(args.run, jobs=args.jobs, timeout=args.timeout)
+            result = experiment.resume(args.run, jobs=args.jobs, timeout=args.timeout)
         else:
             if not 1 <= args.jobs <= 8:
                 raise ValueError("Use between 1 and 8 jobs")
