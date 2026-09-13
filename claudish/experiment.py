@@ -295,6 +295,22 @@ def run(root, output, *, split="train", repeats=1, judges=1, jobs=2, seed=42,
         raise
 
 
+def reload_corpus(manifest):
+    """The run's own corpus, re-read from disk and checked against the manifest.
+
+    Generation needs the source text that cases.json leaves out, so a run that
+    is continued or scored later loads the corpus again rather than trusting
+    the copy saved beside its results.
+    """
+    data_dir = Path(manifest["corpus_dir"])
+    if digest(read_json(data_dir / "cases.json")) != manifest["cases_sha256"]:
+        raise ValueError("Corpus changed since the run started")
+    corpus = cases(data_dir, manifest["split"], data_dir)
+    if [case["id"] for case in corpus] != manifest["case_ids"]:
+        raise ValueError("Corpus cases differ from the run manifest")
+    return corpus
+
+
 def resume(output, *, jobs=2, timeout=240):
     """Continue an interrupted or failed run, reusing every completed call.
 
@@ -311,13 +327,7 @@ def resume(output, *, jobs=2, timeout=240):
     for text, key in ((spec, "spec_sha256"), (rubric, "rubric_sha256"), (task, "task_sha256")):
         if digest(text) != manifest[key]:
             raise ValueError(f"Saved input does not match the run manifest: {key}")
-    # Reload the corpus, since generation needs source text that cases.json omits.
-    data_dir = Path(manifest["corpus_dir"])
-    if digest(read_json(data_dir / "cases.json")) != manifest["cases_sha256"]:
-        raise ValueError("Corpus changed since the run started")
-    corpus = cases(data_dir, manifest["split"], data_dir)
-    if [case["id"] for case in corpus] != manifest["case_ids"]:
-        raise ValueError("Corpus cases differ from the run manifest")
+    corpus = reload_corpus(manifest)
     repeats, judges = manifest["repeats"], manifest.get("judges_per_pair", 1)
     seed = manifest["seed"]
     options = {"model": manifest["model"], "effort": manifest["effort"], "timeout": timeout}
