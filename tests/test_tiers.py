@@ -3,12 +3,14 @@
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from claudish.corpus import cases
 from claudish.tiers import (case_criteria, code_shaped, ladder, length_band,
                             measure_comment, score_run)
 from claudish.io import digest, write_json
 from claudish.filelevel import JUDGMENTS
+from claudish import tiers
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -95,6 +97,14 @@ class SavedFileGrades(unittest.TestCase):
 
 
 class Criteria(unittest.TestCase):
+    def test_meaning_is_aggregated_once_for_both_precondition_fields(self):
+        with patch("claudish.tiers._graded", wraps=tiers._graded) as graded:
+            result = case_criteria(row("A local explanation.", deficits(meaning=2), deficits()),
+                                   case(), "with_spec")
+        meaning_calls = [call for call in graded.call_args_list if call.args[2] == ("meaning",)]
+        self.assertEqual(len(meaning_calls), 1)
+        self.assertEqual(result["precondition"], {"meaning": 2, "passed": False})
+
     def test_a_noticeable_style_deficit_fails_clean_even_when_upstream_is_worse(self):
         scored = case_criteria(row("Short note.", deficits(words=2), deficits(words=4)),
                                case(), "with_spec")

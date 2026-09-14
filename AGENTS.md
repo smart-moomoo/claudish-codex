@@ -3,9 +3,15 @@
 Use Python 3.11+ and the standard library. Run commands from this directory or
 pass the project directory with `--root`.
 
-For code comments, follow `specs/codex-comments.md`. Edit `specs/base.md` and
-`dictionary/entries.json`, then rebuild the generated spec with
-`python -m claudish build-spec`. Do not hand-edit the generated spec.
+For text, comments and code, follow `specs/codex-changes.md`. Cleanliness and
+effectiveness apply only to comments and docstrings; invasiveness and
+optimality apply to all three kinds. Preserve required behavior, not the
+implementation itself, when refactoring code.
+
+Edit `specs/changes-base.md` for shared change guidance. Comment guidance comes
+from `specs/base.md` and `dictionary/entries.json`. Rebuild both generated specs
+with `python -m claudish build-spec`; do not hand-edit them. The comment-only
+`specs/codex-comments.md` remains available for frozen comment experiments.
 
 All model calls use `codex exec`, `gpt-5.6-sol`, medium reasoning unless the
 user explicitly changes those settings. Start fresh sessions for generation

@@ -1,5 +1,12 @@
 # Improving the comments
 
+The four-criterion contract also covers text and code; see
+[its scope](docs/change-scope.md). Shared invasiveness and optimality guidance
+lives in `specs/changes-base.md`. The dictionary remains comment-specific.
+Rebuild both generated guides with `python -m claudish build-spec` after
+changing either source. Broader guidance changes need their own frozen
+evaluation series; existing comment results do not validate them.
+
 The dictionary is an input to the Codex spec. `python -m claudish build-spec`
 turns every accepted entry's guidance, example, and exceptions into
 `specs/codex-comments.md`. Updating the dictionary without rebuilding the spec

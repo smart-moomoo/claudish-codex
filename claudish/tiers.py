@@ -124,11 +124,12 @@ def case_criteria(row, case, arm, file_judgment=None):
     style = _graded(row, arm, STYLE_DIMENSIONS)
     upstream_style = _graded(row, "upstream", STYLE_DIMENSIONS)
     usefulness = _graded(row, arm, ("usefulness",))["usefulness"]
+    meaning = _graded(row, arm, ("meaning",))["meaning"]
     band_matches = candidate["length_band"] == reference["length_band"]
     result = {
         "precondition": {
-            "meaning": _graded(row, arm, ("meaning",))["meaning"],
-            "passed": _graded(row, arm, ("meaning",))["meaning"] < NOTICEABLE,
+            "meaning": meaning,
+            "passed": meaning < NOTICEABLE,
         },
         "clean": {
             "passed": all(style[key] < NOTICEABLE for key in STYLE_DIMENSIONS),

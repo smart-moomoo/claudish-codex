@@ -536,6 +536,18 @@ def scored_answer(case, arm, answer, overlap_threshold):
     return row
 
 
+def _write_results(output, manifest, results):
+    """Write the same result format for a fresh run or an offline rescore."""
+    results.sort(key=lambda item: (item["id"], item["arm"]))
+    summary = {"arms": {arm: summarize([item for item in results if item["arm"] == arm])
+                        for arm in manifest["arms"]}, "cases": len(manifest["case_ids"]),
+               "overlap_threshold": manifest["overlap_threshold"]}
+    write_json(output / "results.json", results)
+    write_json(output / "summary.json", summary)
+    (output / "report.md").write_text(report(manifest, results, summary))
+    return summary
+
+
 def rescore(output, destination):
     """Recompute saved answers into a new directory, without model calls."""
     from .saved import completed
@@ -566,19 +578,12 @@ def rescore(output, destination):
             if answer is None:
                 raise ValueError(f"No completed answer for {case['id']} {arm}")
             results.append(scored_answer(case, arm, answer, manifest["overlap_threshold"]))
-    results.sort(key=lambda item: (item["id"], item["arm"]))
-    summary = {"arms": {arm: summarize([item for item in results if item["arm"] == arm])
-                        for arm in manifest["arms"]}, "cases": len(corpus),
-               "overlap_threshold": manifest["overlap_threshold"]}
     destination.mkdir(parents=True)
     derived = {**manifest, "name": destination.name, "derived_from": str(output),
                "scoring_version": 2, "new_model_calls": 0,
                "source_manifest_sha256": digest(manifest), "status": "rescored"}
     write_json(destination / "manifest.json", derived)
-    write_json(destination / "results.json", results)
-    write_json(destination / "summary.json", summary)
-    (destination / "report.md").write_text(report(derived, results, summary))
-    return summary
+    return _write_results(destination, derived, results)
 
 
 def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
@@ -649,13 +654,7 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
         manifest["error"] = str(exc)
         write_json(output / "manifest.json", manifest)
         raise
-    results.sort(key=lambda item: (item["id"], item["arm"]))
-    summary = {"arms": {arm: summarize([item for item in results if item["arm"] == arm])
-                        for arm in arms},
-               "cases": len(corpus), "overlap_threshold": overlap_threshold}
-    write_json(output / "results.json", results)
-    write_json(output / "summary.json", summary)
-    (output / "report.md").write_text(report(manifest, results, summary))
+    summary = _write_results(output, manifest, results)
     manifest["status"] = "completed"
     manifest["completed_at"] = datetime.now(timezone.utc).isoformat()
     write_json(output / "manifest.json", manifest)

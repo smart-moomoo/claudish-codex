@@ -1,9 +1,12 @@
 """Real commits as the unit: what an answer touches, and whether it applies."""
 
 import unittest
+from pathlib import Path
+import tempfile
 
 from claudish.commits import (apply_edits, compare, eligible, message_of,
-                              parse_patch, reference_change, shape)
+                              parse_patch, reference_change, shape, _write_results)
+from claudish.io import read_json
 
 PATCH = """From 0badc0de Mon Sep 17 00:00:00 2001
 From: Someone <someone@example.com>
@@ -133,6 +136,24 @@ class Answers(unittest.TestCase):
         applied, invalid = apply_edits({"edits": [], "explanation": "nothing to do"}, SOURCES)
         self.assertIsNone(applied)
         self.assertIn("no edits", invalid)
+
+
+class ResultArtifacts(unittest.TestCase):
+    def test_shared_writer_preserves_case_counts_arms_and_row_order(self):
+        manifest = {"name": "fixture", "split": "train", "model": "fixture", "effort": "medium",
+                    "case_ids": ["a", "b"], "arms": ["without_spec", "with_spec"],
+                    "overlap_threshold": 0.5}
+        rows = [{"id": case, "arm": arm, "applied": False, "invalid": "Synthetic invalid answer."}
+                for case in ("b", "a") for arm in manifest["arms"]]
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp)
+            summary = _write_results(output, manifest, rows)
+            self.assertEqual(summary["cases"], 2)
+            self.assertEqual(list(summary["arms"]), manifest["arms"])
+            self.assertEqual(summary["arms"]["without_spec"]["cases"], 2)
+            self.assertEqual(read_json(output / "summary.json"), summary)
+            self.assertEqual(read_json(output / "results.json"), sorted(rows, key=lambda r: (r["id"], r["arm"])))
+            self.assertIn("did not apply", (output / "report.md").read_text())
 
 
 class Comparison(unittest.TestCase):

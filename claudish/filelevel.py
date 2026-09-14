@@ -88,16 +88,19 @@ def group(rows, corpus, *, min_comments=MIN_COMMENTS):
 def payload(items):
     """The locations, the code under each, and one comment set per author."""
     locations = []
+    masked_sources = {}
     for case, _ in items:
         source = case["source"]
-        comments, _ = scan(source)
-        masked = list(source)
-        for comment in comments:
-            masked[comment.start:comment.end] = [
-                "\n" if char == "\n" else " " for char in source[comment.start:comment.end]]
-        following = "".join(masked)[case["end"]:].splitlines()
-        code = "\n".join(line for line in following if line.strip())
-        code = "\n".join(code.splitlines()[:CODE_LINES])
+        if source not in masked_sources:
+            comments, _ = scan(source)
+            masked = list(source)
+            # Blank comments once per source, preserving the original offsets.
+            for comment in comments:
+                masked[comment.start:comment.end] = [
+                    "\n" if char == "\n" else " " for char in source[comment.start:comment.end]]
+            masked_sources[source] = "".join(masked)
+        following = masked_sources[source][case["end"]:].splitlines()
+        code = "\n".join([line for line in following if line.strip()][:CODE_LINES])
         locations.append({"location": f"line {case['line']}", "code_after_comment": code})
     sets = {name: [{"location": f"line {case['line']}",
                     "comment": case["reference"] if name == "upstream" else row["comments"][name]}
@@ -128,8 +131,7 @@ def judge_file(path, items, rubric, call_dir, *, seed, reuse=False, **options):
         scored = validate(answer, mapping, texts)
     except ValueError as exc:
         raise InvalidJudgment(str(exc)) from exc
-    by_label = {item["label"]: item for item in scored}
-    return {mapping[label]: item for label, item in by_label.items()}
+    return {mapping[item["label"]]: item for item in scored}
 
 
 def judge_run(output, corpus, rubric, *, seed=42, jobs=2, reuse=False,

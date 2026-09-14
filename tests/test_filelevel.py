@@ -2,8 +2,10 @@
 
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 from claudish.corpus import cases
+from claudish.cpp import scan
 from claudish.filelevel import SETS, blind_labels, group, payload, validate
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,6 +56,29 @@ class Grouping(unittest.TestCase):
                 "end": source.index("*/") + 2, "reference": "reference"}
         locations, _ = payload([(case, row(case, "generated"))])
         self.assertEqual(locations[0]["code_after_comment"], " int value;")
+
+
+class SharedContext(unittest.TestCase):
+    def test_each_distinct_source_is_scanned_once_without_caching_across_calls(self):
+        source = "// first\nint first;\n// second\nint second;\n"
+        comments, _ = scan(source)
+        items = []
+        for index, comment in enumerate(comments):
+            case = {"id": str(index), "source": source, "line": comment.line,
+                    "end": comment.end, "reference": comment.text}
+            items.append((case, row(case, "fixture")))
+        with patch("claudish.filelevel.scan", wraps=scan) as scanner:
+            locations, _ = payload(items)
+            self.assertEqual(scanner.call_count, 1)
+            self.assertEqual(locations[0]["code_after_comment"], "int first;\nint second;")
+            self.assertEqual(locations[1]["code_after_comment"], "int second;")
+            payload(items)
+            self.assertEqual(scanner.call_count, 2)
+        other = {**items[1][0], "source": source.replace("int second;", "int changed;")}
+        with patch("claudish.filelevel.scan", wraps=scan) as scanner:
+            locations, _ = payload([items[0], (other, row(other, "fixture"))])
+            self.assertEqual(scanner.call_count, 2)
+            self.assertEqual(locations[1]["code_after_comment"], "int changed;")
 
 
 class Blinding(unittest.TestCase):
