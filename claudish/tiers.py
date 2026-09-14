@@ -23,7 +23,7 @@ from pathlib import Path
 
 from .corpus import LENGTH_BANDS
 from .cpp import scan
-from .io import read_json, write_json
+from .io import digest, read_json, write_json
 from .metrics import words
 
 CRITERIA = ("clean", "effective", "invasive", "optimal")
@@ -306,11 +306,16 @@ def score_run(output, corpus_loader):
     manifest = read_json(output / "manifest.json")
     rows = read_json(output / "results.json")
     corpus = corpus_loader(manifest)
-    judgment_path = output / "file-judgments.json"
+    from .filelevel import JUDGMENTS
+    judgment_path = output / JUDGMENTS
     file_judgments = None
     if judgment_path.exists():
+        saved = read_json(judgment_path)
+        if (saved.get("version") != 2 or saved["inputs"]["rows_sha256"] != digest(rows)
+                or saved["inputs"]["corpus_sha256"] != digest(corpus)):
+            raise ValueError("File judgments do not match this run's rows and corpus")
         file_judgments = {(item["path"], item["arm"]): item["optimal"]
-                          for item in read_json(judgment_path)["files"]}
+                          for item in saved["files"]}
     result = score_rows(rows, corpus, file_judgments)
     result["run"] = manifest["name"]
     result["task_sha256"] = manifest["task_sha256"]

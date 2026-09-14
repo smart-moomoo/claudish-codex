@@ -311,20 +311,68 @@ def cases(root, split=None, corpus_dir=None):
     return result
 
 
-def _line_span(text, start, length):
-    first = text.count("\n", 0, start) + 1
-    return set(range(first, text.count("\n", 0, start + length) + 2))
-
-
 def reference_change(patch, sources):
-    """What the real commit touched, in the same shape as a model's answer."""
+    """Apply the upstream patch, then use the same diff as generated changes."""
+    after = dict(sources)
+    path, cursor, result = None, 0, []
+    lines = patch.splitlines(keepends=True)
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if line.startswith("diff --git "):
+            if path is not None:
+                after[path] = "".join(result + original[cursor:])
+            path = None
+        elif line.startswith("--- a/"):
+            path = line[6:].strip()
+            if path not in sources:
+                raise ValueError(f"Patch names an unsupplied source: {path}")
+            original = sources[path].splitlines(keepends=True)
+            cursor, result = 0, []
+        match = _HUNK.match(line)
+        if match and path is not None:
+            old_count, new_count = int(match[2] or 1), int(match[4] or 1)
+            start = int(match[1]) - (1 if old_count else 0)
+            if start < cursor:
+                raise ValueError("Overlapping upstream patch hunks")
+            result.extend(original[cursor:start])
+            old, new = [], []
+            while len(old) < old_count or len(new) < new_count:
+                index += 1
+                entry = lines[index]
+                if entry[:1] not in (" ", "+", "-"):
+                    raise ValueError("Malformed upstream patch hunk")
+                text = entry[1:]
+                if index + 1 < len(lines) and lines[index + 1].startswith("\\ No newline"):
+                    text = text.removesuffix("\n")
+                    index += 1
+                if entry[0] in " -":
+                    old.append(text)
+                if entry[0] in " +":
+                    new.append(text)
+            if old != original[start:start + old_count] or len(new) != new_count:
+                raise ValueError("Upstream patch does not match its pre-change source")
+            result.extend(new)
+            cursor = start + old_count
+        index += 1
+    if path is not None:
+        after[path] = "".join(result + original[cursor:])
+    return change_shape(sources, after)
+
+
+def change_shape(sources, after):
+    """Count final changed lines, independent of replacement anchor width."""
     touched = {}
     added = []
-    for item in parse_patch(patch):
-        if item["path"] not in sources:
-            continue
-        touched[item["path"]] = set(item["touched"])
-        added.extend(item["added"])
+    for path, before in sources.items():
+        old, new = before.splitlines(keepends=True), after[path].splitlines(keepends=True)
+        lines = set()
+        for tag, a, b, c, d in difflib.SequenceMatcher(None, old, new, autojunk=False).get_opcodes():
+            if tag == "equal":
+                continue
+            lines.update(range(a + 1, b + 1) if a != b else [max(1, a)])
+            added.extend(new[c:d])
+        touched[path] = lines
     return shape(touched, added, sources)
 
 
@@ -348,7 +396,6 @@ def apply_edits(answer, sources):
     if not isinstance(edits, list) or not edits:
         return None, "Answer made no edits"
     after = dict(sources)
-    touched, added = {}, []
     for edit in edits:
         if not isinstance(edit, dict) or set(edit) != {"path", "old_text", "new_text"}:
             return None, "Edit did not return exactly path, old_text and new_text"
@@ -362,11 +409,10 @@ def apply_edits(answer, sources):
         if after[path].count(old) != 1:
             return None, f"old_text does not occur exactly once in {path}"
         start = after[path].index(old)
-        touched.setdefault(path, set()).update(_line_span(sources[path], start, len(old)))
-        added.extend(line for line in difflib.unified_diff(
-            old.splitlines(), new.splitlines(), n=0) if line.startswith("+") and line[1:3] != "++")
         after[path] = after[path][:start] + new + after[path][start + len(old):]
-    return {"after": after, "shape": shape(touched, [line[1:] for line in added], sources)}, None
+    if after == sources:
+        return None, "Edits leave no net change"
+    return {"after": after, "shape": change_shape(sources, after)}, None
 
 
 def _jaccard(left, right):
@@ -476,6 +522,67 @@ def report(manifest, results, summary):
     return "\n".join(lines) + "\n"
 
 
+def scored_answer(case, arm, answer, overlap_threshold):
+    applied, invalid = apply_edits(answer, case["sources"])
+    row = {"id": case["id"], "arm": arm, "sha": case["sha"], "url": case["url"],
+           "subject": case["subject"], "applied": applied is not None,
+           "invalid": invalid, "explanation": answer.get("explanation")
+           if isinstance(answer, dict) else None,
+           "reference": {key: value for key, value in case["reference"].items()
+                         if key != "touched_lines"}}
+    if applied is not None:
+        row["comparison"] = compare(applied["shape"], case["reference"],
+                                    overlap_threshold=overlap_threshold)
+        row["shape"] = {key: value for key, value in applied["shape"].items()
+                        if key != "touched_lines"}
+    return row
+
+
+def rescore(output, destination):
+    """Recompute saved answers into a new directory, without model calls."""
+    from .saved import completed
+
+    output, destination = Path(output).resolve(), Path(destination).resolve()
+    if destination.exists():
+        raise ValueError("Rescore destination already exists")
+    manifest = read_json(output / "manifest.json")
+    if manifest.get("kind") != "commits":
+        raise ValueError("Expected a commit run")
+    data_dir = Path(manifest["corpus_dir"])
+    if digest(read_json(data_dir / "commits.lock.json")) != manifest["commits_sha256"]:
+        raise ValueError("Commit lock differs from the run manifest")
+    corpus = cases(output, manifest["split"], data_dir)
+    if [case["id"] for case in corpus] != manifest["case_ids"]:
+        raise ValueError("Commit cases differ from the run manifest")
+    task = (output / "task.md").read_text()
+    spec = (output / "spec.md").read_text() if manifest["spec_sha256"] else ""
+    if digest(task) != manifest["task_sha256"] or (spec and digest(spec) != manifest["spec_sha256"]):
+        raise ValueError("Saved task or spec checksum mismatch")
+    results = []
+    for case in corpus:
+        for arm in manifest["arms"]:
+            answer = completed(output / "calls" / case["id"] / arm,
+                               prompt_for(case, task), SCHEMA,
+                               guidance=spec if arm == "with_spec" else "",
+                               model=manifest["model"], effort=manifest["effort"])
+            if answer is None:
+                raise ValueError(f"No completed answer for {case['id']} {arm}")
+            results.append(scored_answer(case, arm, answer, manifest["overlap_threshold"]))
+    results.sort(key=lambda item: (item["id"], item["arm"]))
+    summary = {"arms": {arm: summarize([item for item in results if item["arm"] == arm])
+                        for arm in manifest["arms"]}, "cases": len(corpus),
+               "overlap_threshold": manifest["overlap_threshold"]}
+    destination.mkdir(parents=True)
+    derived = {**manifest, "name": destination.name, "derived_from": str(output),
+               "scoring_version": 2, "new_model_calls": 0,
+               "source_manifest_sha256": digest(manifest), "status": "rescored"}
+    write_json(destination / "manifest.json", derived)
+    write_json(destination / "results.json", results)
+    write_json(destination / "summary.json", summary)
+    (destination / "report.md").write_text(report(derived, results, summary))
+    return summary
+
+
 def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
         task_path=None, model=None, effort=None, timeout=600, resume=False,
         overlap_threshold=0.5):
@@ -483,7 +590,7 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
     from concurrent.futures import ThreadPoolExecutor, as_completed
     from datetime import datetime, timezone
 
-    from .experiment import _completed, _discard
+    from .saved import completed, archive_attempt, manifest_for_resume
     from .runner import call, MODEL, EFFORT
 
     model, effort = model or MODEL, effort or EFFORT
@@ -498,53 +605,47 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
     arms = ("without_spec", "with_spec") if spec is not None else ("baseline",)
     if output.exists() and not resume:
         raise ValueError("Output directory exists; pass resume to reuse its completed calls")
-    output.mkdir(parents=True, exist_ok=resume)
     data_dir = directory(root, corpus_dir)
     manifest = {"name": output.name, "status": "running", "split": split, "kind": "commits",
                 "model": model, "effort": effort, "jobs": jobs, "arms": list(arms),
                 "started_at": datetime.now(timezone.utc).isoformat(),
                 "task_sha256": digest(task), "spec_sha256": digest(spec) if spec else None,
                 "commits_sha256": digest(read_json(data_dir / "commits.lock.json")),
+                "inputs_sha256": digest(corpus), "scoring_version": 2,
                 "corpus_dir": str(data_dir), "overlap_threshold": overlap_threshold,
                 "case_ids": [case["id"] for case in corpus],
                 "design": "fresh isolated call per commit and arm; whole pre-change files supplied",
                 "limits": "Shape only; no build, no tests, no correctness claim."}
-    write_json(output / "manifest.json", manifest)
-    (output / "task.md").write_text(task)
-    if spec is not None:
-        (output / "spec.md").write_text(spec)
+    snapshots = {"task.md": task, **({"spec.md": spec} if spec is not None else {})}
+    if resume:
+        manifest = manifest_for_resume(output, manifest, snapshots)
+    else:
+        output.mkdir(parents=True)
+        write_json(output / "manifest.json", manifest)
+        for name, text in snapshots.items():
+            (output / name).write_text(text)
     options = {"model": model, "effort": effort, "timeout": timeout}
 
     def answer_one(case, arm):
         call_dir = output / "calls" / case["id"] / arm
-        answer = _completed(call_dir) if resume else None
+        prompt = prompt_for(case, task)
+        guidance = spec if arm == "with_spec" else ""
+        answer = completed(call_dir, prompt, SCHEMA, guidance=guidance,
+                           model=model, effort=effort) if resume else None
         if answer is None:
-            _discard(call_dir)
-            answer = call(prompt_for(case, task), SCHEMA, call_dir,
-                          guidance=spec if arm == "with_spec" else "", **options)
-        applied, invalid = apply_edits(answer, case["sources"])
-        return case, arm, answer, applied, invalid
+            archive_attempt(call_dir)
+            answer = call(prompt, SCHEMA, call_dir, guidance=guidance, **options)
+        return scored_answer(case, arm, answer, overlap_threshold)
 
     results = []
     try:
         with ThreadPoolExecutor(max_workers=jobs) as pool:
             pending = [pool.submit(answer_one, case, arm) for case in corpus for arm in arms]
             for future in as_completed(pending):
-                case, arm, answer, applied, invalid = future.result()
-                row = {"id": case["id"], "arm": arm, "sha": case["sha"], "url": case["url"],
-                       "subject": case["subject"], "applied": applied is not None,
-                       "invalid": invalid, "explanation": answer.get("explanation")
-                       if isinstance(answer, dict) else None,
-                       "reference": {key: value for key, value in case["reference"].items()
-                                     if key != "touched_lines"}}
-                if applied is not None:
-                    row["comparison"] = compare(applied["shape"], case["reference"],
-                                                overlap_threshold=overlap_threshold)
-                    row["shape"] = {key: value for key, value in applied["shape"].items()
-                                    if key != "touched_lines"}
+                row = future.result()
                 results.append(row)
-                print(f"Answered {case['id']} {arm}: "
-                      f"{'applied' if applied else invalid}", flush=True)
+                print(f"Answered {row['id']} {row['arm']}: "
+                      f"{'applied' if row['applied'] else row['invalid']}", flush=True)
     except Exception as exc:
         manifest["status"] = "failed"
         manifest["error"] = str(exc)

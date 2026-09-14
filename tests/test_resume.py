@@ -46,6 +46,7 @@ def build_interrupted_run(output, corpus, *, seed=42, judges=2, skip_last_judge=
         "judges_per_pair": judges, "model": "gpt-5.6-sol", "effort": "medium", "seed": seed,
         "spec_sha256": digest(SPEC), "rubric_sha256": digest(RUBRIC), "task_sha256": digest(TASK),
         "cases_sha256": digest(json.loads((DATA / "cases.json").read_text())),
+        "source_lock_sha256": digest(json.loads((DATA / "sources.lock.json").read_text())),
         "corpus_dir": str(DATA), "case_ids": [case["id"] for case in corpus]})
     for case in corpus:
         comments = {arm: comment_for(case, arm) for arm in ARMS}
@@ -113,6 +114,17 @@ class ResumeReusesCompletedCalls(unittest.TestCase):
             (output / "rubric.md").write_text("A different rubric.\n")
             with self.assertRaisesRegex(ValueError, "rubric_sha256"):
                 resume(output)
+
+    def test_changed_source_lock_is_refused_before_any_call(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "run"
+            build_interrupted_run(output, self.corpus, skip_last_judge=False)
+            manifest = json.loads((output / "manifest.json").read_text())
+            write_json(output / "manifest.json", {**manifest, "source_lock_sha256": "changed"})
+            with patch("claudish.experiment.call", side_effect=AssertionError("No model calls")):
+                with self.assertRaisesRegex(ValueError, "Source lock changed"):
+                    resume(output)
 
 
 if __name__ == "__main__":

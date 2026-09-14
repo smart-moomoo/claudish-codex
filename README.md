@@ -29,12 +29,15 @@ increasing order of difficulty: is the comment well written, does it belong
 there at that length, is it the smallest thing that works, and is it right for
 the whole file. The first step is where almost everything is lost. On 74 unseen
 pairs, 73 of 74 comments written with the spec read well, 23 of those are the
-right length and explain the right thing, and 6 clear all four. Asked whether a
+right length and explain the right thing, and 7 clear all four. These are style
+and scope criteria; meaning is reported separately, not used as a gate. Asked whether a
 comment belongs at a position at all, the model declines about as often as LLVM
 did, which contradicts the study's own written prediction. Given the files
 before a real commit from a corpus of
 [40 LLVM changes](corpus/commits/README.md), it finds the area the real fix
-touched in 15 of 20 cases and changes about twice as many lines.
+touched in 12 of 20 cases. The median is 2 changed lines against 3 upstream;
+10 of 20 clear the shape ladder. These corrected measurements replace an
+earlier analysis that incorrectly counted unchanged edit anchors.
 
 The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
 file-disjoint, length- and function-stratified comments with two fresh judges
@@ -208,7 +211,7 @@ length follows the location.
 The other three need model calls:
 
 ```sh
-python -m claudish placement-run --split train --out runs/placement
+python -m claudish placement-run --split train --corpus-dir corpus/scaled-500 --out runs/placement
 python -m claudish judge-files --run runs/a
 python -m claudish commit-run --split train --corpus-dir corpus/commits --out runs/patches
 ```
@@ -219,10 +222,25 @@ uncommented; the model may decline. `judge-files` judges each file's comments
 as a set against [a second rubric](evaluation/file-rubric.md), which is where
 repetition across a file becomes visible. `commit-run` gives fresh agents the
 files as they stood before a real LLVM commit and that commit's message, and
-compares the edits it gets back with what upstream actually did. Passing
-`--spec` to either run turns it into a paired ablation; without one,
-`commit-run` has a single arm, since the comment spec is not guidance for
-writing code. All three accept `--resume` to reuse completed calls.
+compares the edits it gets back with what upstream actually did. Placement is
+always paired, using the generated comment spec unless `--spec` overrides it.
+`commit-run` has a single arm unless `--spec` supplies code-writing guidance.
+All three accept `--resume` only with matching saved inputs, model and effort.
+Failed attempts are archived, not deleted. Legacy placement/commit manifests
+without input fingerprints cannot be resumed; use a new output directory.
+
+File judging now writes `file-calls-v2/` and `file-judgments-v2.json`, leaving
+the old leaked-context series intact. `score-tiers` ignores old file judgments
+and checks the new judgments against the run's rows and corpus. Invalid judge
+responses are preserved and excluded, never rerolled.
+
+Commit scoring compares original and final sources, not replacement anchor
+sizes. Existing commit answers can be rescored without model calls or changing
+the original run:
+
+```sh
+python -m claudish rescore-commits --run runs/patches --out runs/patches-rescored
+```
 
 Nothing in the commit study compiles or runs LLVM, so none of it says whether
 a generated change is correct. It measures what a change touches and where.

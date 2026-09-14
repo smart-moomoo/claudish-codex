@@ -41,6 +41,20 @@ class Grouping(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "no corpus case"):
             group([{"id": "missing", "comments": {}}], self.corpus, min_comments=1)
 
+    def test_code_starts_after_the_comment_and_hides_nearby_references(self):
+        source = "// first reference\n// continued\nint value = 1;\n// next reference\nuse(value);\n"
+        case = {"id": "x", "source": source, "line": 1,
+                "end": source.index("int value"), "reference": "first reference continued"}
+        locations, _ = payload([(case, row(case, "generated"))])
+        self.assertEqual(locations[0]["code_after_comment"], "int value = 1;\nuse(value);")
+
+    def test_block_comment_before_code_on_the_same_line(self):
+        source = "/* reference */ int value;\n"
+        case = {"id": "x", "source": source, "line": 1,
+                "end": source.index("*/") + 2, "reference": "reference"}
+        locations, _ = payload([(case, row(case, "generated"))])
+        self.assertEqual(locations[0]["code_after_comment"], " int value;")
+
 
 class Blinding(unittest.TestCase):
     def test_labels_cover_every_set_and_follow_only_the_seed(self):
@@ -63,6 +77,10 @@ class Validation(unittest.TestCase):
 
     def test_a_complete_answer_is_accepted(self):
         self.assertEqual(len(validate(self.answer(), self.mapping, self.texts)), 3)
+
+    def test_non_object_sets_are_invalid(self):
+        with self.assertRaisesRegex(ValueError, "Malformed file judge set"):
+            validate({"sets": [None]}, self.mapping, self.texts)
 
     def test_a_set_left_ungraded_is_refused(self):
         answer = self.answer()

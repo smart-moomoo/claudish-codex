@@ -109,9 +109,9 @@
           },
           "optimal": {
             "judged": 4,
-            "passed": 4,
-            "pass_rate_of_standing": 1.0,
-            "pass_rate_of_all": 0.11428571428571428
+            "passed": 3,
+            "pass_rate_of_standing": 0.75,
+            "pass_rate_of_all": 0.08571428571428572
           }
         }
       }
@@ -210,7 +210,7 @@
           {
             "harder": "optimal",
             "easier": "invasive",
-            "cases": 21,
+            "cases": 25,
             "ids": [
               "scaled-branchfolding-1505",
               "scaled-branchfolding-1765",
@@ -231,7 +231,7 @@
               "scaled-loopstrengthreduce-3016",
               "scaled-machinescheduler-1925",
               "scaled-machinescheduler-346",
-              "scaled-regallocgreedy-182"
+              "scaled-newgvn-1564"
             ]
           }
         ],
@@ -267,23 +267,23 @@
           },
           "optimal": {
             "judged": 12,
-            "passed": 7,
-            "pass_rate_of_standing": 0.5833333333333334,
-            "pass_rate_of_all": 0.0945945945945946
+            "passed": 6,
+            "pass_rate_of_standing": 0.5,
+            "pass_rate_of_all": 0.08108108108108109
           }
         },
         "standing": {
           "clean": 73,
           "effective": 23,
           "invasive": 12,
-          "optimal": 7
+          "optimal": 6
         },
         "first_failure": {
           "clean": 1,
           "effective": 50,
           "invasive": 11,
-          "optimal": 5,
-          "none": 7
+          "optimal": 6,
+          "none": 6
         },
         "order_violations": [
           {
@@ -322,16 +322,15 @@
           {
             "harder": "optimal",
             "easier": "invasive",
-            "cases": 20,
+            "cases": 23,
             "ids": [
-              "scaled-branchfolding-1505",
-              "scaled-branchfolding-1765",
               "scaled-clonefunction-487",
               "scaled-clonefunction-654",
               "scaled-clonefunction-719",
               "scaled-demandedbits-190",
               "scaled-demandedbits-391",
               "scaled-demandedbits-92",
+              "scaled-domtreeupdater-258",
               "scaled-earlycse-155",
               "scaled-earlycse-361",
               "scaled-earlycse-505",
@@ -342,8 +341,9 @@
               "scaled-loopstrengthreduce-3016",
               "scaled-machinescheduler-1925",
               "scaled-machinescheduler-346",
-              "scaled-regallocgreedy-182",
-              "scaled-regallocgreedy-2986"
+              "scaled-newgvn-1564",
+              "scaled-newgvn-2254",
+              "scaled-newgvn-3813"
             ]
           }
         ],
@@ -355,7 +355,5 @@
       "without_spec": 74,
       "with_spec": 74
     }
-  },
-  "file_judge_version": 2,
-  "note": "Fourth-rung coverage excludes invalid file judgments; missing grades are not failures. Meaning remains a separate score, not a gate."
+  }
 }

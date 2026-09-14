@@ -105,3 +105,35 @@ establish human agreement, correctness of generated code, performance on code
 written after the model's training data, or behaviour in a live editing
 session. No smoke tests, no intermediate approval stops, no tuning against
 these results.
+
+## Implementation correction, 2026-09-13
+
+This amendment was added after inspecting the first series and correcting
+implementation errors. The original protocol above is retained; this is not
+a new preregistration or a fresh holdout. No spec, dictionary, rubric or
+threshold was tuned from these results.
+
+The original file judge's shared context started at the reference comment,
+not after it. All 17 original calls are invalidated for that comparison.
+Version 2 starts at the parsed comment end, masks all comments in shared
+source context and supplies the next six non-empty code lines. Seventeen
+fresh isolated calls use the same rubric, label seed, gpt-5.6-sol and medium
+effort. One response has evidence outside its assigned set; it is preserved
+and excluded, not retried. Old and new raw artifacts remain local in separate
+directories. Missing judgments are unmeasured, not failures.
+
+Commit scoring originally counted old_text anchors, including unchanged
+context, and interpreted offsets from later edits against the original file.
+Version 2 applies all edits first, and applies the upstream patch to its
+verified pre-change source. Both final files use the same line-based
+SequenceMatcher with autojunk disabled. Changed original lines are counted;
+a pure insertion is anchored to the preceding original line (line 1 at the
+start). These are unique touched positions, not added-plus-deleted line
+counts. Edits with no net change fail the applicability floor. All 20 saved
+answers are rescored without new model calls, keeping the original run intact.
+
+Resume now checks input fingerprints and saved call inputs before reusing an
+answer. File-series fingerprints include the label seed, rubric, model,
+effort, rows and corpus. Failed attempts are archived. Legacy ladder manifests
+without complete fingerprints cannot be resumed. Aggregate v1 results are
+retained under `superseded-v1/` solely as an audit trail.

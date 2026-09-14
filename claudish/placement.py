@@ -291,7 +291,7 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
     from concurrent.futures import ThreadPoolExecutor, as_completed
     from datetime import datetime, timezone
 
-    from .experiment import _completed, _discard
+    from .saved import completed, archive_attempt, manifest_for_resume
     from .runner import call, MODEL, EFFORT
 
     model, effort = model or MODEL, effort or EFFORT
@@ -305,27 +305,34 @@ def run(root, output, *, split="train", jobs=2, spec_path=None, corpus_dir=None,
         raise ValueError("Task must not be empty")
     if output.exists() and not resume:
         raise ValueError("Output directory exists; pass resume to reuse its completed calls")
-    output.mkdir(parents=True, exist_ok=resume)
     manifest = {"name": output.name, "status": "running", "split": split, "model": model,
                 "effort": effort, "jobs": jobs, "kind": "placement",
                 "started_at": datetime.now(timezone.utc).isoformat(),
                 "spec_sha256": digest(spec), "task_sha256": digest(task),
                 "cases_sha256": digest(read_json(directory(root, corpus_dir) / "placement.json")),
+                "inputs_sha256": digest(corpus),
                 "corpus_dir": str(directory(root, corpus_dir)),
                 "case_ids": [case["id"] for case in corpus], "cases_requested": limit,
                 "design": "fresh isolated call per case and arm; the model may decline"}
-    write_json(output / "manifest.json", manifest)
-    (output / "spec.md").write_text(spec)
-    (output / "task.md").write_text(task)
+    snapshots = {"spec.md": spec, "task.md": task}
+    if resume:
+        manifest = manifest_for_resume(output, manifest, snapshots)
+    else:
+        output.mkdir(parents=True)
+        write_json(output / "manifest.json", manifest)
+        for name, text in snapshots.items():
+            (output / name).write_text(text)
     options = {"model": model, "effort": effort, "timeout": timeout}
 
     def decide(case, arm):
         call_dir = output / "calls" / case["id"] / arm
-        answer = _completed(call_dir) if resume else None
+        prompt = task + "\n" + case["path"] + "\n\n" + case["context"]
+        guidance = spec if arm == "with_spec" else ""
+        answer = completed(call_dir, prompt, SCHEMA, guidance=guidance,
+                           model=model, effort=effort) if resume else None
         if answer is None:
-            _discard(call_dir)
-            answer = call(task + "\n" + case["path"] + "\n\n" + case["context"], SCHEMA,
-                          call_dir, guidance=spec if arm == "with_spec" else "", **options)
+            archive_attempt(call_dir)
+            answer = call(prompt, SCHEMA, call_dir, guidance=guidance, **options)
         decision, invalid = outcome(answer, case)
         return case, arm, decision, invalid
 

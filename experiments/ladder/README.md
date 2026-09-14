@@ -5,6 +5,12 @@ cases that passed the one before. The design and its bars are in
 [PROTOCOL.md](PROTOCOL.md). Aggregate results are here; detailed per-case
 scoring stays in the private run directories as `tiers.json`.
 
+The file and commit results below use the corrected v2 implementation.
+The [protocol amendment](PROTOCOL.md#implementation-correction-2026-09-13)
+documents the errors, replacements and preserved evidence. Rebuild these
+aggregates with `python -m experiments.ladder.publish` from the project root;
+it requires the local completed runs and makes no model calls.
+
 ## Where comments stand, 224 pairs
 
 Re-analysis of the four finished runs of the
@@ -59,18 +65,21 @@ third of their length. Neither task produced length that tracked the location,
 and the earlier study's finding that the spec is "substantially more verbose
 than upstream" is at least partly a property of the task it was given.
 
-## All four criteria, 74 unseen pairs
+## All four criteria, 74 validation/test pairs
 
-Once each file's comments were judged as a set, the validation and test runs
-could be scored on all four.
+This re-analysis uses the existing validation/test generations and corrected
+file-level judgments. One file's invalid judgment excludes four pairs from
+fourth-rung coverage; none of those pairs passed the preceding rungs, so the
+fourth-rung denominators below are unchanged. Meaning is reported separately,
+not used as a gate: clearing this ladder does not establish factual accuracy.
 
 | Criterion | Without spec | With spec |
 | --- | ---: | ---: |
 | Clean | 53/74 | 73/74 |
 | Effective, of those | 20/53 | 23/73 |
 | Invasive, of those | 9/20 | 12/23 |
-| Optimal, of those | 5/9 | 6/12 |
-| Clears all four | 5 (7%) | 6 (8%) |
+| Optimal, of those | 5/9 | 7/12 |
+| Clears all four | 5 (7%) | 7 (9%) |
 
 ## Placement: the model does decline
 
@@ -100,40 +109,44 @@ finding above.
 ## A file's comments together
 
 One call per file, all of that file's comments judged as a set against
-[a second rubric](../../evaluation/file-rubric.md), 17 calls.
+[a second rubric](../../evaluation/file-rubric.md), 17 fresh corrected calls.
+One test response quoted evidence absent from its assigned set; it is
+preserved and excluded without a replacement call. All 17 earlier calls are
+also preserved, but invalidated because their shared code context leaked
+upstream comments. The rubric, spec and label seed did not change.
 
 | | Files | Without spec | With spec | Upstream |
 | --- | ---: | ---: | ---: | ---: |
-| Test, sets with no noticeable deficit | 9 | 8 | 8 | 7 |
-| Validation, sets with no noticeable deficit | 8 | 2 | 3 | 8 |
+| Test, valid sets with no noticeable deficit | 8 | 7 | 7 | 5 |
+| Validation, sets with no noticeable deficit | 8 | 2 | 3 | 7 |
 
-The two splits disagree sharply and the difference tracks how many comments a
-file contributes: test files carry three or four, validation files four to
-six. Redundancy has to have somewhere to show itself. On validation the
-generated sets average a redundancy deficit of about 1.9 against upstream's
-0.25, which is the first measurement in this project that upstream wins
-clearly. Nine files is too few to settle it, and it is reported as a signal to
-follow rather than a result.
+The two splits disagree sharply. Test files carry three or four comments,
+validation files four to six, but this small comparison does not isolate the
+cause. On validation the generated sets average redundancy deficits of 2.00
+without the spec and 1.875 with it, against upstream's 0.125. Eight valid files
+per split are too few for a general conclusion. Even the corrected judge sees
+only six non-empty code lines after each comment, not the whole implementation.
 
-## Commits: it finds the area a quarter of the time
+## Commits: half clear the shape ladder
 
 20 training commits, one arm, 20 calls. The comment spec is not guidance for
-writing code, so there is nothing to ablate.
+writing code, so there is nothing to ablate. The saved answers were rescored
+offline with a shared original-to-final diff algorithm for both generated and
+upstream changes; no new generation calls were made.
 
 | | Count |
 | --- | ---: |
 | Answers that applied to the sources | 20/20 |
-| Answers that overlapped the real change at all | 15/20 |
-| Of those, no more invasive than the real change | 3/15 |
-| Of those, in the right place (overlap 0.5 or more) | 1/3 |
-| Mean overlap with the real change | 0.25 |
+| Answers that overlapped the real change at all | 12/20 |
+| Of those, no more invasive than the real change | 12/12 |
+| Of those, in the right place (overlap 0.5 or more) | 10/12 |
+| Mean overlap with the real change | 0.40 |
 
-Every answer applied, which says the edit format works. Five missed the real
-change completely. Among the fifteen that did not, invasiveness fails for one
-reason and one only: the model changes more lines than the commit did, median
-7 against 3. It never touched an extra file, never touched a header the real
-change left alone, and never introduced more new symbols. It writes a larger
-version of roughly the right change.
+Every answer applied; eight missed the upstream change completely. Among
+the twelve that overlapped it, all pass the invasiveness proxy and ten also
+reach 0.5 overlap. Across all twenty, the median is 2 changed lines against
+3 upstream. The earlier claim of larger generated changes was caused by
+counting unchanged replacement anchors. It is withdrawn.
 
 Nothing here was compiled or tested, so none of it says whether a change is
 correct.

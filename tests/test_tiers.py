@@ -1,11 +1,14 @@
 """The four criteria, and whether their claimed difficulty order survives."""
 
 from pathlib import Path
+import tempfile
 import unittest
 
 from claudish.corpus import cases
 from claudish.tiers import (case_criteria, code_shaped, ladder, length_band,
-                            measure_comment)
+                            measure_comment, score_run)
+from claudish.io import digest, write_json
+from claudish.filelevel import JUDGMENTS
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -64,6 +67,31 @@ class Measures(unittest.TestCase):
             measured = measure_comment(item["reference"], item)
             self.assertEqual(measured["length_band"], item["length_band"])
             self.assertLessEqual(measured["restatement_fraction"], 1.0)
+
+
+class SavedFileGrades(unittest.TestCase):
+    def test_legacy_grades_are_ignored_and_v2_requires_matching_inputs(self):
+        corpus = [case()]
+        rows = [row(" ".join(["word"] * 40), deficits(), deficits())]
+        grades = [{"path": case()["path"], "arm": arm, "optimal": {"passed": True}}
+                  for arm in ("with_spec", "without_spec")]
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp)
+            write_json(output / "manifest.json", {"name": "fixture", "task_sha256": "task",
+                                                   "spec_sha256": "spec"})
+            write_json(output / "results.json", rows)
+            write_json(output / "file-judgments.json", {"files": grades})
+            result = score_run(output, lambda manifest: corpus)
+            self.assertNotIn("optimal", result["ladder"]["with_spec"])
+            saved = {"version": 2, "inputs": {"rows_sha256": digest(rows),
+                                               "corpus_sha256": digest(corpus)}, "files": grades}
+            write_json(output / JUDGMENTS, saved)
+            result = score_run(output, lambda manifest: corpus)
+            self.assertEqual(result["ladder"]["with_spec"]["optimal"]["passed"], 1)
+            for key in ("rows_sha256", "corpus_sha256"):
+                write_json(output / JUDGMENTS, {**saved, "inputs": {**saved["inputs"], key: "changed"}})
+                with self.assertRaisesRegex(ValueError, "do not match"):
+                    score_run(output, lambda manifest: corpus)
 
 
 class Criteria(unittest.TestCase):

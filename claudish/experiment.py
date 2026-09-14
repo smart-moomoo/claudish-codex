@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 import difflib
 from pathlib import Path
 import random
-import shutil
 
 from .corpus import cases, directory
 from .cpp import render_comment, scan, assert_code_preserved
@@ -89,9 +88,9 @@ def _completed(call_dir):
 
 
 def _discard(call_dir):
-    """Drop an unfinished attempt so the call can be made cleanly."""
-    if call_dir.exists():
-        shutil.rmtree(call_dir)
+    """Keep an unfinished attempt before starting a fresh call."""
+    from .saved import archive_attempt
+    archive_attempt(call_dir)
 
 
 def _generate_one(case, arm, repeat, *, output, task, spec, options, reuse=False):
@@ -305,6 +304,8 @@ def reload_corpus(manifest):
     data_dir = Path(manifest["corpus_dir"])
     if digest(read_json(data_dir / "cases.json")) != manifest["cases_sha256"]:
         raise ValueError("Corpus changed since the run started")
+    if digest(read_json(data_dir / "sources.lock.json")) != manifest.get("source_lock_sha256"):
+        raise ValueError("Source lock changed since the run started")
     corpus = cases(data_dir, manifest["split"], data_dir)
     if [case["id"] for case in corpus] != manifest["case_ids"]:
         raise ValueError("Corpus cases differ from the run manifest")

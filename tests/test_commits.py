@@ -66,6 +66,47 @@ class Patches(unittest.TestCase):
 
 
 class Answers(unittest.TestCase):
+    def test_anchor_width_trailing_newline_and_sequential_offsets_do_not_change_shape(self):
+        source = "int a = 0;\nint b = 0;\nint c = 0;\n"
+        after = source.replace("b = 0", "b = 1")
+        def apply(edits):
+            result, invalid = apply_edits({"edits": [{"path": "a.cpp", "old_text": old,
+                                                       "new_text": new} for old, new in edits],
+                                            "explanation": "Fixture."}, {"a.cpp": source})
+            self.assertIsNone(invalid)
+            return result["shape"]
+        narrow = apply([("b = 0", "b = 1")])
+        self.assertEqual(narrow["touched_lines"], {"a.cpp": [2]})
+        self.assertEqual(narrow, apply([(source, after)]))
+        self.assertEqual(narrow, apply([("int b = 0;\n", "int b = 1;\n")]))
+        self.assertEqual(narrow, apply([("int a", "// temporary\nint a"),
+                                        ("b = 0", "b = 1"), ("// temporary\n", "")]))
+
+    def test_patch_and_generated_answer_use_identical_final_diff(self):
+        import difflib
+        source = "alpha\nbeta\ngamma\n"
+        for after in ("new\n" + source, source + "new\n", "alpha\ngamma\n",
+                      source.rstrip("\n")):
+            with self.subTest(after=after):
+                lines = list(difflib.unified_diff(source.splitlines(keepends=True),
+                                                after.splitlines(keepends=True),
+                                                fromfile="a/a.cpp", tofile="b/a.cpp"))
+                patch = "diff --git a/a.cpp b/a.cpp\n" + "".join(
+                    line if line.endswith("\n") else line + "\n\\ No newline at end of file\n"
+                    for line in lines)
+                applied, _ = apply_edits({"edits": [{"path": "a.cpp", "old_text": source,
+                                                      "new_text": after}],
+                                           "explanation": "Fixture."}, {"a.cpp": source})
+                self.assertEqual(applied["shape"], reference_change(patch, {"a.cpp": source}))
+
+    def test_edits_that_cancel_each_other_are_not_a_change(self):
+        applied, invalid = apply_edits({"edits": [
+            {"path": "a.cpp", "old_text": "one", "new_text": "two"},
+            {"path": "a.cpp", "old_text": "two", "new_text": "one"}],
+            "explanation": "Fixture."}, {"a.cpp": "one"})
+        self.assertIsNone(applied)
+        self.assertIn("no net change", invalid)
+
     def edit(self, **overrides):
         return {"edits": [{"path": "llvm/lib/Widget/Widget.cpp",
                            "old_text": "  MaxSlots = Slots;",

@@ -1,7 +1,5 @@
 {
-  "run": "commits-01-rescored",
-  "source_run": "commits-01",
-  "scoring_version": 2,
+  "run": "commits-01",
   "split": "train",
   "model": "gpt-5.6-sol",
   "effort": "medium",
@@ -9,11 +7,7 @@
     "baseline"
   ],
   "task_sha256": "6d1169efcde65dd69eafb244dad14ea72264c4562a6777997720847322fc7400",
-  "commits_sha256": "17a4a878b05fc328c852e886abefd7781fbb2073a72c0254a9ea207482611ac2",
   "overlap_threshold": 0.5,
-  "source_manifest_sha256": "7e2a7030e223fda8388774b8406e80cc995d8b6ef50cd826b8476c5d859968a1",
-  "results_sha256": "bbf426e69814076dfb8b8e186b7e5f74c97ea317a500d8956d30c76fdb1e585a",
-  "new_model_calls": 0,
   "summary": {
     "arms": {
       "baseline": {
@@ -25,22 +19,22 @@
         },
         "overlaps_real_change": {
           "judged": 20,
-          "passed": 12,
-          "pass_rate_of_standing": 0.6
+          "passed": 15,
+          "pass_rate_of_standing": 0.75
         },
         "invasive": {
-          "judged": 12,
-          "passed": 12,
-          "pass_rate_of_standing": 1.0,
-          "pass_rate_of_all": 0.6
+          "judged": 15,
+          "passed": 3,
+          "pass_rate_of_standing": 0.2,
+          "pass_rate_of_all": 0.15
         },
         "optimal": {
-          "judged": 12,
-          "passed": 10,
-          "pass_rate_of_standing": 0.8333333333333334,
-          "pass_rate_of_all": 0.5
+          "judged": 3,
+          "passed": 1,
+          "pass_rate_of_standing": 0.3333333333333333,
+          "pass_rate_of_all": 0.05
         },
-        "mean_region_overlap": 0.39990800865800863,
+        "mean_region_overlap": 0.24882876926994574,
         "interpretation": "Shape only: nothing was compiled or tested, so none of this says a change is correct. An answer that does not apply, or that misses the real change entirely, is counted as failing before any shape measure is taken."
       }
     },
@@ -55,9 +49,9 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.0,
-      "changed_lines": 2,
+      "changed_lines": 18,
       "reference_changed_lines": 3,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -66,11 +60,11 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.8333333333333334,
-      "changed_lines": 5,
+      "region_overlap": 0.35714285714285715,
+      "changed_lines": 13,
       "reference_changed_lines": 6,
-      "invasive_passed": true,
-      "optimal_passed": true
+      "invasive_passed": false,
+      "optimal_passed": false
     },
     {
       "id": "commit-256a0eaf23b2",
@@ -78,8 +72,8 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.5714285714285714,
-      "changed_lines": 4,
+      "region_overlap": 0.5,
+      "changed_lines": 5,
       "reference_changed_lines": 7,
       "invasive_passed": true,
       "optimal_passed": true
@@ -90,11 +84,11 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 1.0,
-      "changed_lines": 1,
+      "region_overlap": 0.14285714285714285,
+      "changed_lines": 7,
       "reference_changed_lines": 1,
-      "invasive_passed": true,
-      "optimal_passed": true
+      "invasive_passed": false,
+      "optimal_passed": false
     },
     {
       "id": "commit-4759c6ef8b4a",
@@ -102,8 +96,8 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.0,
-      "changed_lines": 1,
+      "region_overlap": 0.030303030303030304,
+      "changed_lines": 7,
       "reference_changed_lines": 27,
       "invasive_passed": true,
       "optimal_passed": false
@@ -114,10 +108,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.0,
-      "changed_lines": 1,
+      "region_overlap": 0.2,
+      "changed_lines": 4,
       "reference_changed_lines": 2,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -126,10 +120,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.6666666666666666,
-      "changed_lines": 2,
+      "region_overlap": 0.6,
+      "changed_lines": 5,
       "reference_changed_lines": 3,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": true
     },
     {
@@ -138,11 +132,11 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 1.0,
-      "changed_lines": 2,
+      "region_overlap": 0.06666666666666667,
+      "changed_lines": 14,
       "reference_changed_lines": 2,
-      "invasive_passed": true,
-      "optimal_passed": true
+      "invasive_passed": false,
+      "optimal_passed": false
     },
     {
       "id": "commit-7adf83beece3",
@@ -151,9 +145,9 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.5,
-      "changed_lines": 1,
+      "changed_lines": 4,
       "reference_changed_lines": 2,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": true
     },
     {
@@ -162,11 +156,11 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.5,
-      "changed_lines": 1,
+      "region_overlap": 0.2,
+      "changed_lines": 4,
       "reference_changed_lines": 2,
-      "invasive_passed": true,
-      "optimal_passed": true
+      "invasive_passed": false,
+      "optimal_passed": false
     },
     {
       "id": "commit-87c7863c3ec4",
@@ -174,10 +168,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.5714285714285714,
-      "changed_lines": 4,
+      "region_overlap": 0.6666666666666666,
+      "changed_lines": 8,
       "reference_changed_lines": 7,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": true
     },
     {
@@ -186,8 +180,8 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.36363636363636365,
-      "changed_lines": 4,
+      "region_overlap": 0.2857142857142857,
+      "changed_lines": 7,
       "reference_changed_lines": 11,
       "invasive_passed": true,
       "optimal_passed": false
@@ -199,9 +193,9 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.0,
-      "changed_lines": 1,
+      "changed_lines": 4,
       "reference_changed_lines": 2,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -210,10 +204,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.0,
-      "changed_lines": 1,
+      "region_overlap": 0.25,
+      "changed_lines": 4,
       "reference_changed_lines": 1,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -222,10 +216,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.125,
-      "changed_lines": 2,
+      "region_overlap": 0.46153846153846156,
+      "changed_lines": 12,
       "reference_changed_lines": 7,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -234,11 +228,11 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 0.8666666666666667,
-      "changed_lines": 14,
+      "region_overlap": 0.21568627450980393,
+      "changed_lines": 48,
       "reference_changed_lines": 14,
-      "invasive_passed": true,
-      "optimal_passed": true
+      "invasive_passed": false,
+      "optimal_passed": false
     },
     {
       "id": "commit-b5d9a7e72faf",
@@ -247,9 +241,9 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.0,
-      "changed_lines": 4,
+      "changed_lines": 11,
       "reference_changed_lines": 4,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -258,10 +252,10 @@
       "arm": "baseline",
       "applied": true,
       "invalid": null,
-      "region_overlap": 1.0,
-      "changed_lines": 3,
+      "region_overlap": 0.5,
+      "changed_lines": 6,
       "reference_changed_lines": 3,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": true
     },
     {
@@ -271,9 +265,9 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.0,
-      "changed_lines": 1,
+      "changed_lines": 6,
       "reference_changed_lines": 1,
-      "invasive_passed": true,
+      "invasive_passed": false,
       "optimal_passed": false
     },
     {
@@ -283,13 +277,11 @@
       "applied": true,
       "invalid": null,
       "region_overlap": 0.0,
-      "changed_lines": 3,
+      "changed_lines": 6,
       "reference_changed_lines": 2,
       "invasive_passed": false,
       "optimal_passed": false
     }
   ],
-  "median_changed_lines": 2.0,
-  "median_reference_changed_lines": 3.0,
-  "note": "Shape only. Nothing was compiled or tested. Original and final sources use the same diff algorithm; replacement anchors are not counted as edits."
+  "note": "Shape only. Nothing was compiled or tested."
 }
