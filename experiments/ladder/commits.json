@@ -1,0 +1,295 @@
+{
+  "run": "commits-01-rescored",
+  "source_run": "commits-01",
+  "scoring_version": 2,
+  "split": "train",
+  "model": "gpt-5.6-sol",
+  "effort": "medium",
+  "arms": [
+    "baseline"
+  ],
+  "task_sha256": "6d1169efcde65dd69eafb244dad14ea72264c4562a6777997720847322fc7400",
+  "commits_sha256": "17a4a878b05fc328c852e886abefd7781fbb2073a72c0254a9ea207482611ac2",
+  "overlap_threshold": 0.5,
+  "source_manifest_sha256": "7e2a7030e223fda8388774b8406e80cc995d8b6ef50cd826b8476c5d859968a1",
+  "results_sha256": "bbf426e69814076dfb8b8e186b7e5f74c97ea317a500d8956d30c76fdb1e585a",
+  "new_model_calls": 0,
+  "summary": {
+    "arms": {
+      "baseline": {
+        "cases": 20,
+        "applies": {
+          "judged": 20,
+          "passed": 20,
+          "pass_rate_of_standing": 1.0
+        },
+        "overlaps_real_change": {
+          "judged": 20,
+          "passed": 12,
+          "pass_rate_of_standing": 0.6
+        },
+        "invasive": {
+          "judged": 12,
+          "passed": 12,
+          "pass_rate_of_standing": 1.0,
+          "pass_rate_of_all": 0.6
+        },
+        "optimal": {
+          "judged": 12,
+          "passed": 10,
+          "pass_rate_of_standing": 0.8333333333333334,
+          "pass_rate_of_all": 0.5
+        },
+        "mean_region_overlap": 0.39990800865800863,
+        "interpretation": "Shape only: nothing was compiled or tested, so none of this says a change is correct. An answer that does not apply, or that misses the real change entirely, is counted as failing before any shape measure is taken."
+      }
+    },
+    "cases": 20,
+    "overlap_threshold": 0.5
+  },
+  "cases": [
+    {
+      "id": "commit-138451c771ab",
+      "url": "https://github.com/llvm/llvm-project/commit/138451c771abe013b7b99650faeb7ae6010f7a8d",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 2,
+      "reference_changed_lines": 3,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-2142e20f5095",
+      "url": "https://github.com/llvm/llvm-project/commit/2142e20f50954b9b5085e9b9461efc318a3348c0",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.8333333333333334,
+      "changed_lines": 5,
+      "reference_changed_lines": 6,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-256a0eaf23b2",
+      "url": "https://github.com/llvm/llvm-project/commit/256a0eaf23b213706f9ccb6b35152dc7a1c03290",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.5714285714285714,
+      "changed_lines": 4,
+      "reference_changed_lines": 7,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-3f4ba96a59a9",
+      "url": "https://github.com/llvm/llvm-project/commit/3f4ba96a59a9329ce819f735550882519a4f6cb5",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 1.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 1,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-4759c6ef8b4a",
+      "url": "https://github.com/llvm/llvm-project/commit/4759c6ef8b4ab8d17be3a5e6c96e890944bc515d",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 27,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-6078f2fedcac",
+      "url": "https://github.com/llvm/llvm-project/commit/6078f2fedcac5797ac39ee5ef3fd7a35ef1202d5",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 2,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-65c0805be523",
+      "url": "https://github.com/llvm/llvm-project/commit/65c0805be523445d7ad0f12e90f53648e1ae9f84",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.6666666666666666,
+      "changed_lines": 2,
+      "reference_changed_lines": 3,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-6aca3e8dfa22",
+      "url": "https://github.com/llvm/llvm-project/commit/6aca3e8dfa228fb75e410e34db74982a0ab3939f",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 1.0,
+      "changed_lines": 2,
+      "reference_changed_lines": 2,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-7adf83beece3",
+      "url": "https://github.com/llvm/llvm-project/commit/7adf83beece381d153f8b4a67fa341d13f9c4ba2",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.5,
+      "changed_lines": 1,
+      "reference_changed_lines": 2,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-7dc4bbf8ab31",
+      "url": "https://github.com/llvm/llvm-project/commit/7dc4bbf8ab311606388faacca58b6c3e3e508b77",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.5,
+      "changed_lines": 1,
+      "reference_changed_lines": 2,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-87c7863c3ec4",
+      "url": "https://github.com/llvm/llvm-project/commit/87c7863c3ec4b66944bfcf39efd666de417f28b8",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.5714285714285714,
+      "changed_lines": 4,
+      "reference_changed_lines": 7,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-884a65af5cee",
+      "url": "https://github.com/llvm/llvm-project/commit/884a65af5ceebce76519749ed6eb9a86d0596771",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.36363636363636365,
+      "changed_lines": 4,
+      "reference_changed_lines": 11,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-967658150edb",
+      "url": "https://github.com/llvm/llvm-project/commit/967658150edb2cbb860c19ce54ac1e216bdc8461",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 2,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-9db3e5d5156b",
+      "url": "https://github.com/llvm/llvm-project/commit/9db3e5d5156bc2a3ba8ec0d70ab7069a82472fbb",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 1,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-ad741853c388",
+      "url": "https://github.com/llvm/llvm-project/commit/ad741853c38880dff99cd5b5035b8965c5a73011",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.125,
+      "changed_lines": 2,
+      "reference_changed_lines": 7,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-b4dd928ffbb8",
+      "url": "https://github.com/llvm/llvm-project/commit/b4dd928ffbb8232d6909b640d3affcd531681ffb",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.8666666666666667,
+      "changed_lines": 14,
+      "reference_changed_lines": 14,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-b5d9a7e72faf",
+      "url": "https://github.com/llvm/llvm-project/commit/b5d9a7e72fafaead89f0cc8994925c90ed3169be",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 4,
+      "reference_changed_lines": 4,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-b905b85eedfc",
+      "url": "https://github.com/llvm/llvm-project/commit/b905b85eedfcf33e7969de1068086889d490ba17",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 1.0,
+      "changed_lines": 3,
+      "reference_changed_lines": 3,
+      "invasive_passed": true,
+      "optimal_passed": true
+    },
+    {
+      "id": "commit-fc12083cbc5c",
+      "url": "https://github.com/llvm/llvm-project/commit/fc12083cbc5caa0e60a8e12bab9c34f71a4b31b1",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 1,
+      "reference_changed_lines": 1,
+      "invasive_passed": true,
+      "optimal_passed": false
+    },
+    {
+      "id": "commit-fe37d9ecaabd",
+      "url": "https://github.com/llvm/llvm-project/commit/fe37d9ecaabda4f9948f35bb20c1a13687a7eaca",
+      "arm": "baseline",
+      "applied": true,
+      "invalid": null,
+      "region_overlap": 0.0,
+      "changed_lines": 3,
+      "reference_changed_lines": 2,
+      "invasive_passed": false,
+      "optimal_passed": false
+    }
+  ],
+  "median_changed_lines": 2.0,
+  "median_reference_changed_lines": 3.0,
+  "note": "Shape only. Nothing was compiled or tested. Original and final sources use the same diff algorithm; replacement anchors are not counted as edits."
+}

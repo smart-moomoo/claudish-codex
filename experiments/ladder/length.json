@@ -1,0 +1,56 @@
+{
+  "run": "train-01",
+  "task_sha256": "276ffbb0efbcfc8691e257857f70398f94bf937cef50d929c6fea9aae95215a1",
+  "spec_sha256": "f271a6340124c2b3b748f0ca1c1d164c8286ebfc66a8da3b4337a6c6934d7bb9",
+  "summary": {
+    "pairs": 250,
+    "upstream_word_count_sd": 58.114418231844176,
+    "without_spec": {
+      "mean_word_count": 30.464,
+      "word_count_sd": 15.044802702375783,
+      "length_band_matches_upstream": 0.24,
+      "mean_restatement_fraction": 0.01664656199767739,
+      "mean_foreign_symbols_per_100_words": 0.8612589090015006,
+      "length_correlation_with_upstream": 0.41568828386341716,
+      "length_slope_against_upstream": 0.10761439943293448
+    },
+    "with_spec": {
+      "mean_word_count": 28.068,
+      "word_count_sd": 15.311470881735987,
+      "length_band_matches_upstream": 0.192,
+      "mean_restatement_fraction": 0.020036369869439623,
+      "mean_foreign_symbols_per_100_words": 0.8869932423170915,
+      "length_correlation_with_upstream": 0.39823553237093934,
+      "length_slope_against_upstream": 0.10492356188862376
+    },
+    "upstream": {
+      "mean_word_count": 81.244,
+      "word_count_sd": 58.114418231844176,
+      "length_band_matches_upstream": 1.0,
+      "mean_restatement_fraction": 0.01978669092562432,
+      "mean_foreign_symbols_per_100_words": 2.122505891493912
+    },
+    "bands": {
+      "long": {
+        "cases": 83,
+        "without_spec": 37.98795180722892,
+        "with_spec": 35.204819277108435,
+        "upstream": 149.66265060240963
+      },
+      "medium": {
+        "cases": 83,
+        "without_spec": 30.156626506024097,
+        "with_spec": 27.518072289156628,
+        "upstream": 65.07228915662651
+      },
+      "short": {
+        "cases": 84,
+        "without_spec": 23.333333333333332,
+        "with_spec": 21.55952380952381,
+        "upstream": 29.61904761904762
+      }
+    },
+    "interpretation": "Slope is how many words a comment gains for each word the upstream comment at that location has. One would mean length follows the location; zero means the same length everywhere regardless of what the code needs."
+  },
+  "note": "Measured from the 500-comment training generations, which were made with the neutral task rather than the long-block task the 150-comment study used. The two tasks are compared in the README."
+}

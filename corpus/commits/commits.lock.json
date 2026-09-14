@@ -1,0 +1,753 @@
+{
+  "repository": "https://github.com/llvm/llvm-project",
+  "pin": "d32170dbd5b0d54436537b6b75beaf44324e0c28",
+  "seed": 20260913,
+  "scanned": 700,
+  "limits": {
+    "max_files": 3,
+    "max_changed_lines": 60,
+    "min_changed_lines": 4,
+    "max_context_bytes": 200000,
+    "min_message_words": 8
+  },
+  "selection_sha256": "bc698c117de90593096b69ad5882fd29e6fda101ee5ab9cb02b7fd77e1a88314",
+  "commits": [
+    {
+      "id": "commit-0b8a540dff86",
+      "sha": "0b8a540dff86662fc9426bb4dd8797c547db5000",
+      "parent": "211aa5bf59eb36cd40b38b596901b6ce7cc84ba2",
+      "split": "test",
+      "subject": "[AArch64][ARM] Always expand ordered vector reductions (PR44600)",
+      "message": "fadd/fmul reductions without reassoc are lowered to\nVECREDUCE_STRICT_FADD/FMUL nodes, which don't have legalization\nsupport. Until that is in place, expand these intrinsics on\nARM and AArch64. Other targets always expand the vector reduction\nintrinsics.\n\nAdditionally expand fmax/fmin reductions without nonan flag on\nAArch64, as the backend asserts that the flag is present when\nlowering VECREDUCE_FMIN/FMAX.\n\nThis fixes https://bugs.llvm.org/show_bug.cgi?id=44600.\n\n\n\n(cherry picked from commit 70d345e687caba4ac1f95655c6924dfa91e0083f)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AArch64/AArch64TargetTransformInfo.h",
+          "sha256": "718754236888a7f6d097bd08915acd50ce5aa9de1d685c2ab62b0b764089116c",
+          "bytes": 6657
+        },
+        {
+          "path": "llvm/lib/Target/ARM/ARMTargetTransformInfo.h",
+          "sha256": "50a24732652a63e4a44357a4577ad22f00626343b563effaedbacbf2014e2cd0",
+          "bytes": 8748
+        }
+      ],
+      "patch_sha256": "36ce5d859330e741287513d10360d667c04cb6e0ffd2dd2a1667238e311f7903",
+      "changed_lines": 27,
+      "url": "https://github.com/llvm/llvm-project/commit/0b8a540dff86662fc9426bb4dd8797c547db5000"
+    },
+    {
+      "id": "commit-0bf4795d0696",
+      "sha": "0bf4795d069642afe2a430521f3549e425f092c9",
+      "parent": "99e5b2ff9df5ca4c7fe13b63f60d953058cd9ca3",
+      "split": "validation",
+      "subject": "[WinEH] Fix inttoptr+phi optimization in presence of catchswitch",
+      "message": "getFirstInsertionPt's return value must be checked for validity before\ncasting it to Instruction*. Don't attempt to insert casts after a phi in\na catchswitch block.\n\nFixes PR45033, introduced in D37832.\n\n\n\n\n\n(cherry picked from commit 1adbe86d87bd4ecffc73ab17c7da56f44816f424)",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombinePHI.cpp",
+          "sha256": "63526ed7296fb0feca1936cc351ded1745e3fd99531f076f9421af129cb95aa2",
+          "bytes": 48340
+        }
+      ],
+      "patch_sha256": "4cc2b0db89c37f2998650421a95afa68ab7766ad8962aff3c1c6bd3de08f2d00",
+      "changed_lines": 18,
+      "url": "https://github.com/llvm/llvm-project/commit/0bf4795d069642afe2a430521f3549e425f092c9"
+    },
+    {
+      "id": "commit-138451c771ab",
+      "sha": "138451c771abe013b7b99650faeb7ae6010f7a8d",
+      "parent": "587b3b2a13d27c50006607a6b7e7458e6d7cc3fa",
+      "split": "train",
+      "subject": "[StackColoring] Remap FixedStackPseudoSourceValue frame index referenced by MachineMemOperand",
+      "message": "StackColoring::remapInstructions() remaps MachineOperand frame index (e.g. %stack.1 -> %stack.0)\nbut does not remap FixedStackPseudoSourceValue frame index (e.g. store 4 into %stack.1.ap2.i.i)\nreferenced by MachineMemoryOperand.\n\nThis can cause an assertion failure when LiveDebugValues references a dead stack object.\n\nIt is difficult to craft a test case. -g, va_copy and stack-coloring are required.\nI can only reproduce it on ppc32.\n\n(cherry picked from commit eaab1bf21e1d6803fd217fe6052537fc33b06837)\n(cherry picked from commit 854f7be20a0cb1a95671a16d6cc8200107ee25f4)\n(cherry picked from commit 7a8b0b1595e7dc878b48cf9bbaa652087a6895db)",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/StackColoring.cpp",
+          "sha256": "7738b4f11d96025a173fb4081fbb86349f79564df975c0ba7495ed58a0299dc3",
+          "bytes": 49189
+        }
+      ],
+      "patch_sha256": "d0d571f79390334a5a928ff6efafc5b6faaf3b20f0cc1bba18a68aa91d3f7189",
+      "changed_lines": 19,
+      "url": "https://github.com/llvm/llvm-project/commit/138451c771abe013b7b99650faeb7ae6010f7a8d"
+    },
+    {
+      "id": "commit-1cc8fff420a7",
+      "sha": "1cc8fff420a76ae869f73ce2b19e7c1fc73da3ed",
+      "parent": "192cce10f67e4f22be6d9b8c0975f78ad246d1bd",
+      "split": "validation",
+      "subject": "[AArch64] Fix save register pairing for Windows AAPCS",
+      "message": "On Windows, when a function does not have an unwind table (for example, EH\nfiltering funclets), we don't correctly pair FP and LR to form the frame record\nin all circumstances.\n\nFix this by invalidating a pair when the second register is FP when compiling\nfor Windows, even when CFI is not needed.\n\nFixes PR44271 introduced by D65653.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AArch64/AArch64FrameLowering.cpp",
+          "sha256": "61f3b193415aa48e25433389725e7b0b08333b56272f5a5ecf31578399376a4d",
+          "bytes": 105506
+        }
+      ],
+      "patch_sha256": "0718df756b1370d6ea9366a5851718a5eb1f648ab249757b47eafd8b69940ae7",
+      "changed_lines": 20,
+      "url": "https://github.com/llvm/llvm-project/commit/1cc8fff420a76ae869f73ce2b19e7c1fc73da3ed"
+    },
+    {
+      "id": "commit-2142e20f5095",
+      "sha": "2142e20f50954b9b5085e9b9461efc318a3348c0",
+      "parent": "4b1d471fa61f2d390d4dd5f2e95862a3cb5a6ec0",
+      "split": "train",
+      "subject": "[DWARF] Fix DWARFDebugAranges to support 64-bit CU offsets.",
+      "message": "DWARFContext, the only user of this class, can already handle such offsets.",
+      "files": [
+        {
+          "path": "llvm/include/llvm/DebugInfo/DWARF/DWARFDebugAranges.h",
+          "sha256": "2c51a6ec721b917a46b911d29ce86dee9ca23a06d370205e0235c9aea8da404a",
+          "bytes": 2314
+        },
+        {
+          "path": "llvm/lib/DebugInfo/DWARF/DWARFDebugAranges.cpp",
+          "sha256": "7c476fc99786a6162a814f00f01191a6738a196cc23ab63d64d6d165b6cf29d0",
+          "bytes": 4011
+        }
+      ],
+      "patch_sha256": "241a801a4a1acc13214cca6ad196f2dbf00b3b0b395c797889022d05c02c2361",
+      "changed_lines": 12,
+      "url": "https://github.com/llvm/llvm-project/commit/2142e20f50954b9b5085e9b9461efc318a3348c0"
+    },
+    {
+      "id": "commit-222de784df45",
+      "sha": "222de784df453659144c6d07b530e7858c980021",
+      "parent": "a0fe9e0517637c97f4f282bd3b76f2406a6cc1b2",
+      "split": "test",
+      "subject": "[X86CmovConversion] Make heuristic for optimized cmov depth more conservative (PR44539)",
+      "message": "Fix/workaround for https://bugs.llvm.org/show_bug.cgi?id=44539.\nAs discussed there, this pass makes some overly optimistic\nassumptions, as it does not have access to actual branch weights.\n\nThis patch makes the computation of the depth of the optimized cmov\nmore conservative, by assuming a distribution of 75/25 rather than\n50/50 and placing the weights to get the more conservative result\n(larger depth). The fully conservative choice would be\nstd::max(TrueOpDepth, FalseOpDepth), but that would break at least\none existing test (which may or may not be an issue in practice).\n\n\n\n(cherry picked from commit 5eb19bf4a2b0c29a8d4d48dfb0276f096eff9bec)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/X86/X86CmovConversion.cpp",
+          "sha256": "1678eb68594adb4ed6dae4e87e7d84e93e123577bff20c5426af124017d91969",
+          "bytes": 34907
+        }
+      ],
+      "patch_sha256": "bbc2f6723a06cd5636bcb01ac75f73ddc91122b5229a689a26f35791d38dc876",
+      "changed_lines": 13,
+      "url": "https://github.com/llvm/llvm-project/commit/222de784df453659144c6d07b530e7858c980021"
+    },
+    {
+      "id": "commit-256a0eaf23b2",
+      "sha": "256a0eaf23b213706f9ccb6b35152dc7a1c03290",
+      "parent": "f234f5c2b1ed6486fe578744fe673912ef68b945",
+      "split": "train",
+      "subject": "[X86] Make `llc --help` output readable again",
+      "message": "Long `cl::value_desc()` is added right after the flag name,\nbefore `cl::desc()` column. And thus the `cl::desc()` column,\nfor all flags, is padded to the right,\nwhich makes the output unreadable.\n\n(cherry picked from commit 70cbf8c71c510077baadcad305fea6f62e830b06)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/X86/MCTargetDesc/X86AsmBackend.cpp",
+          "sha256": "071b92bdb73097c1098b677441b7bc4e137cd97297e25cdad81a031ed904e218",
+          "bytes": 42401
+        }
+      ],
+      "patch_sha256": "3fee08872add179d12f2392052c86949f071bcf35bb33c9d1b73c5f1e2ed6815",
+      "changed_lines": 14,
+      "url": "https://github.com/llvm/llvm-project/commit/256a0eaf23b213706f9ccb6b35152dc7a1c03290"
+    },
+    {
+      "id": "commit-2cefb93951cc",
+      "sha": "2cefb93951cca01dcdde6fe5c7354dc8bcd796d6",
+      "parent": "bec1b55c64cf33d5f33c8cb7cc10d02e25811bef",
+      "split": "validation",
+      "subject": "[ThinLTO/WPD] Remove an overly-aggressive assert",
+      "message": "An assert added to the index-based WPD was trying to verify that we only\nhave multiple vtables for a given guid when they are all non-external\nlinkage. This is too conservative because we may have multiple external\nvtable with the same guid when they are in comdat. Remove the assert,\nas we don't have comdat information in the index, the linker should\nissue an error in this case.\n\nSee discussion on D71040 for more information.",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp",
+          "sha256": "a5ebf6cd7de6ec351ebf94a94310512ba8421fdfd3e12f646931f5b48d1c90e8",
+          "bytes": 78248
+        }
+      ],
+      "patch_sha256": "e8087e9628e3375abd85cfe79e24f7cc4534248be7721f49c73c2d0756d97b67",
+      "changed_lines": 11,
+      "url": "https://github.com/llvm/llvm-project/commit/2cefb93951cca01dcdde6fe5c7354dc8bcd796d6"
+    },
+    {
+      "id": "commit-31aed2e0dad2",
+      "sha": "31aed2e0dad25d43039a9b933b1b95fbdeb27704",
+      "parent": "c05a11108b9a9deb266c3c1758677462df61e05e",
+      "split": "validation",
+      "subject": "=?UTF-8?q?Fix=20\"MIParser::getIRValue(unsigned=20int)?= =?UTF-8?q?=E2=80=99=20defined=20but=20not=20used\"=20warning.=20NFCI.?=",
+      "message": "MIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/MIRParser/MIParser.cpp",
+          "sha256": "a2d812cedb1e5784f5b129b920ebf2993ddcbd2f7d7c8de9086f34b67aaad507",
+          "bytes": 107634
+        }
+      ],
+      "patch_sha256": "0d5a0e2b00bc9a4a276ef41b85e9695bdae20c4b2ac81f8f5df68d44ff36bf8f",
+      "changed_lines": 6,
+      "url": "https://github.com/llvm/llvm-project/commit/31aed2e0dad25d43039a9b933b1b95fbdeb27704"
+    },
+    {
+      "id": "commit-3d8f1b2d22be",
+      "sha": "3d8f1b2d22be79aab3d246fa5bc9c24b911b0bd2",
+      "parent": "2f090cc8f1a3144c81b024bdc52ec1ae49dc0def",
+      "split": "test",
+      "subject": "AMDGPU/GlobalISel: Set insert point after waterfall loop",
+      "message": "The current users of the waterfall loop utility functions do not make\nuse of the restored original insert point. The insertion is either\ndone, or they set the insert point somewhere else. A future change\nwill want to insert instructions after the waterfall loop, but\nfiguring out the point after the loop is more difficult than ensuring\nthe insert point is there after the loop.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AMDGPU/AMDGPURegisterBankInfo.cpp",
+          "sha256": "76b41640b9c8255f4bd5f8743c6380c45005c61e7792d8f35d71278189a9e6b6",
+          "bytes": 126660
+        }
+      ],
+      "patch_sha256": "8b6998878d053b6f6020539132feb73f4d89ed1cf8d745b85f6712d5c3b63d72",
+      "changed_lines": 5,
+      "url": "https://github.com/llvm/llvm-project/commit/3d8f1b2d22be79aab3d246fa5bc9c24b911b0bd2"
+    },
+    {
+      "id": "commit-3f4ba96a59a9",
+      "sha": "3f4ba96a59a9329ce819f735550882519a4f6cb5",
+      "parent": "720870ee60a2cf5259bdc5e9b2a5336381a165fc",
+      "split": "train",
+      "subject": "[BPF] disable ReduceLoadWidth during SelectionDag phase",
+      "message": "The compiler may transform the following code\n  ctx = ctx + reloc_offset\n  ... (*(u32 *)ctx) & 0x8000 ...\nto\n  ctx = ctx + reloc_offset\n  ... (*(u8 *)(ctx + 1)) & 0x80 ...\nwhere reloc_offset will be replaced with a constant during\nAsmPrinter phase.\n\nThe above transformed code will be rejected the kernel verifier\nas it does not allow\n  *(type *)((ctx + non_zero_offset1) + non_zero_offset2)\nstyle access pattern.\n\nIt is hard at SelectionDag phase to identify whether a load\nis related to context or not. Sometime, interprocedure analysis\nmay be needed. So let us simply prevent such optimization\nfrom happening.\n\n\n\n(cherry picked from commit d96c1bbaa03574daf759e5e9a6c75047c5e3af64)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/BPF/BPFISelLowering.h",
+          "sha256": "4f16de44e9038d434bbea4dcfc0f103acd902dbc97bf2109c50b9fa4ba8dd153",
+          "bytes": 4626
+        }
+      ],
+      "patch_sha256": "57c0ed67174a4f815a2c790004115268694b3a5a5ddc50e688438cceb32f0425",
+      "changed_lines": 13,
+      "url": "https://github.com/llvm/llvm-project/commit/3f4ba96a59a9329ce819f735550882519a4f6cb5"
+    },
+    {
+      "id": "commit-4759c6ef8b4a",
+      "sha": "4759c6ef8b4ab8d17be3a5e6c96e890944bc515d",
+      "parent": "64515b35844b925bdb76821d03ad4d7ddebe06e7",
+      "split": "train",
+      "subject": "[Support] When using SEH, create a impl instance for CrashRecoveryContext. NFCI.",
+      "message": "Previously, the SEH codepath in CrashRecoveryContext didn't create a CrashRecoveryContextImpl. The other codepaths (VEH and Unix) were creating it.\n\nWhen running with -fintegrated-cc1, this is needed to handle exit() as a jump to CrashRecoveryContext's exception filter, through a call to RaiseException. In that situation, we need a user-defined exception code, which is later interpreted as an exit() by the exception filter. This in turn needs to set RetCode accordingly, *inside* the exception filter, and *before* calling HandleCrash().\n\n\n\n(cherry picked from commit 2a3fa0fc5cd7d3398c0293915b0e569eaa0be24b)",
+      "files": [
+        {
+          "path": "llvm/lib/Support/CrashRecoveryContext.cpp",
+          "sha256": "d5cd885f386f4f207e09a753c41b35ff6eacf836390221ff93a9c5283c2d2240",
+          "bytes": 14738
+        }
+      ],
+      "patch_sha256": "16828d79d70f82cebea31b7dfea2fe2ada82344a396c0a565a1adb64f4cfc601",
+      "changed_lines": 60,
+      "url": "https://github.com/llvm/llvm-project/commit/4759c6ef8b4ab8d17be3a5e6c96e890944bc515d"
+    },
+    {
+      "id": "commit-4bcdac8d7627",
+      "sha": "4bcdac8d762794d822819eb6d207a0630c345d0b",
+      "parent": "f004359106cfda578733dff1380560b68f9c3713",
+      "split": "test",
+      "subject": "[RISCV] Correct the CallPreservedMask for the function call in an interrupt handler",
+      "message": "CallPreservedMask is used to describe the register liveness after a\nfunction call. The function call in an interrupt handler should use the same\nCallPreservedMask as normal functions. So that only callee save registers\ncan live through the function call.\n\n(cherry picked from commit 1cae2f9d192c69833e22684ca338660942ab464e)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/RISCV/RISCVRegisterInfo.cpp",
+          "sha256": "9546f96b19df9513259eee87f301d5677be06b5ed81b59a401362ce175ce011a",
+          "bytes": 6534
+        }
+      ],
+      "patch_sha256": "d19d8319110c81e3263f67e793b1e22cd9dd2d94b995c95eeb197c69fdd8f396",
+      "changed_lines": 7,
+      "url": "https://github.com/llvm/llvm-project/commit/4bcdac8d762794d822819eb6d207a0630c345d0b"
+    },
+    {
+      "id": "commit-4d5a200f31d5",
+      "sha": "4d5a200f31d565cf7762a3cde30375f5d8a309c6",
+      "parent": "5d1fe1a1a9f18c5009e9e282b755e52c5e7ce5a2",
+      "split": "test",
+      "subject": "[PatchableFunction] Allow empty entry MachineBasicBlock",
+      "message": "(cherry picked from commit 50a3ff30e1587235d1830fec9694c1239302ab9f)",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/PatchableFunction.cpp",
+          "sha256": "4f6d80b8ecbf28e67e4259891c9638149f243408c367d1f30edc88ac2727fd95",
+          "bytes": 3512
+        }
+      ],
+      "patch_sha256": "987c21ea4b05254449ef6859827be3bf50df1574c00265019f2e5f472bcc971a",
+      "changed_lines": 11,
+      "url": "https://github.com/llvm/llvm-project/commit/4d5a200f31d565cf7762a3cde30375f5d8a309c6"
+    },
+    {
+      "id": "commit-593a0dda7a68",
+      "sha": "593a0dda7a683df9b3744c6391bb2f8de9ed5908",
+      "parent": "00f4618182ada5316650eebedac3702b73819ec0",
+      "split": "validation",
+      "subject": "[MemorySSA] Don't verify MemorySSA unless VerifyMemorySSA enabled",
+      "message": "MemorySSA is often taking up an unreasonable fraction of runtime in\nassertion enabled builds. Turns out that there is one code-path that\nruns verifyMemorySSA() even if VerifyMemorySSA is not enabled. This\npatch makes it conditional as well.\n\n\n\n(cherry picked from commit f0b57d8071853ec2ab459c0492854c67ea4fa93c)",
+      "files": [
+        {
+          "path": "llvm/lib/Analysis/MemorySSA.cpp",
+          "sha256": "46efee810d4f97387a8b0c2511ae3ca0390d145e3dce69395d87057abaf18e2a",
+          "bytes": 92266
+        }
+      ],
+      "patch_sha256": "16b67e3cfc4c63f096e12eeabdc7b8c3390091e52cb149ffbad8d036dd2516c5",
+      "changed_lines": 5,
+      "url": "https://github.com/llvm/llvm-project/commit/593a0dda7a683df9b3744c6391bb2f8de9ed5908"
+    },
+    {
+      "id": "commit-5f76fcc9796e",
+      "sha": "5f76fcc9796e1a68f44a79b7910a199c0db9fe82",
+      "parent": "cab81521b5afc2d4295f988aa5f087cbaeefb981",
+      "split": "validation",
+      "subject": "Fix unused function warning (PR44808)",
+      "message": "(cherry picked from commit a19de32095e4cdb18957e66609574ce2021a8d1c)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AMDGPU/SIPeepholeSDWA.cpp",
+          "sha256": "892475830800ff3e75053659da95334a5f6aa3d95647ff624d6fca6a01d82c3d",
+          "bytes": 43799
+        }
+      ],
+      "patch_sha256": "79d5dd136213f6bb05f50ce901528b5ed8eb853c9e9c63925c393aac82c7c696",
+      "changed_lines": 12,
+      "url": "https://github.com/llvm/llvm-project/commit/5f76fcc9796e1a68f44a79b7910a199c0db9fe82"
+    },
+    {
+      "id": "commit-6078f2fedcac",
+      "sha": "6078f2fedcac5797ac39ee5ef3fd7a35ef1202d5",
+      "parent": "1ca51c06729d7f7326fcc2a826e07d1c92158dfd",
+      "split": "train",
+      "subject": "[AArch64][GlobalISel]: Support @llvm.{return,frame}address selection.",
+      "message": "These intrinsics expand to a variable number of instructions so just like in\nISelLowering.cpp we use custom code to deal with them.\n\nCommitting Tim's original patch.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AArch64/AArch64InstructionSelector.cpp",
+          "sha256": "d5c243afb83d3b23dc0e6fc93939aebf9fdd3d9c4c9714cf004d1f435a7dfa0e",
+          "bytes": 177888
+        }
+      ],
+      "patch_sha256": "16fdd49700b5502963da933738b7b6995670dce31aa617d370446cad5b57f350",
+      "changed_lines": 39,
+      "url": "https://github.com/llvm/llvm-project/commit/6078f2fedcac5797ac39ee5ef3fd7a35ef1202d5"
+    },
+    {
+      "id": "commit-65c0805be523",
+      "sha": "65c0805be523445d7ad0f12e90f53648e1ae9f84",
+      "parent": "b4dd928ffbb8232d6909b640d3affcd531681ffb",
+      "split": "train",
+      "subject": "[InstCombine] Fix infinite loop due to bitcast <-> phi transforms",
+      "message": "Fix for https://bugs.llvm.org/show_bug.cgi?id=44245.\n\nThe optimizeBitCastFromPhi() and FoldPHIArgOpIntoPHI() end up\nfighting against each other, because optimizeBitCastFromPhi()\nassumes that bitcasts of loads will get folded. This doesn't\nhappen here, because a dangling phi node prevents the one-use\nfold in https://github.com/llvm/llvm-project/blob/master/llvm/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp#L620-L628 from triggering.\n\nThis patch fixes the issue by explicitly performing the load\ncombine as part of the bitcast of phi transform. Other attempts\nto force the load to be combined first were ultimately too\nunreliable.",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineCasts.cpp",
+          "sha256": "6caf096fdef283ac5bce20155d3cdf21c3ec80dfeb2e28614bad43ab05a32ccd",
+          "bytes": 105867
+        }
+      ],
+      "patch_sha256": "98fae0660d61d1a5168f1edb25c9f1b04bf0a2cd06a05ee34d72f864c5ec48a4",
+      "changed_lines": 11,
+      "url": "https://github.com/llvm/llvm-project/commit/65c0805be523445d7ad0f12e90f53648e1ae9f84"
+    },
+    {
+      "id": "commit-6aca3e8dfa22",
+      "sha": "6aca3e8dfa228fb75e410e34db74982a0ab3939f",
+      "parent": "dee6e39c7561a8b733cc260738ff7ea3ae78ee0c",
+      "split": "train",
+      "subject": "[FPEnv] Add some comments to IRBuilder.h",
+      "message": "As requested via post-commit comment for D71467, this adds comments\ndocumenting CreateFCmp vs. CreateFCmpS to the header file.",
+      "files": [
+        {
+          "path": "llvm/include/llvm/IR/IRBuilder.h",
+          "sha256": "8cbf5e4d04cc1a84242b4baea6b0d202018ccb3692c118df272deca4e9b52186",
+          "bytes": 116749
+        }
+      ],
+      "patch_sha256": "9405dac07913ce79123a667bbec5fcab1ccddd08197ab934736929694d335153",
+      "changed_lines": 6,
+      "url": "https://github.com/llvm/llvm-project/commit/6aca3e8dfa228fb75e410e34db74982a0ab3939f"
+    },
+    {
+      "id": "commit-77cc690bae31",
+      "sha": "77cc690bae310f4cba0a34f2da8a37a7c9a10a82",
+      "parent": "cfe2fab708de3a1d8e05a829a132f335a189acc9",
+      "split": "test",
+      "subject": "AArch64: fix bitcode upgrade of @llvm.neon.addp.",
+      "message": "We were upgrading it to faddp, but a version taking two type parameters instead\nof one. This then got upgraded a second time to the version with just one\nparameter, but occasionally (for reasons I don't understand) this unusual\ntwo-stage process corrupted a use-list, leading to a crash when the two faddp\ndeclarations didn't match.",
+      "files": [
+        {
+          "path": "llvm/lib/IR/AutoUpgrade.cpp",
+          "sha256": "dc9441f7405b966ee1545b8f5d3fffb4dc52d93192d742358c77ff923a84ce68",
+          "bytes": 187932
+        }
+      ],
+      "patch_sha256": "e6e3d22750c501bfbf2f996c29a5eb035c9e3af43afe00ab49b11dd7dab7681d",
+      "changed_lines": 7,
+      "url": "https://github.com/llvm/llvm-project/commit/77cc690bae310f4cba0a34f2da8a37a7c9a10a82"
+    },
+    {
+      "id": "commit-7adf83beece3",
+      "sha": "7adf83beece381d153f8b4a67fa341d13f9c4ba2",
+      "parent": "050e1a3c2688f2daf03456cf94dd3ed79e8ebe7f",
+      "split": "train",
+      "subject": "[InstCombine] Fix worklist management in DSE (PR44552)",
+      "message": "Fixes https://bugs.llvm.org/show_bug.cgi?id=44552. We need to make\nsure that the store is reprocessed, because performing DSE may\nexpose more DSE opportunities.\n\nThere is a slight caveat here though: We need to make sure that we\nadd back the store the worklist first, because that means it will\nbe processed after the operands of the removed store have been\nprocessed. This is a general bug in InstCombine worklist management\nthat I hope to address at some point, but for now it means we need\nto do this manually rather than just returning the instruction as\nchanged.\n\n\n\n(cherry picked from commit 522c030aa9b1dd1881feb5a0d0fa2639b4a5feb7)",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp",
+          "sha256": "4e55a962f6ba537c5e3f3d51fbea8a41cccb3e95ebd16ddc396e5433f853f367",
+          "bytes": 61426
+        }
+      ],
+      "patch_sha256": "9fa5e0160a102da586df9c21115a7cfb3eff7d37822f21583154de85c2eb5122",
+      "changed_lines": 7,
+      "url": "https://github.com/llvm/llvm-project/commit/7adf83beece381d153f8b4a67fa341d13f9c4ba2"
+    },
+    {
+      "id": "commit-7dc4bbf8ab31",
+      "sha": "7dc4bbf8ab311606388faacca58b6c3e3e508b77",
+      "parent": "98c54fb1feba081c509f7e389877550df130a80d",
+      "split": "train",
+      "subject": "[ThinLTO] Handle variable with twice promoted name (Rust)",
+      "message": "Ensure that we can internalize values produced from two rounds of\npromotion.\n\nNote that this cannot happen currently via clang, but in other use cases\nsuch as the Rust compiler which does a first round of ThinLTO on library\ncode, producing bitcode, and a second round on the final binary.\n\nIn particular this can happen if a function is exported and promoted,\nending up with a \".llvm.${hash}\" suffix, and then goes through a round\nof optimization creating an internal switch table expansion variable\nthat is internal and contains the promoted name of the enclosing\nfunction. This variable will be promoted in the second round of ThinLTO\nif @foo is imported again, and therefore ends up with two\n\".llvm.${hash}\" suffixes. Only the final one should be stripped when\nconsulting the index to locate the summary.",
+      "files": [
+        {
+          "path": "llvm/include/llvm/IR/ModuleSummaryIndex.h",
+          "sha256": "ef17911dde66e0d5354e194d6257f01226b5f8f6407d77209bcac03cae7d2ac6",
+          "bytes": 54835
+        }
+      ],
+      "patch_sha256": "3c22bbc2d700f55aabc948d912a8dfd66278b34d215c8e404368e7406df68791",
+      "changed_lines": 6,
+      "url": "https://github.com/llvm/llvm-project/commit/7dc4bbf8ab311606388faacca58b6c3e3e508b77"
+    },
+    {
+      "id": "commit-87c7863c3ec4",
+      "sha": "87c7863c3ec4b66944bfcf39efd666de417f28b8",
+      "parent": "c23212a438f6ff20bf1d98e5ca23c5cd28591ce3",
+      "split": "train",
+      "subject": "Reland \"[StackColoring] Remap PseudoSourceValue frame indices via MachineFunction::getPSVManager()\"\"",
+      "message": "Reland 7a8b0b1595e7dc878b48cf9bbaa652087a6895db, with a fix that checks\n`!E.value().empty()` to avoid inserting a zero to SlotRemap.\n\nDebugged by rnk@ in https://bugs.chromium.org/p/chromium/issues/detail?id=1045650#c33\n\n\n\n\n\n(cherry picked from commit 68051c122440b556e88a946bce12bae58fcfccb4)\n(cherry picked from commit c7c5da6df30141c563e1f5b8ddeabeecdd29e55e)",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/StackColoring.cpp",
+          "sha256": "1a65a8f2a9942761e48fdfcde480ca8062320c080d56ed762098ed5a802e92a4",
+          "bytes": 49959
+        }
+      ],
+      "patch_sha256": "de27053f916f5ec479c65d71c4fb2af8b00c2aab5e66b8e5d38e3f117a4e052a",
+      "changed_lines": 16,
+      "url": "https://github.com/llvm/llvm-project/commit/87c7863c3ec4b66944bfcf39efd666de417f28b8"
+    },
+    {
+      "id": "commit-884a65af5cee",
+      "sha": "884a65af5ceebce76519749ed6eb9a86d0596771",
+      "parent": "93a4dede3a5ecb110dd7cdfd7faa48e3448844d8",
+      "split": "train",
+      "subject": "[Support] Replace Windows __declspec(thread) with thread_local for LLVM_THREAD_LOCAL",
+      "message": "Windows minimum host tools version is now VS2017, which supports C++11\nthread_local so use this for LLVM_THREAD_LOCAL instead of\ndeclspec(thread). According to [1], thread_local is implemented with\ndeclspec(thread) so this should be NFC.\n\n[1] https://docs.microsoft.com/en-us/cpp/cpp/thread?view=vs-2017",
+      "files": [
+        {
+          "path": "llvm/include/llvm/Support/Compiler.h",
+          "sha256": "99eb2e7b45144fdd80249fa80cfd351822a5b4acb0e18b7ec78cce8779b8569b",
+          "bytes": 21045
+        }
+      ],
+      "patch_sha256": "ca35183b1ab8a6094c7b17b4a08d700430923c005d83879e910c6fc05e72c137",
+      "changed_lines": 18,
+      "url": "https://github.com/llvm/llvm-project/commit/884a65af5ceebce76519749ed6eb9a86d0596771"
+    },
+    {
+      "id": "commit-967658150edb",
+      "sha": "967658150edb2cbb860c19ce54ac1e216bdc8461",
+      "parent": "9a174549742aae9e5bc9ab099cad849b0282f0e3",
+      "split": "train",
+      "subject": "Work around PR44697 in CrashRecoveryContext",
+      "message": "(cherry picked from commit 31e07692d7f2b383bd64c63cd2b5c35b6503cf3a)",
+      "files": [
+        {
+          "path": "llvm/lib/Support/CrashRecoveryContext.cpp",
+          "sha256": "ecaa4e890ee6bf4a01d51decc9262beb2b8e7091781835d5b853116b96caac39",
+          "bytes": 14847
+        }
+      ],
+      "patch_sha256": "0b532d8f05997c4f20a7394a5763d02322c7d904525889ecf9fc234811ac66a2",
+      "changed_lines": 7,
+      "url": "https://github.com/llvm/llvm-project/commit/967658150edb2cbb860c19ce54ac1e216bdc8461"
+    },
+    {
+      "id": "commit-99c6a4ea9201",
+      "sha": "99c6a4ea9201f09e8107bb83675f1e7235456b6d",
+      "parent": "0b8a540dff86662fc9426bb4dd8797c547db5000",
+      "split": "test",
+      "subject": "[ARM] Expand vector reduction intrinsics on soft float",
+      "message": "Followup to D73135. If the target doesn't have hard float (default\nfor ARM), then we assert when trying to soften the result of vector\nreduction intrinsics. This patch marks these for expansion as well.\n(A bit odd to use vectors on a target without hard float ... but\nthat's where you end up if you expose target-independent vector types.)\n\n\n\n(cherry picked from commit 1cc4f8d17247cd9be88addd75d060f9321b6f8b0)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/ARM/ARMTargetTransformInfo.h",
+          "sha256": "8ceec2f42db06e60e862e67441e943d601da0a56e0320f57c802332171e747ba",
+          "bytes": 9110
+        }
+      ],
+      "patch_sha256": "cf42a67bc92f7afb8e1921ff26b97f99e5a794667ae8dfc16f5cdb3e4cc0cec1",
+      "changed_lines": 9,
+      "url": "https://github.com/llvm/llvm-project/commit/99c6a4ea9201f09e8107bb83675f1e7235456b6d"
+    },
+    {
+      "id": "commit-9db3e5d5156b",
+      "sha": "9db3e5d5156bc2a3ba8ec0d70ab7069a82472fbb",
+      "parent": "7996b49053f0508717f4a081d197ddc3073f4b5f",
+      "split": "train",
+      "subject": "[InstCombine] Fix infinite loop in min/max load/store bitcast combine (PR44835)",
+      "message": "Fixes https://bugs.llvm.org/show_bug.cgi?id=44835. Skip the transform\nif it wouldn't actually do anything (apart from removing and reinserting\nthe same instructions).\n\nNote that the test case doesn't loop on current master anymore, only\non the LLVM 10 release branch. The issue is already mitigated on master\ndue to worklist order fixes, but we should fix the root cause there as well.\n\nAs a side note, we should probably assert in combineLoadToNewType()\nthat it does not combine to the same type. Not doing this here, because\nthis assertion would also be triggered in another place right now.\n\n\n\n(cherry picked from commit 23db9724d0e5490fa5a2a726acf015f84e2c87cf)",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp",
+          "sha256": "ed2217c8a1118ef4769ce28133edad70fdac77356c618636c923beb6aded9025",
+          "bytes": 61649
+        }
+      ],
+      "patch_sha256": "abbe00a034d0802e4a39691adb80e34caa4d08f5b7431c3ed5f0c6a620fab27e",
+      "changed_lines": 5,
+      "url": "https://github.com/llvm/llvm-project/commit/9db3e5d5156bc2a3ba8ec0d70ab7069a82472fbb"
+    },
+    {
+      "id": "commit-a08c0adee072",
+      "sha": "a08c0adee072226179736c4f6caf3dd0b7a7c9af",
+      "parent": "013c07f697886649b068cd97127e528b4fe7c03e",
+      "split": "test",
+      "subject": "[ARM][MVE] VTP Block Pass fix",
+      "message": "Fix a missing and broken test: 2 VPT blocks predicated on the same VCMP\ninstruction that can be folded. The problem was that for each VPT block, we\nrecord the predicate statements with a list, but the same instruction was added\ntwice. Thus, we were running in an assert trying to remove the same instruction\ntwice. To avoid this the instructions are now recorded with a set.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/ARM/MVEVPTBlockPass.cpp",
+          "sha256": "d92603af310d0fd2f94c5a078fe4e8cc84414390b06675a7a747b0a4045f18e4",
+          "bytes": 6775
+        }
+      ],
+      "patch_sha256": "b0a9ef80d750ac40a89b3f5d5c71d4fca76613d349755392ec1e1d0a5bfea5e4",
+      "changed_lines": 4,
+      "url": "https://github.com/llvm/llvm-project/commit/a08c0adee072226179736c4f6caf3dd0b7a7c9af"
+    },
+    {
+      "id": "commit-a124bebdd5ff",
+      "sha": "a124bebdd5ff5cf49480956258c322ed9204943c",
+      "parent": "4ea0b397582a623cdaaca97ed304002531f9575d",
+      "split": "test",
+      "subject": "[ARM] Fix non-determenistic behaviour",
+      "message": "ARM Type Promotion pass does not clear\nthe container that defines if one variable\nwas visited or not, missing optimization\nopportunities by luck when two llvm:Values\nfrom different functions  are allocated at\nthe same memory address.\n\nAlso fixes a comment and uses existing\nmethod to pop and obtain last element\nof the worklist.\n\n\n\n\n\n\n\n\n\n\n\n(cherry picked from commit 8ba2b6281075c65c1a47abed57810e1201942533)",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/TypePromotion.cpp",
+          "sha256": "0edb920467e4eef95e862af4eadc48f1ed52b16a20c6f48338b77ebff573c53a",
+          "bytes": 33084
+        }
+      ],
+      "patch_sha256": "892eb15f9fdbc38f678c94a591f1221979155f415b72ac2dcdb2366980544d9d",
+      "changed_lines": 12,
+      "url": "https://github.com/llvm/llvm-project/commit/a124bebdd5ff5cf49480956258c322ed9204943c"
+    },
+    {
+      "id": "commit-ad741853c388",
+      "sha": "ad741853c38880dff99cd5b5035b8965c5a73011",
+      "parent": "6d8abe424a77f736fbed114eeac574b9bfe6b0c1",
+      "split": "train",
+      "subject": "[AMDGPU] Model distance to instruction in bundle",
+      "message": "This change allows to model the height of the instruction\nwithin a bundle for latency adjustment purposes.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/AMDGPU/AMDGPUSubtarget.cpp",
+          "sha256": "1a413ceb61b06e81d91c6770b295c99ffb83634974617d988b220c8c7b1e56ec",
+          "bytes": 31174
+        }
+      ],
+      "patch_sha256": "5c31750a5ed6c5cada59770c78f6e7a2392ab00df4e52d10e04005f1af332937",
+      "changed_lines": 22,
+      "url": "https://github.com/llvm/llvm-project/commit/ad741853c38880dff99cd5b5035b8965c5a73011"
+    },
+    {
+      "id": "commit-b4dd928ffbb8",
+      "sha": "b4dd928ffbb8232d6909b640d3affcd531681ffb",
+      "parent": "652cd7c1007aa5a13ad9864fadc939c5710c5199",
+      "split": "train",
+      "subject": "[InstCombine] Make combineLoadToNewType a method; NFC",
+      "message": "So it can be reused as part of other combines.\nIn particular for D71164.",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineInternal.h",
+          "sha256": "1d95b5b21029e0a537525f220e906ea576cd980b03d5a06c63eca5e82d20e797",
+          "bytes": 43156
+        },
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineLoadStoreAlloca.cpp",
+          "sha256": "b6325f8911b72a636d08310d3b818733891cbcbe9ce8fc47887782ca469d2812",
+          "bytes": 61456
+        }
+      ],
+      "patch_sha256": "eb782b786db56bd7a0d639458f0946b466fa5acfda8988454bbeb90b8c04fd58",
+      "changed_lines": 28,
+      "url": "https://github.com/llvm/llvm-project/commit/b4dd928ffbb8232d6909b640d3affcd531681ffb"
+    },
+    {
+      "id": "commit-b5d9a7e72faf",
+      "sha": "b5d9a7e72fafaead89f0cc8994925c90ed3169be",
+      "parent": "cbac41966b8f9356a3e69c050b60770108550d1e",
+      "split": "train",
+      "subject": "[AArch64][FPenv] Update chain of int to fp conversion",
+      "message": "When using strict fp, it is required to update the\nchain when performing integer type promotion of a\noperand to a integer to floating point conversion.\n\n\n\n\n\n\n\n\n\n\n\n(cherry picked from commit 8bc790f9e6a6fc6d8fe8f41a7120269366fa0957)",
+      "files": [
+        {
+          "path": "llvm/lib/CodeGen/SelectionDAG/LegalizeIntegerTypes.cpp",
+          "sha256": "af056e5138f0a6a0e07b5e41dd4073a3cfcc841189f0683faf1a1c97b83c2ca6",
+          "bytes": 178051
+        }
+      ],
+      "patch_sha256": "c94f10493a73eead631c677810ddbe4aa814b4c120a749d0b55f72e714f514a2",
+      "changed_lines": 10,
+      "url": "https://github.com/llvm/llvm-project/commit/b5d9a7e72fafaead89f0cc8994925c90ed3169be"
+    },
+    {
+      "id": "commit-b905b85eedfc",
+      "sha": "b905b85eedfcf33e7969de1068086889d490ba17",
+      "parent": "94c79ce5740f69aa9a9f5145c9911a61b7d20662",
+      "split": "train",
+      "subject": "[BPF] fix a bug in BPFMISimplifyPatchable pass with -O0",
+      "message": "The recommended optimization level for BPF programs\nis O2 since (1). BPF is running inside the kernel and\nlinux kernel won't work at -O0 level, and (2). Verifier\nis not able to handle O0 code properly, e.g., potential\nlarge stack size and a lot of spills.\n\nBut we should keep -O0 at least compiling.\nThis patch fixed a bug in BPFMISimplifyPatchable phase\nwhere with -O0, a segmentation fault will happen for a\nsimple program like:\n  int test(int a, int b) { return a + b; }\n\nA test case is added to capture such a case.\n\n\n\n(cherry picked from commit 795bbb366266e83d2bea8dc04c19919b52ab3a2a)",
+      "files": [
+        {
+          "path": "llvm/lib/Target/BPF/BPFMISimplifyPatchable.cpp",
+          "sha256": "091b1a7fc1fe235b4fac75ebb87b1162da4d504290730b5deb1e344bc171669c",
+          "bytes": 10552
+        }
+      ],
+      "patch_sha256": "634b9815d915ad77a1733caf712527a615bd4f00fba9f3b545578080467d6ca8",
+      "changed_lines": 7,
+      "url": "https://github.com/llvm/llvm-project/commit/b905b85eedfcf33e7969de1068086889d490ba17"
+    },
+    {
+      "id": "commit-bad6032bc15f",
+      "sha": "bad6032bc15fa8d16b67b86ef2b2fe48724e756e",
+      "parent": "d94d079a6a5b12156e4b818c8ba46eb143f335b9",
+      "split": "validation",
+      "subject": "[ARM][LowOverheadLoops] Change predicate inspection",
+      "message": "Use the already provided helper function to get the operand type so\nthat we can detect whether the vpr is being used as a predicate or\nnot. Also use existing helpers to get the predicate indices when we\nconverting the vpt blocks. This enables us to support both types of\nvpr predicate operand.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/ARM/ARMLowOverheadLoops.cpp",
+          "sha256": "1b950bb1151ae1d4365771125e1c5f292024586b0b1e0aa82c86384b8885f27e",
+          "bytes": 38782
+        }
+      ],
+      "patch_sha256": "3741e77f3c2f45e7a0cc6cba10dd655a206fc41cc5d0e29d468dd240daffc0d2",
+      "changed_lines": 53,
+      "url": "https://github.com/llvm/llvm-project/commit/bad6032bc15fa8d16b67b86ef2b2fe48724e756e"
+    },
+    {
+      "id": "commit-cd800f3b226b",
+      "sha": "cd800f3b226b25142f233beca846715fc601809b",
+      "parent": "2cefb93951cca01dcdde6fe5c7354dc8bcd796d6",
+      "split": "test",
+      "subject": "[RISCV] Allow shrink wrapping for RISC-V",
+      "message": "Enabling shrink wrapping requires ensuring the insertion point of the\nepilogue is correct for MBBs without a terminator, in which case the\ninstruction to adjust the stack pointer is the last instruction in the\nblock.",
+      "files": [
+        {
+          "path": "llvm/lib/Target/RISCV/RISCVFrameLowering.cpp",
+          "sha256": "5c14088c9ef58d86e14738583a3acb41b5c4f7e69d968773026640a6703f26c1",
+          "bytes": 18520
+        }
+      ],
+      "patch_sha256": "4994090576668ea855f41d5620a8a60da9d6d0663dcce746c1194efe959ed73f",
+      "changed_lines": 20,
+      "url": "https://github.com/llvm/llvm-project/commit/cd800f3b226b25142f233beca846715fc601809b"
+    },
+    {
+      "id": "commit-d2a710ea784e",
+      "sha": "d2a710ea784eea43c63e3831224de6355f1e4a6f",
+      "parent": "4ea9a4aba4a7cfea0325022d50b97a9409026ab5",
+      "split": "validation",
+      "subject": "Actually, don't try to use __builtin_strlen in StringRef.h before VS 2019",
+      "message": "The fix in b3d7d1061dc375bb5ea725e6597382fcd37f41d6 compiled nicely,\nbut didn't link because at least the VS 2017 version I use doesn't\nhave the builtin yet. Instead, make use of the builtin with MSVC\nconditional on VS 2019 or later.\n\n(cherry picked from commit ff837aa63cdfadb58f387ca77785ca3ca51c6976)",
+      "files": [
+        {
+          "path": "llvm/include/llvm/ADT/StringRef.h",
+          "sha256": "f554d711c0314e80e18fb4f8361578ee45f053d9f1cac528ffe66d4b695a3def",
+          "bytes": 32109
+        }
+      ],
+      "patch_sha256": "e86ff5d0cf5f6144ab41ca0483747b63aa93fc3e7cbb074ece02cd363e667f4f",
+      "changed_lines": 5,
+      "url": "https://github.com/llvm/llvm-project/commit/d2a710ea784eea43c63e3831224de6355f1e4a6f"
+    },
+    {
+      "id": "commit-f234f5c2b1ed",
+      "sha": "f234f5c2b1ed6486fe578744fe673912ef68b945",
+      "parent": "23d93923900834dd873cde2ea54f7c3a0e071802",
+      "split": "test",
+      "subject": "[msan] Instrument x86.pclmulqdq* intrinsics.",
+      "message": "These instructions ignore parts of the input vectors which makes the\ndefault MSan handling too strict and causes false positive reports.\n\n\n\n\n\n\n\n\n\n(cherry picked from commit 1df8549b26892198ddf77dfd627eb9f979d45b7e)",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/Instrumentation/MemorySanitizer.cpp",
+          "sha256": "09737ae413bdd5f4be0920b3ca8069c08853646391071a82b229805b0caca88f",
+          "bytes": 181037
+        }
+      ],
+      "patch_sha256": "f4aa299b0a8d89eada107cf6bd7868279b19b9256668d8c90981f33526a8bc10",
+      "changed_lines": 43,
+      "url": "https://github.com/llvm/llvm-project/commit/f234f5c2b1ed6486fe578744fe673912ef68b945"
+    },
+    {
+      "id": "commit-f7e9f4f4c502",
+      "sha": "f7e9f4f4c50245d10ca9869a9f8f3d431dfb6948",
+      "parent": "eb23cc136b68b24e63dd765b87d1facecd622695",
+      "split": "test",
+      "subject": "SCC: Allow ReplaceNode to safely support insertion",
+      "message": "If scc_iterator::ReplaceNode is inserting a new entry in the map,\nrather than replacing an existing entry, the possibility of growing\nthe map could cause a failure.  This change safely implements the\ninsertion.",
+      "files": [
+        {
+          "path": "llvm/include/llvm/ADT/SCCIterator.h",
+          "sha256": "4ed16719f8a370484b0d5e6bfb8c8fab35fb77a376b60aab9334ed519a7531b4",
+          "bytes": 8055
+        }
+      ],
+      "patch_sha256": "71ba36c94e8a5649988bfc6ca7ff0f1e7a31bbedebf6801b90a0173ef4e6b6c9",
+      "changed_lines": 5,
+      "url": "https://github.com/llvm/llvm-project/commit/f7e9f4f4c50245d10ca9869a9f8f3d431dfb6948"
+    },
+    {
+      "id": "commit-fc12083cbc5c",
+      "sha": "fc12083cbc5caa0e60a8e12bab9c34f71a4b31b1",
+      "parent": "d9b836dc6f78c5fb1f1b425943e1335b235b32d8",
+      "split": "train",
+      "subject": "[InstCombine] Fix infinite min/max canonicalization loop (PR44541)",
+      "message": "While D72944 also fixes https://bugs.llvm.org/show_bug.cgi?id=44541,\nit does so in a more roundabout manner and there might be other\nloopholes to trigger the same issue. This is a more direct fix,\nthat prevents the transform if the min/max is based on a\nnon-canonical sub X, 0 instruction.\n\n\n\n(cherry picked from commit a148b9e9909db6a592609eb35b4de38c9e67cb8b)",
+      "files": [
+        {
+          "path": "llvm/lib/Transforms/InstCombine/InstCombineSelect.cpp",
+          "sha256": "c3d7dcdcf0b87d4df623b31c626b79e9fd41437e5e28c0a99e4dd6984201dfc9",
+          "bytes": 109794
+        }
+      ],
+      "patch_sha256": "7b9d1427905efc5712e4a6c954d82267e5d13dac272f72406cf2e55e9a811235",
+      "changed_lines": 6,
+      "url": "https://github.com/llvm/llvm-project/commit/fc12083cbc5caa0e60a8e12bab9c34f71a4b31b1"
+    },
+    {
+      "id": "commit-fe37d9ecaabd",
+      "sha": "fe37d9ecaabda4f9948f35bb20c1a13687a7eaca",
+      "parent": "986202fad41529af8288aca54f2ff62d4c501d71",
+      "split": "train",
+      "subject": "[GVN] fix comment/argument name to match actual implementation. NFC",
+      "message": "",
+      "files": [
+        {
+          "path": "llvm/include/llvm/Transforms/Scalar/GVN.h",
+          "sha256": "ed243747d0d988500776a342326a0f5ba18ecf0df13921dd3eaa3a56a75f5ed2",
+          "bytes": 11602
+        }
+      ],
+      "patch_sha256": "9c113173d30852a232a8b005f99525da724a0367d64db8bb72169d3b156ad670",
+      "changed_lines": 4,
+      "url": "https://github.com/llvm/llvm-project/commit/fe37d9ecaabda4f9948f35bb20c1a13687a7eaca"
+    }
+  ],
+  "human_reference_basis": "Changes upstreamed by March 2020, before modern code assistants. Historical provenance, not an authorship attestation.",
+  "measures": "Shape only. Nothing here compiles or tests LLVM."
+}

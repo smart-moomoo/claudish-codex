@@ -1,0 +1,422 @@
+[
+  {
+    "id": "place-yes-scaled-callgraphsccpass-192",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Analysis/CallGraphSCCPass.cpp",
+    "line": 192
+  },
+  {
+    "id": "place-yes-scaled-modulesummaryanalysis-651",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Analysis/ModuleSummaryAnalysis.cpp",
+    "line": 651
+  },
+  {
+    "id": "place-yes-scaled-scalarevolutionexpander-375",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Analysis/ScalarEvolutionExpander.cpp",
+    "line": 375
+  },
+  {
+    "id": "place-yes-scaled-scalarevolutionexpander-1407",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Analysis/ScalarEvolutionExpander.cpp",
+    "line": 1407
+  },
+  {
+    "id": "place-yes-scaled-aggressiveantidepbreaker-429",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/AggressiveAntiDepBreaker.cpp",
+    "line": 429
+  },
+  {
+    "id": "place-yes-scaled-codegenprepare-7056",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/CodeGenPrepare.cpp",
+    "line": 7056
+  },
+  {
+    "id": "place-yes-scaled-criticalantidepbreaker-668",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/CriticalAntiDepBreaker.cpp",
+    "line": 668
+  },
+  {
+    "id": "place-yes-scaled-implicitnullchecks-274",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/ImplicitNullChecks.cpp",
+    "line": 274
+  },
+  {
+    "id": "place-yes-scaled-machinecombiner-428",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/MachineCombiner.cpp",
+    "line": 428
+  },
+  {
+    "id": "place-yes-scaled-scheduledag-537",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/ScheduleDAG.cpp",
+    "line": 537
+  },
+  {
+    "id": "place-yes-scaled-stackprotector-211",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/CodeGen/StackProtector.cpp",
+    "line": 211
+  },
+  {
+    "id": "place-yes-scaled-typestreammerger-314",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/DebugInfo/CodeView/TypeStreamMerger.cpp",
+    "line": 314
+  },
+  {
+    "id": "place-yes-scaled-dwarfdebugline-822",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/DebugInfo/DWARF/DWARFDebugLine.cpp",
+    "line": 822
+  },
+  {
+    "id": "place-yes-scaled-pdbfile-187",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/DebugInfo/PDB/Native/PDBFile.cpp",
+    "line": 187
+  },
+  {
+    "id": "place-yes-scaled-constantfold-204",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/IR/ConstantFold.cpp",
+    "line": 204
+  },
+  {
+    "id": "place-yes-scaled-ltomodule-358",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/LTO/LTOModule.cpp",
+    "line": 358
+  },
+  {
+    "id": "place-yes-scaled-irmover-1123",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Linker/IRMover.cpp",
+    "line": 1123
+  },
+  {
+    "id": "place-yes-scaled-mcelfstreamer-523",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/MC/MCELFStreamer.cpp",
+    "line": 523
+  },
+  {
+    "id": "place-yes-scaled-machobjectwriter-478",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/MC/MachObjectWriter.cpp",
+    "line": 478
+  },
+  {
+    "id": "place-yes-scaled-machobjectwriter-693",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/MC/MachObjectWriter.cpp",
+    "line": 693
+  },
+  {
+    "id": "place-yes-scaled-archive-98",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Object/Archive.cpp",
+    "line": 98
+  },
+  {
+    "id": "place-yes-scaled-archive-558",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Object/Archive.cpp",
+    "line": 558
+  },
+  {
+    "id": "place-yes-scaled-wholeprogramdevirt-152",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp",
+    "line": 152
+  },
+  {
+    "id": "place-yes-scaled-wholeprogramdevirt-463",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp",
+    "line": 463
+  },
+  {
+    "id": "place-yes-scaled-instcombinecasts-768",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/InstCombine/InstCombineCasts.cpp",
+    "line": 768
+  },
+  {
+    "id": "place-yes-scaled-instcombinevectorops-1655",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/InstCombine/InstCombineVectorOps.cpp",
+    "line": 1655
+  },
+  {
+    "id": "place-yes-scaled-instructioncombining-1453",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/InstCombine/InstructionCombining.cpp",
+    "line": 1453
+  },
+  {
+    "id": "place-yes-scaled-separateconstoffsetfromgep-488",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/Scalar/SeparateConstOffsetFromGEP.cpp",
+    "line": 488
+  },
+  {
+    "id": "place-yes-scaled-separateconstoffsetfromgep-1033",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/Scalar/SeparateConstOffsetFromGEP.cpp",
+    "line": 1033
+  },
+  {
+    "id": "place-yes-scaled-integerdivision-147",
+    "split": "train",
+    "kind": "commented",
+    "path": "llvm/lib/Transforms/Utils/IntegerDivision.cpp",
+    "line": 147
+  },
+  {
+    "id": "place-no-modulesummaryanalysis-798",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Analysis/ModuleSummaryAnalysis.cpp",
+    "line": 798
+  },
+  {
+    "id": "place-no-scalarevolutionexpander-95",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Analysis/ScalarEvolutionExpander.cpp",
+    "line": 95
+  },
+  {
+    "id": "place-no-bitcodereader-6309",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Bitcode/Reader/BitcodeReader.cpp",
+    "line": 6309
+  },
+  {
+    "id": "place-no-bitcodereader-6470",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Bitcode/Reader/BitcodeReader.cpp",
+    "line": 6470
+  },
+  {
+    "id": "place-no-asmprinter-598",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/AsmPrinter/AsmPrinter.cpp",
+    "line": 598
+  },
+  {
+    "id": "place-no-asmprinter-1474",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/AsmPrinter/AsmPrinter.cpp",
+    "line": 1474
+  },
+  {
+    "id": "place-no-dwarfdebug-373",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp",
+    "line": 373
+  },
+  {
+    "id": "place-no-dwarfdebug-1302",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp",
+    "line": 1302
+  },
+  {
+    "id": "place-no-dwarfdebug-2371",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/AsmPrinter/DwarfDebug.cpp",
+    "line": 2371
+  },
+  {
+    "id": "place-no-legalizerhelper-4326",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/GlobalISel/LegalizerHelper.cpp",
+    "line": 4326
+  },
+  {
+    "id": "place-no-interleavedaccesspass-93",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/InterleavedAccessPass.cpp",
+    "line": 93
+  },
+  {
+    "id": "place-no-interleavedaccesspass-333",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/InterleavedAccessPass.cpp",
+    "line": 333
+  },
+  {
+    "id": "place-no-interleavedloadcombinepass-1213",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/InterleavedLoadCombinePass.cpp",
+    "line": 1213
+  },
+  {
+    "id": "place-no-machinesink-87",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/MachineSink.cpp",
+    "line": 87
+  },
+  {
+    "id": "place-no-registercoalescer-939",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/RegisterCoalescer.cpp",
+    "line": 939
+  },
+  {
+    "id": "place-no-twoaddressinstructionpass-449",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/CodeGen/TwoAddressInstructionPass.cpp",
+    "line": 449
+  },
+  {
+    "id": "place-no-constantfold-68",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/IR/ConstantFold.cpp",
+    "line": 68
+  },
+  {
+    "id": "place-no-ltomodule-95",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/LTO/LTOModule.cpp",
+    "line": 95
+  },
+  {
+    "id": "place-no-apint-2108",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Support/APInt.cpp",
+    "line": 2108
+  },
+  {
+    "id": "place-no-filecheck-1531",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Support/FileCheck.cpp",
+    "line": 1531
+  },
+  {
+    "id": "place-no-wholeprogramdevirt-388",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/IPO/WholeProgramDevirt.cpp",
+    "line": 388
+  },
+  {
+    "id": "place-no-instcombinecasts-39",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/InstCombine/InstCombineCasts.cpp",
+    "line": 39
+  },
+  {
+    "id": "place-no-instcombinecasts-689",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/InstCombine/InstCombineCasts.cpp",
+    "line": 689
+  },
+  {
+    "id": "place-no-instcombinecasts-1885",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/InstCombine/InstCombineCasts.cpp",
+    "line": 1885
+  },
+  {
+    "id": "place-no-instructioncombining-238",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/InstCombine/InstructionCombining.cpp",
+    "line": 238
+  },
+  {
+    "id": "place-no-instructioncombining-246",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/InstCombine/InstructionCombining.cpp",
+    "line": 246
+  },
+  {
+    "id": "place-no-hwaddresssanitizer-307",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/Instrumentation/HWAddressSanitizer.cpp",
+    "line": 307
+  },
+  {
+    "id": "place-no-looppredication-890",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/Scalar/LoopPredication.cpp",
+    "line": 890
+  },
+  {
+    "id": "place-no-lowermatrixintrinsics-383",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/Scalar/LowerMatrixIntrinsics.cpp",
+    "line": 383
+  },
+  {
+    "id": "place-no-simpleloopunswitch-1961",
+    "split": "train",
+    "kind": "uncommented",
+    "path": "llvm/lib/Transforms/Scalar/SimpleLoopUnswitch.cpp",
+    "line": 1961
+  }
+]

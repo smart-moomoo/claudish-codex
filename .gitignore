@@ -20,8 +20,20 @@ experiments/scaled/train-*/
 experiments/scaled/validation/
 experiments/scaled/test/
 experiments/scaled/examples.md
+experiments/scaled-500/train-*/
+experiments/scaled-500/validation/
+experiments/scaled-500/test/
+experiments/scaled-500/examples.md
 
 # Recreate immutable LLVM sources from the published lock manifests.
 corpus/upstream/
 corpus/long-blocks/upstream/
 corpus/scaled/upstream/
+corpus/scaled-500/upstream/
+
+# Commit corpus: recreate from commits.lock.json with prepare-commits.
+corpus/commits/upstream/
+corpus/commits/patches/
+experiments/ladder/placement-*/
+experiments/ladder/commits-*/
+experiments/ladder/files-*/

@@ -1,0 +1,519 @@
+{
+  "rubric": "evaluation/file-rubric.md",
+  "runs": {
+    "test": {
+      "summary": {
+        "without_spec": {
+          "files": 9,
+          "passed": 8,
+          "redundancy": 0.2222222222222222,
+          "consistency": 0.0,
+          "proportion": 0.2222222222222222
+        },
+        "with_spec": {
+          "files": 9,
+          "passed": 8,
+          "redundancy": 0.1111111111111111,
+          "consistency": 0.0,
+          "proportion": 0.2222222222222222
+        },
+        "upstream": {
+          "files": 9,
+          "passed": 7,
+          "redundancy": 0.0,
+          "consistency": 0.2222222222222222,
+          "proportion": 0.4444444444444444
+        }
+      },
+      "files": [
+        {
+          "path": "llvm/lib/Analysis/DomTreeUpdater.cpp",
+          "arm": "upstream",
+          "comments": 3,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/DomTreeUpdater.cpp",
+          "arm": "with_spec",
+          "comments": 3,
+          "passed": true,
+          "redundancy": 1,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/DomTreeUpdater.cpp",
+          "arm": "without_spec",
+          "comments": 3,
+          "passed": false,
+          "redundancy": 2,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/BranchFolding.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/BranchFolding.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/CodeGen/BranchFolding.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/LiveRangeEdit.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/LiveRangeEdit.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/LiveRangeEdit.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/RegAllocGreedy.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 0,
+          "consistency": 2,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/RegAllocGreedy.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/RegAllocGreedy.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 1
+        },
+        {
+          "path": "llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/SelectionDAG/LegalizeDAG.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/LoopStrengthReduce.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/NewGVN.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/NewGVN.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/NewGVN.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 1
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/CloneFunction.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 1
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/CloneFunction.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/CloneFunction.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/InlineFunction.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/InlineFunction.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/InlineFunction.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 1
+        }
+      ]
+    },
+    "validation": {
+      "summary": {
+        "without_spec": {
+          "files": 8,
+          "passed": 2,
+          "redundancy": 2.0,
+          "consistency": 0.125,
+          "proportion": 1.375
+        },
+        "with_spec": {
+          "files": 8,
+          "passed": 3,
+          "redundancy": 1.875,
+          "consistency": 0.0,
+          "proportion": 1.0
+        },
+        "upstream": {
+          "files": 8,
+          "passed": 8,
+          "redundancy": 0.25,
+          "consistency": 0.0,
+          "proportion": 0.0
+        }
+      },
+      "files": [
+        {
+          "path": "llvm/lib/Analysis/DemandedBits.cpp",
+          "arm": "upstream",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/DemandedBits.cpp",
+          "arm": "with_spec",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 1,
+          "consistency": 0,
+          "proportion": 1
+        },
+        {
+          "path": "llvm/lib/Analysis/DemandedBits.cpp",
+          "arm": "without_spec",
+          "comments": 5,
+          "passed": false,
+          "redundancy": 2,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Analysis/Loads.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/Loads.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Analysis/Loads.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 1,
+          "proportion": 3
+        },
+        {
+          "path": "llvm/lib/Analysis/MemoryBuiltins.cpp",
+          "arm": "upstream",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/MemoryBuiltins.cpp",
+          "arm": "with_spec",
+          "comments": 5,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Analysis/MemoryBuiltins.cpp",
+          "arm": "without_spec",
+          "comments": 5,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 3
+        },
+        {
+          "path": "llvm/lib/Analysis/ValueTracking.cpp",
+          "arm": "upstream",
+          "comments": 6,
+          "passed": true,
+          "redundancy": 1,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/ValueTracking.cpp",
+          "arm": "with_spec",
+          "comments": 6,
+          "passed": false,
+          "redundancy": 2,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Analysis/ValueTracking.cpp",
+          "arm": "without_spec",
+          "comments": 6,
+          "passed": false,
+          "redundancy": 2,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/MachineScheduler.cpp",
+          "arm": "upstream",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/MachineScheduler.cpp",
+          "arm": "with_spec",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/CodeGen/MachineScheduler.cpp",
+          "arm": "without_spec",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+          "arm": "upstream",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+          "arm": "with_spec",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Scalar/EarlyCSE.cpp",
+          "arm": "without_spec",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp",
+          "arm": "upstream",
+          "comments": 4,
+          "passed": true,
+          "redundancy": 0,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp",
+          "arm": "with_spec",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/PromoteMemoryToRegister.cpp",
+          "arm": "without_spec",
+          "comments": 4,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 2
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/ValueMapper.cpp",
+          "arm": "upstream",
+          "comments": 5,
+          "passed": true,
+          "redundancy": 1,
+          "consistency": 0,
+          "proportion": 0
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/ValueMapper.cpp",
+          "arm": "with_spec",
+          "comments": 5,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 1
+        },
+        {
+          "path": "llvm/lib/Transforms/Utils/ValueMapper.cpp",
+          "arm": "without_spec",
+          "comments": 5,
+          "passed": false,
+          "redundancy": 3,
+          "consistency": 0,
+          "proportion": 1
+        }
+      ]
+    }
+  },
+  "note": "One call per file, all of that file's comments judged together."
+}

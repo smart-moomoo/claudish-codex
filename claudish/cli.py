@@ -7,8 +7,8 @@ from pathlib import Path
 import sys
 import subprocess
 
-from . import corpus, diff, experiment, spec
-from .io import digest, write_json
+from . import commits, corpus, diff, experiment, filelevel, placement, spec, tiers
+from .io import digest, read_json, write_json
 from .judge import evaluate
 from .metrics import measure
 from .runner import MODEL, EFFORT
@@ -65,10 +65,60 @@ def main(argv=None):
     combine.add_argument("--combine", action="append", default=[], metavar="LABEL=A,B",
                          help="Pool the rows of named runs under a new label")
     combine.add_argument("--out", type=Path, help="Write the result here instead of stdout only")
-    resume = commands.add_parser("resume-run", help="Judge a failed run after all generations completed")
+    resume = commands.add_parser("resume-run", help="Continue an interrupted or failed run, reusing completed calls")
     resume.add_argument("--run", type=Path, required=True)
     resume.add_argument("--jobs", type=int, default=2)
     resume.add_argument("--timeout", type=int, default=240)
+    score = commands.add_parser("score-tiers", help="Score finished runs against the four criteria")
+    score.add_argument("--run", action="append", required=True, metavar="DIR or LABEL=DIR",
+                       help="Run directory; repeat to pool several runs into one ladder")
+    score.add_argument("--out", type=Path, help="Write the pooled result here as well")
+    lengths = commands.add_parser("measure-generations",
+                                  help="Length and coupling for a run's saved comments, without judges")
+    lengths.add_argument("--run", type=Path, required=True)
+    place = commands.add_parser("select-placement", help="Freeze positions where a comment may or may not belong")
+    place.add_argument("--corpus-dir", required=True, type=Path)
+    place.add_argument("--per-split", type=int, default=60)
+    place.add_argument("--seed", type=int, default=20260913)
+    place.add_argument("--max-per-file", type=int, default=3)
+    place.add_argument("--split", action="append", default=[], choices=("train", "validation", "test"))
+    decide = commands.add_parser("placement-run", help="Ask fresh agents whether a comment belongs at each position")
+    decide.add_argument("--split", choices=("train", "validation", "test"), default="train")
+    decide.add_argument("--out", required=True, type=Path)
+    decide.add_argument("--spec", type=Path)
+    decide.add_argument("--corpus-dir", type=Path)
+    decide.add_argument("--task", type=Path)
+    decide.add_argument("--cases", type=int, help="Answer only this many positions, kept balanced")
+    decide.add_argument("--resume", action="store_true", help="Reuse completed calls in an existing directory")
+    llm_options(decide)
+    rescore = commands.add_parser("rescore-commits", help="Rescore saved commit answers without model calls")
+    rescore.add_argument("--run", type=Path, required=True)
+    rescore.add_argument("--out", type=Path, required=True)
+    files = commands.add_parser("judge-files", help="Judge each file's comments as a set")
+    files.add_argument("--run", type=Path, required=True)
+    files.add_argument("--rubric", type=Path, help="Defaults to evaluation/file-rubric.md")
+    files.add_argument("--seed", type=int, default=42)
+    files.add_argument("--min-comments", type=int, default=filelevel.MIN_COMMENTS)
+    files.add_argument("--resume", action="store_true", help="Reuse completed file calls")
+    llm_options(files)
+    pick = commands.add_parser("select-commits", help="Freeze a corpus of small single-purpose LLVM commits")
+    pick.add_argument("--corpus-dir", required=True, type=Path)
+    pick.add_argument("--count", type=int, default=40)
+    pick.add_argument("--scan", type=int, default=400)
+    pick.add_argument("--seed", type=int, default=20260913)
+    refetch = commands.add_parser("prepare-commits", help="Refetch the frozen commit sources and patches")
+    refetch.add_argument("--corpus-dir", required=True, type=Path)
+    check = commands.add_parser("verify-commits", help="Verify frozen commit sources and patches offline")
+    check.add_argument("--corpus-dir", required=True, type=Path)
+    patch = commands.add_parser("commit-run", help="Ask fresh agents to make a real LLVM change")
+    patch.add_argument("--split", choices=("train", "validation", "test"), default="train")
+    patch.add_argument("--out", required=True, type=Path)
+    patch.add_argument("--corpus-dir", required=True, type=Path)
+    patch.add_argument("--spec", type=Path, help="Optional guidance; supplying it turns the run into an ablation")
+    patch.add_argument("--task", type=Path)
+    patch.add_argument("--overlap-threshold", type=float, default=0.5)
+    patch.add_argument("--resume", action="store_true", help="Reuse completed calls in an existing directory")
+    llm_options(patch)
     grade = commands.add_parser("grade-diff", help="Grade added/changed comments in a C/C++ diff")
     grade.add_argument("--diff", required=True, type=Path, help="Unified diff, or - for stdin")
     grade.add_argument("--base-dir", required=True, type=Path, help="Source tree BEFORE applying the diff")
@@ -103,7 +153,49 @@ def main(argv=None):
             if args.out:
                 write_json(args.out, result)
         elif args.command == "resume-run":
-            result = experiment.resume_after_generation(args.run, jobs=args.jobs, timeout=args.timeout)
+            result = experiment.resume(args.run, jobs=args.jobs, timeout=args.timeout)
+        elif args.command == "score-tiers":
+            labelled = [pair(item) if "=" in item else (Path(item).name, item)
+                        for item in args.run]
+            result = {label: tiers.score_run(path, experiment.reload_corpus)
+                      for label, path in labelled}
+            if len(labelled) > 1:
+                result = {"runs": result, "pooled": tiers.combine(labelled)}
+            if args.out:
+                write_json(args.out, result)
+        elif args.command == "measure-generations":
+            result = tiers.measure_generations(args.run, experiment.reload_corpus)
+        elif args.command == "select-placement":
+            result = placement.select(args.root, args.corpus_dir, per_split=args.per_split,
+                                      seed=args.seed, max_per_file=args.max_per_file,
+                                      splits=tuple(args.split) or ("train",))
+        elif args.command == "placement-run":
+            result = placement.run(args.root, args.out, split=args.split, jobs=args.jobs,
+                                   spec_path=args.spec, corpus_dir=args.corpus_dir,
+                                   task_path=args.task, model=args.model, effort=args.effort,
+                                   timeout=args.timeout, resume=args.resume, limit=args.cases)
+        elif args.command == "rescore-commits":
+            result = commits.rescore(args.run, args.out)
+        elif args.command == "judge-files":
+            manifest = read_json(args.run / "manifest.json")
+            rubric = (args.root / (args.rubric or "evaluation/file-rubric.md")).read_text()
+            result = filelevel.judge_run(args.run, experiment.reload_corpus(manifest), rubric,
+                                         seed=args.seed, jobs=args.jobs, reuse=args.resume,
+                                         min_comments=args.min_comments, model=args.model,
+                                         effort=args.effort, timeout=args.timeout)
+        elif args.command == "select-commits":
+            result = commits.select(args.root, args.corpus_dir, count=args.count,
+                                    scan=args.scan, seed=args.seed)
+        elif args.command == "prepare-commits":
+            result = commits.prepare(args.root, args.corpus_dir)
+        elif args.command == "verify-commits":
+            result = {"verified_commits": len(commits.cases(args.root, corpus_dir=args.corpus_dir))}
+        elif args.command == "commit-run":
+            result = commits.run(args.root, args.out, split=args.split, jobs=args.jobs,
+                                 spec_path=args.spec, corpus_dir=args.corpus_dir,
+                                 task_path=args.task, model=args.model, effort=args.effort,
+                                 timeout=args.timeout, resume=args.resume,
+                                 overlap_threshold=args.overlap_threshold)
         else:
             if not 1 <= args.jobs <= 8:
                 raise ValueError("Use between 1 and 8 jobs")

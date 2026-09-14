@@ -1,0 +1,360 @@
+{
+  "runs": {
+    "train-01": {
+      "run": "train-01",
+      "cases": 75,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 75,
+            "passed": 62,
+            "pass_rate_of_standing": 0.8266666666666667,
+            "pass_rate_of_all": 0.8266666666666667
+          },
+          "effective": {
+            "judged": 62,
+            "passed": 22,
+            "pass_rate_of_standing": 0.3548387096774194,
+            "pass_rate_of_all": 0.29333333333333333
+          },
+          "invasive": {
+            "judged": 22,
+            "passed": 12,
+            "pass_rate_of_standing": 0.5454545454545454,
+            "pass_rate_of_all": 0.16
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 75,
+            "passed": 68,
+            "pass_rate_of_standing": 0.9066666666666666,
+            "pass_rate_of_all": 0.9066666666666666
+          },
+          "effective": {
+            "judged": 68,
+            "passed": 22,
+            "pass_rate_of_standing": 0.3235294117647059,
+            "pass_rate_of_all": 0.29333333333333333
+          },
+          "invasive": {
+            "judged": 22,
+            "passed": 12,
+            "pass_rate_of_standing": 0.5454545454545454,
+            "pass_rate_of_all": 0.16
+          }
+        }
+      }
+    },
+    "train-02": {
+      "run": "train-02",
+      "cases": 75,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 75,
+            "passed": 62,
+            "pass_rate_of_standing": 0.8266666666666667,
+            "pass_rate_of_all": 0.8266666666666667
+          },
+          "effective": {
+            "judged": 62,
+            "passed": 18,
+            "pass_rate_of_standing": 0.2903225806451613,
+            "pass_rate_of_all": 0.24
+          },
+          "invasive": {
+            "judged": 18,
+            "passed": 10,
+            "pass_rate_of_standing": 0.5555555555555556,
+            "pass_rate_of_all": 0.13333333333333333
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 75,
+            "passed": 68,
+            "pass_rate_of_standing": 0.9066666666666666,
+            "pass_rate_of_all": 0.9066666666666666
+          },
+          "effective": {
+            "judged": 68,
+            "passed": 20,
+            "pass_rate_of_standing": 0.29411764705882354,
+            "pass_rate_of_all": 0.26666666666666666
+          },
+          "invasive": {
+            "judged": 20,
+            "passed": 11,
+            "pass_rate_of_standing": 0.55,
+            "pass_rate_of_all": 0.14666666666666667
+          }
+        }
+      }
+    },
+    "validation": {
+      "run": "validation",
+      "cases": 39,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 39,
+            "passed": 27,
+            "pass_rate_of_standing": 0.6923076923076923,
+            "pass_rate_of_all": 0.6923076923076923
+          },
+          "effective": {
+            "judged": 27,
+            "passed": 11,
+            "pass_rate_of_standing": 0.4074074074074074,
+            "pass_rate_of_all": 0.28205128205128205
+          },
+          "invasive": {
+            "judged": 11,
+            "passed": 7,
+            "pass_rate_of_standing": 0.6363636363636364,
+            "pass_rate_of_all": 0.1794871794871795
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 39,
+            "passed": 39,
+            "pass_rate_of_standing": 1.0,
+            "pass_rate_of_all": 1.0
+          },
+          "effective": {
+            "judged": 39,
+            "passed": 12,
+            "pass_rate_of_standing": 0.3076923076923077,
+            "pass_rate_of_all": 0.3076923076923077
+          },
+          "invasive": {
+            "judged": 12,
+            "passed": 8,
+            "pass_rate_of_standing": 0.6666666666666666,
+            "pass_rate_of_all": 0.20512820512820512
+          }
+        }
+      }
+    },
+    "test": {
+      "run": "test",
+      "cases": 35,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 35,
+            "passed": 26,
+            "pass_rate_of_standing": 0.7428571428571429,
+            "pass_rate_of_all": 0.7428571428571429
+          },
+          "effective": {
+            "judged": 26,
+            "passed": 9,
+            "pass_rate_of_standing": 0.34615384615384615,
+            "pass_rate_of_all": 0.2571428571428571
+          },
+          "invasive": {
+            "judged": 9,
+            "passed": 2,
+            "pass_rate_of_standing": 0.2222222222222222,
+            "pass_rate_of_all": 0.05714285714285714
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 35,
+            "passed": 34,
+            "pass_rate_of_standing": 0.9714285714285714,
+            "pass_rate_of_all": 0.9714285714285714
+          },
+          "effective": {
+            "judged": 34,
+            "passed": 11,
+            "pass_rate_of_standing": 0.3235294117647059,
+            "pass_rate_of_all": 0.3142857142857143
+          },
+          "invasive": {
+            "judged": 11,
+            "passed": 4,
+            "pass_rate_of_standing": 0.36363636363636365,
+            "pass_rate_of_all": 0.11428571428571428
+          }
+        }
+      }
+    }
+  },
+  "pooled": {
+    "runs": [
+      "train-01",
+      "train-02",
+      "validation",
+      "test"
+    ],
+    "ladder": {
+      "without_spec": {
+        "cases": 224,
+        "criteria": [
+          "clean",
+          "effective",
+          "invasive"
+        ],
+        "reached": {
+          "clean": {
+            "judged": 224,
+            "passed": 177,
+            "pass_rate_of_standing": 0.7901785714285714,
+            "pass_rate_of_all": 0.7901785714285714
+          },
+          "effective": {
+            "judged": 177,
+            "passed": 60,
+            "pass_rate_of_standing": 0.3389830508474576,
+            "pass_rate_of_all": 0.26785714285714285
+          },
+          "invasive": {
+            "judged": 60,
+            "passed": 31,
+            "pass_rate_of_standing": 0.5166666666666667,
+            "pass_rate_of_all": 0.13839285714285715
+          }
+        },
+        "standing": {
+          "clean": 177,
+          "effective": 60,
+          "invasive": 31
+        },
+        "first_failure": {
+          "clean": 47,
+          "effective": 117,
+          "invasive": 29,
+          "none": 31
+        },
+        "order_violations": [
+          {
+            "harder": "effective",
+            "easier": "clean",
+            "cases": 3,
+            "ids": [
+              "scaled-branchfolding-570",
+              "scaled-indvarsimplify-2814",
+              "scaled-valuemapper-289"
+            ]
+          },
+          {
+            "harder": "invasive",
+            "easier": "effective",
+            "cases": 60,
+            "ids": [
+              "scaled-aliasanalysis-314",
+              "scaled-aliasanalysis-314",
+              "scaled-aliasanalysis-632",
+              "scaled-aliasanalysis-632",
+              "scaled-aliasanalysis-706",
+              "scaled-aliasanalysis-706",
+              "scaled-aliasanalysis-790",
+              "scaled-assumptioncache-166",
+              "scaled-branchfolding-953",
+              "scaled-branchprobabilityinfo-75",
+              "scaled-branchprobabilityinfo-75",
+              "scaled-capturetracking-167",
+              "scaled-capturetracking-167",
+              "scaled-clonefunction-98",
+              "scaled-constantfolding-1208",
+              "scaled-demandedbits-160",
+              "scaled-domtreeupdater-31",
+              "scaled-earlycse-929",
+              "scaled-functionattrs-101",
+              "scaled-functionattrs-101"
+            ]
+          }
+        ],
+        "order_holds": false,
+        "interpretation": "Style and usefulness bars come from the rubric's own scale; coupling bars come from the upstream comment at the same location. Placement, the third part of effective, needs the placement corpus and is reported separately."
+      },
+      "with_spec": {
+        "cases": 224,
+        "criteria": [
+          "clean",
+          "effective",
+          "invasive"
+        ],
+        "reached": {
+          "clean": {
+            "judged": 224,
+            "passed": 209,
+            "pass_rate_of_standing": 0.9330357142857143,
+            "pass_rate_of_all": 0.9330357142857143
+          },
+          "effective": {
+            "judged": 209,
+            "passed": 65,
+            "pass_rate_of_standing": 0.31100478468899523,
+            "pass_rate_of_all": 0.29017857142857145
+          },
+          "invasive": {
+            "judged": 65,
+            "passed": 35,
+            "pass_rate_of_standing": 0.5384615384615384,
+            "pass_rate_of_all": 0.15625
+          }
+        },
+        "standing": {
+          "clean": 209,
+          "effective": 65,
+          "invasive": 35
+        },
+        "first_failure": {
+          "clean": 15,
+          "effective": 144,
+          "invasive": 30,
+          "none": 35
+        },
+        "order_violations": [
+          {
+            "harder": "effective",
+            "easier": "clean",
+            "cases": 1,
+            "ids": [
+              "scaled-reassociate-1347"
+            ]
+          },
+          {
+            "harder": "invasive",
+            "easier": "effective",
+            "cases": 76,
+            "ids": [
+              "scaled-aliasanalysis-314",
+              "scaled-aliasanalysis-314",
+              "scaled-aliasanalysis-632",
+              "scaled-aliasanalysis-632",
+              "scaled-aliasanalysis-706",
+              "scaled-aliasanalysis-706",
+              "scaled-aliasanalysis-790",
+              "scaled-aliasanalysis-790",
+              "scaled-assumptioncache-166",
+              "scaled-assumptioncache-207",
+              "scaled-assumptioncache-207",
+              "scaled-assumptioncache-249",
+              "scaled-blockfrequencyinfo-169",
+              "scaled-branchfolding-953",
+              "scaled-branchprobabilityinfo-725",
+              "scaled-branchprobabilityinfo-75",
+              "scaled-branchprobabilityinfo-75",
+              "scaled-capturetracking-167",
+              "scaled-clonefunction-98",
+              "scaled-constantfolding-1208"
+            ]
+          }
+        ],
+        "order_holds": false,
+        "interpretation": "Style and usefulness bars come from the rubric's own scale; coupling bars come from the upstream comment at the same location. Placement, the third part of effective, needs the placement corpus and is reported separately."
+      }
+    },
+    "cases": {
+      "without_spec": 224,
+      "with_spec": 224
+    }
+  }
+}

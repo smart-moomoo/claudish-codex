@@ -24,6 +24,21 @@ but meaning regressed on two validation cases. It remains experimental.
 Three full-length contrasts, including a regression, remain in the private
 local experiment artifacts.
 
+A separate [ladder study](experiments/ladder/README.md) asks four questions in
+increasing order of difficulty: is the comment well written, does it belong
+there at that length, is it the smallest thing that works, and is it right for
+the whole file. The first step is where almost everything is lost. On 74 unseen
+pairs, 73 of 74 comments written with the spec read well, 23 of those are the
+right length and explain the right thing, and 7 clear all four. These are style
+and scope criteria; meaning is reported separately, not used as a gate. Asked whether a
+comment belongs at a position at all, the model declines about as often as LLVM
+did, which contradicts the study's own written prediction. Given the files
+before a real commit from a corpus of
+[40 LLVM changes](corpus/commits/README.md), it finds the area the real fix
+touched in 12 of 20 cases. The median is 2 changed lines against 3 upstream;
+10 of 20 clear the shape ladder. These corrected measurements replace an
+earlier analysis that incorrectly counted unchanged edit anchors.
+
 The [scaled LLVM study](experiments/scaled/README.md) expands this to 150
 file-disjoint, length- and function-stratified comments with two fresh judges
 per pair. The frozen ten-rule candidate improved all four style deficits on 74
@@ -147,9 +162,12 @@ violates the response schema is preserved with its raw answer and excluded from
 the scores.
 
 `select-corpus` deterministically freezes a scaled, file-disjoint selection from
-a prepared source manifest. If every generation call completed but the run
-failed before judging began, `resume-run` judges the remaining valid pairs
-without repeating a generation.
+a prepared source manifest. `resume-run --run runs/my-revision` continues a run
+that was interrupted or failed: every completed call is reused from its saved
+answer, and only the calls that never finished are made again. Stopping a long
+run therefore costs nothing already paid for. Resuming refuses a run whose
+spec, rubric, task or corpus no longer matches its manifest, so a resumed run
+cannot mix inputs.
 
 Two commands make no model requests. `reaggregate --run runs/my-revision`
 rebuilds a run's summary and report from its saved rows, so a repaired
@@ -168,6 +186,66 @@ python -m claudish aggregate --out experiments/scaled/results.json \
 ```
 
 Pooled rows keep the order of the labels given, which fixes the bootstrap draws.
+
+## Four criteria, hardest last
+
+The judge rubric asks whether a comment is well written. Three further
+questions it cannot reach are whether a comment belongs at that location and
+at that length, whether it is the smallest thing that does the job, and
+whether it is right for the file rather than only for its own line. Those are
+scored in order, each only for the cases that passed the one before, and the
+[ladder study](experiments/ladder/README.md) reports how far comments get.
+
+Two of the commands make no model requests:
+
+```sh
+python -m claudish score-tiers --run runs/a --run label=runs/b --out ladder.json
+python -m claudish measure-generations --run runs/a
+```
+
+`score-tiers` scores finished runs and pools several into one ladder.
+`measure-generations` works on a run that was stopped before judging: it
+reports the length and coupling of every saved comment, including how closely
+length follows the location.
+
+The other three need model calls:
+
+```sh
+python -m claudish placement-run --split train --corpus-dir corpus/scaled-500 --out runs/placement
+python -m claudish judge-files --run runs/a
+python -m claudish commit-run --split train --corpus-dir corpus/commits --out runs/patches
+```
+
+`placement-run` asks whether a comment belongs at each of the 60 frozen
+positions in `corpus/scaled-500/placement.json`, half of which LLVM left
+uncommented; the model may decline. `judge-files` judges each file's comments
+as a set against [a second rubric](evaluation/file-rubric.md), which is where
+repetition across a file becomes visible. `commit-run` gives fresh agents the
+files as they stood before a real LLVM commit and that commit's message, and
+compares the edits it gets back with what upstream actually did. Placement is
+always paired, using the generated comment spec unless `--spec` overrides it.
+`commit-run` has a single arm unless `--spec` supplies code-writing guidance.
+All three accept `--resume` only with matching saved inputs, model and effort.
+Failed attempts are archived, not deleted. Legacy placement/commit manifests
+without input fingerprints cannot be resumed; use a new output directory.
+
+File judging now writes `file-calls-v2/` and `file-judgments-v2.json`, leaving
+the old leaked-context series intact. `score-tiers` ignores old file judgments
+and checks the new judgments against the run's rows and corpus. Invalid judge
+responses are preserved and excluded, never rerolled.
+
+Commit scoring compares original and final sources, not replacement anchor
+sizes. Existing commit answers can be rescored without model calls or changing
+the original run:
+
+```sh
+python -m claudish rescore-commits --run runs/patches --out runs/patches-rescored
+```
+
+Nothing in the commit study compiles or runs LLVM, so none of it says whether
+a generated change is correct. It measures what a change touches and where.
+An answer that changes nothing would look ideal on both, so an answer counts
+only when every edit applies and it overlaps the real commit at all.
 
 ## Evidence and limits
 

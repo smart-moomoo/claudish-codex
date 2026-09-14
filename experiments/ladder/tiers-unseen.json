@@ -1,0 +1,361 @@
+{
+  "runs": {
+    "validation": {
+      "run": "validation",
+      "cases": 39,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 39,
+            "passed": 27,
+            "pass_rate_of_standing": 0.6923076923076923,
+            "pass_rate_of_all": 0.6923076923076923
+          },
+          "effective": {
+            "judged": 27,
+            "passed": 11,
+            "pass_rate_of_standing": 0.4074074074074074,
+            "pass_rate_of_all": 0.28205128205128205
+          },
+          "invasive": {
+            "judged": 11,
+            "passed": 7,
+            "pass_rate_of_standing": 0.6363636363636364,
+            "pass_rate_of_all": 0.1794871794871795
+          },
+          "optimal": {
+            "judged": 7,
+            "passed": 3,
+            "pass_rate_of_standing": 0.42857142857142855,
+            "pass_rate_of_all": 0.07692307692307693
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 39,
+            "passed": 39,
+            "pass_rate_of_standing": 1.0,
+            "pass_rate_of_all": 1.0
+          },
+          "effective": {
+            "judged": 39,
+            "passed": 12,
+            "pass_rate_of_standing": 0.3076923076923077,
+            "pass_rate_of_all": 0.3076923076923077
+          },
+          "invasive": {
+            "judged": 12,
+            "passed": 8,
+            "pass_rate_of_standing": 0.6666666666666666,
+            "pass_rate_of_all": 0.20512820512820512
+          },
+          "optimal": {
+            "judged": 8,
+            "passed": 3,
+            "pass_rate_of_standing": 0.375,
+            "pass_rate_of_all": 0.07692307692307693
+          }
+        }
+      }
+    },
+    "test": {
+      "run": "test",
+      "cases": 35,
+      "ladder": {
+        "without_spec": {
+          "clean": {
+            "judged": 35,
+            "passed": 26,
+            "pass_rate_of_standing": 0.7428571428571429,
+            "pass_rate_of_all": 0.7428571428571429
+          },
+          "effective": {
+            "judged": 26,
+            "passed": 9,
+            "pass_rate_of_standing": 0.34615384615384615,
+            "pass_rate_of_all": 0.2571428571428571
+          },
+          "invasive": {
+            "judged": 9,
+            "passed": 2,
+            "pass_rate_of_standing": 0.2222222222222222,
+            "pass_rate_of_all": 0.05714285714285714
+          },
+          "optimal": {
+            "judged": 2,
+            "passed": 2,
+            "pass_rate_of_standing": 1.0,
+            "pass_rate_of_all": 0.05714285714285714
+          }
+        },
+        "with_spec": {
+          "clean": {
+            "judged": 35,
+            "passed": 34,
+            "pass_rate_of_standing": 0.9714285714285714,
+            "pass_rate_of_all": 0.9714285714285714
+          },
+          "effective": {
+            "judged": 34,
+            "passed": 11,
+            "pass_rate_of_standing": 0.3235294117647059,
+            "pass_rate_of_all": 0.3142857142857143
+          },
+          "invasive": {
+            "judged": 11,
+            "passed": 4,
+            "pass_rate_of_standing": 0.36363636363636365,
+            "pass_rate_of_all": 0.11428571428571428
+          },
+          "optimal": {
+            "judged": 4,
+            "passed": 4,
+            "pass_rate_of_standing": 1.0,
+            "pass_rate_of_all": 0.11428571428571428
+          }
+        }
+      }
+    }
+  },
+  "pooled": {
+    "runs": [
+      "validation",
+      "test"
+    ],
+    "ladder": {
+      "without_spec": {
+        "cases": 74,
+        "criteria": [
+          "clean",
+          "effective",
+          "invasive",
+          "optimal"
+        ],
+        "reached": {
+          "clean": {
+            "judged": 74,
+            "passed": 53,
+            "pass_rate_of_standing": 0.7162162162162162,
+            "pass_rate_of_all": 0.7162162162162162
+          },
+          "effective": {
+            "judged": 53,
+            "passed": 20,
+            "pass_rate_of_standing": 0.37735849056603776,
+            "pass_rate_of_all": 0.2702702702702703
+          },
+          "invasive": {
+            "judged": 20,
+            "passed": 9,
+            "pass_rate_of_standing": 0.45,
+            "pass_rate_of_all": 0.12162162162162163
+          },
+          "optimal": {
+            "judged": 9,
+            "passed": 5,
+            "pass_rate_of_standing": 0.5555555555555556,
+            "pass_rate_of_all": 0.06756756756756757
+          }
+        },
+        "standing": {
+          "clean": 53,
+          "effective": 20,
+          "invasive": 9,
+          "optimal": 5
+        },
+        "first_failure": {
+          "clean": 21,
+          "effective": 33,
+          "invasive": 11,
+          "optimal": 4,
+          "none": 5
+        },
+        "order_violations": [
+          {
+            "harder": "effective",
+            "easier": "clean",
+            "cases": 2,
+            "ids": [
+              "scaled-branchfolding-570",
+              "scaled-valuemapper-289"
+            ]
+          },
+          {
+            "harder": "invasive",
+            "easier": "effective",
+            "cases": 21,
+            "ids": [
+              "scaled-branchfolding-953",
+              "scaled-clonefunction-98",
+              "scaled-demandedbits-160",
+              "scaled-domtreeupdater-31",
+              "scaled-earlycse-929",
+              "scaled-inlinefunction-635",
+              "scaled-inlinefunction-806",
+              "scaled-legalizedag-739",
+              "scaled-liverangeedit-172",
+              "scaled-liverangeedit-340",
+              "scaled-liverangeedit-358",
+              "scaled-loads-128",
+              "scaled-loads-306",
+              "scaled-loopstrengthreduce-3651",
+              "scaled-machinescheduler-2923",
+              "scaled-memorybuiltins-245",
+              "scaled-memorybuiltins-394",
+              "scaled-promotememorytoregister-705",
+              "scaled-promotememorytoregister-730",
+              "scaled-regallocgreedy-303"
+            ]
+          },
+          {
+            "harder": "optimal",
+            "easier": "invasive",
+            "cases": 21,
+            "ids": [
+              "scaled-branchfolding-1505",
+              "scaled-branchfolding-1765",
+              "scaled-branchfolding-570",
+              "scaled-clonefunction-487",
+              "scaled-clonefunction-654",
+              "scaled-clonefunction-719",
+              "scaled-earlycse-155",
+              "scaled-earlycse-505",
+              "scaled-earlycse-978",
+              "scaled-inlinefunction-1058",
+              "scaled-inlinefunction-362",
+              "scaled-legalizedag-1440",
+              "scaled-legalizedag-1619",
+              "scaled-legalizedag-293",
+              "scaled-liverangeedit-416",
+              "scaled-loopstrengthreduce-2526",
+              "scaled-loopstrengthreduce-3016",
+              "scaled-machinescheduler-1925",
+              "scaled-machinescheduler-346",
+              "scaled-regallocgreedy-182"
+            ]
+          }
+        ],
+        "order_holds": false,
+        "interpretation": "Style and usefulness bars come from the rubric's own scale; coupling bars come from the upstream comment at the same location. Placement, the third part of effective, needs the placement corpus and is reported separately."
+      },
+      "with_spec": {
+        "cases": 74,
+        "criteria": [
+          "clean",
+          "effective",
+          "invasive",
+          "optimal"
+        ],
+        "reached": {
+          "clean": {
+            "judged": 74,
+            "passed": 73,
+            "pass_rate_of_standing": 0.9864864864864865,
+            "pass_rate_of_all": 0.9864864864864865
+          },
+          "effective": {
+            "judged": 73,
+            "passed": 23,
+            "pass_rate_of_standing": 0.3150684931506849,
+            "pass_rate_of_all": 0.3108108108108108
+          },
+          "invasive": {
+            "judged": 23,
+            "passed": 12,
+            "pass_rate_of_standing": 0.5217391304347826,
+            "pass_rate_of_all": 0.16216216216216217
+          },
+          "optimal": {
+            "judged": 12,
+            "passed": 7,
+            "pass_rate_of_standing": 0.5833333333333334,
+            "pass_rate_of_all": 0.0945945945945946
+          }
+        },
+        "standing": {
+          "clean": 73,
+          "effective": 23,
+          "invasive": 12,
+          "optimal": 7
+        },
+        "first_failure": {
+          "clean": 1,
+          "effective": 50,
+          "invasive": 11,
+          "optimal": 5,
+          "none": 7
+        },
+        "order_violations": [
+          {
+            "harder": "effective",
+            "easier": "clean",
+            "cases": 0,
+            "ids": []
+          },
+          {
+            "harder": "invasive",
+            "easier": "effective",
+            "cases": 23,
+            "ids": [
+              "scaled-branchfolding-953",
+              "scaled-clonefunction-98",
+              "scaled-demandedbits-160",
+              "scaled-demandedbits-272",
+              "scaled-domtreeupdater-226",
+              "scaled-domtreeupdater-31",
+              "scaled-earlycse-929",
+              "scaled-inlinefunction-635",
+              "scaled-inlinefunction-806",
+              "scaled-legalizedag-293",
+              "scaled-legalizedag-739",
+              "scaled-liverangeedit-172",
+              "scaled-liverangeedit-340",
+              "scaled-liverangeedit-358",
+              "scaled-liverangeedit-416",
+              "scaled-loads-251",
+              "scaled-loopstrengthreduce-3651",
+              "scaled-machinescheduler-2923",
+              "scaled-memorybuiltins-245",
+              "scaled-promotememorytoregister-705"
+            ]
+          },
+          {
+            "harder": "optimal",
+            "easier": "invasive",
+            "cases": 20,
+            "ids": [
+              "scaled-branchfolding-1505",
+              "scaled-branchfolding-1765",
+              "scaled-clonefunction-487",
+              "scaled-clonefunction-654",
+              "scaled-clonefunction-719",
+              "scaled-demandedbits-190",
+              "scaled-demandedbits-391",
+              "scaled-demandedbits-92",
+              "scaled-earlycse-155",
+              "scaled-earlycse-361",
+              "scaled-earlycse-505",
+              "scaled-inlinefunction-1058",
+              "scaled-inlinefunction-362",
+              "scaled-legalizedag-1440",
+              "scaled-loopstrengthreduce-2526",
+              "scaled-loopstrengthreduce-3016",
+              "scaled-machinescheduler-1925",
+              "scaled-machinescheduler-346",
+              "scaled-regallocgreedy-182",
+              "scaled-regallocgreedy-2986"
+            ]
+          }
+        ],
+        "order_holds": false,
+        "interpretation": "Style and usefulness bars come from the rubric's own scale; coupling bars come from the upstream comment at the same location. Placement, the third part of effective, needs the placement corpus and is reported separately."
+      }
+    },
+    "cases": {
+      "without_spec": 74,
+      "with_spec": 74
+    }
+  },
+  "file_judge_version": 2,
+  "note": "Fourth-rung coverage excludes invalid file judgments; missing grades are not failures. Meaning remains a separate score, not a gate."
+}
