@@ -16,24 +16,23 @@ did **not** establish an improvement: meaning scores tied and usefulness was
 slightly worse with the spec. The spec remains experimental; aggregate evidence
 and iteration notes include regressions, while detailed runs stay local.
 
-The initial references were only 12–38 words. A separate
+The initial references were only 12–38 words. The completed
 [long-block study](experiments/long-blocks/README.md) resamples 12 intact LLVM
-blocks of 102–263 words to examine explanations beyond one-liners. It is now
-complete: the revised spec improved average style on eight unseen blocks,
-but meaning regressed on two validation cases. It remains experimental.
-Three full-length contrasts, including a regression, remain in the private
-local experiment artifacts.
+blocks of 102–263 words to examine explanations beyond one-liners. The revised
+spec improved average style on eight unseen blocks, but meaning regressed on
+two validation cases, so it remains experimental. Three full-length contrasts,
+including a regression, remain in the private local experiment artifacts.
 
 A separate [ladder study](experiments/ladder/README.md) asks four questions in
 increasing order of difficulty: is the comment well written, does it belong
 there at that length, is it the smallest thing that works, and is it right for
-the whole file. The first step is where almost everything is lost. On 74 unseen
+the whole file. Most comments that pass style fail the next criterion. On 74 unseen
 pairs, 73 of 74 comments written with the spec read well, 23 of those are the
 right length and explain the right thing, and 7 clear all four. These are style
-and scope criteria; meaning is reported separately, not used as a gate. Asked whether a
-comment belongs at a position at all, the model declines about as often as LLVM
-did, which contradicts the study's own written prediction. Given the files
-before a real commit from a corpus of
+and scope criteria; meaning is reported separately and is not used as a gate.
+Asked whether a comment belongs at a position at all, the model declines about
+as often as LLVM did, which contradicts the study's own written prediction.
+Given the files before a real commit from a corpus of
 [40 LLVM changes](corpus/commits/README.md), it finds the area the real fix
 touched in 12 of 20 cases. The median is 2 changed lines against 3 upstream;
 10 of 20 clear the shape ladder. These corrected measurements replace an
@@ -162,12 +161,11 @@ violates the response schema is preserved with its raw answer and excluded from
 the scores.
 
 `select-corpus` deterministically freezes a scaled, file-disjoint selection from
-a prepared source manifest. `resume-run --run runs/my-revision` continues a run
-that was interrupted or failed: every completed call is reused from its saved
-answer, and only the calls that never finished are made again. Stopping a long
-run therefore costs nothing already paid for. Resuming refuses a run whose
-spec, rubric, task or corpus no longer matches its manifest, so a resumed run
-cannot mix inputs.
+a prepared source manifest. `resume-run --run runs/my-revision` continues an
+interrupted or failed run by reusing every completed call from its saved answer
+and making only the calls that never finished. Stopping a long run does not
+lose completed calls. Resuming refuses a run whose spec, rubric, task or corpus
+no longer matches its manifest, so a resumed run cannot mix inputs.
 
 Two commands make no model requests. `reaggregate --run runs/my-revision`
 rebuilds a run's summary and report from its saved rows, so a repaired
@@ -189,11 +187,11 @@ Pooled rows keep the order of the labels given, which fixes the bootstrap draws.
 
 ## Four criteria, hardest last
 
-The judge rubric asks whether a comment is well written. Three further
-questions it cannot reach are whether a comment belongs at that location and
-at that length, whether it is the smallest thing that does the job, and
-whether it is right for the file rather than only for its own line. Those are
-scored in order, each only for the cases that passed the one before, and the
+The judge rubric asks whether a comment is well written. The ladder adds three
+questions: whether a comment belongs at that location and at that length,
+whether it is the smallest thing that does the job, and whether it is right for
+the file rather than only for its own line. The questions are scored in order,
+each only for cases that passed the previous one, and the
 [ladder study](experiments/ladder/README.md) reports how far comments get.
 
 Two of the commands make no model requests:

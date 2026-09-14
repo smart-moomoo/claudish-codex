@@ -1,9 +1,9 @@
-"""Judging a file's comments together instead of one at a time.
+"""Judge a file's comments together instead of one at a time.
 
-A comment can be fine on its own and wrong for the file: the third restatement
-of the same rule, a name that contradicts the comment forty lines up, a
-paragraph on the obvious line while the subtle one gets nothing. Judging one
-comment at a time cannot see any of that, which is what this adds.
+A comment that works alone may still be wrong for the file: it may restate the
+same rule for the third time, use a name that contradicts a comment forty lines
+up, or explain an obvious line in a paragraph while leaving a subtle one
+unexplained. Judging the comments together can expose these file-level problems.
 """
 
 from concurrent.futures import ThreadPoolExecutor, as_completed

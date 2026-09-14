@@ -1,9 +1,9 @@
 # 40 small LLVM commits
 
-Real changes, used where a comment cannot serve: to ask what a change touches
-and whether it is in the right place. The model is given the files as they
-stood before a commit, plus that commit's own message, and returns edits. The
-commit is the reference.
+This corpus compares generated edits with real LLVM commits to measure what a
+change touches and whether it is in the right place. The model receives the
+files as they stood before a commit and that commit's own message, then returns
+edits. The commit is the reference.
 
 Selected mechanically from the 700 commits reachable from
 `d32170dbd5b0d54436537b6b75beaf44324e0c28` (March 2020), the same pin the
@@ -50,11 +50,11 @@ offline. The lock is published, the sources and patches are not.
 
 ## What is measured, and what is not
 
-Nothing here compiles or runs LLVM, so nothing here says whether a change is
-correct. What is measured is shape: files touched, lines changed, headers
-touched that the real change left alone, symbols introduced that the
-pre-change sources did not have, and how much the answer's changed lines
-overlap the real commit's.
+Nothing here compiles or runs LLVM, so the measurements do not establish
+whether a change is correct. They cover files touched, lines changed, headers
+touched that the real change left alone, symbols introduced that the pre-change
+sources did not have, and how much the answer's changed lines overlap the real
+commit's.
 
 An answer that changes nothing would score perfectly on all of those, so an
 answer counts only if every edit applies to the supplied sources and it

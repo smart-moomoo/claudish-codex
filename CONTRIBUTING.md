@@ -3,8 +3,8 @@
 The dictionary is an input to the Codex spec. `python -m claudish build-spec`
 turns every accepted entry's guidance, example, and exceptions into
 `specs/codex-comments.md`. Updating the dictionary without rebuilding the spec
-fails CI. This connection addresses the ambiguity raised in
-[the original project's issue #1](https://github.com/programasweights/claudish/issues/1).
+fails CI. Generating the spec from the dictionary addresses the ambiguity raised
+in [the original project's issue #1](https://github.com/programasweights/claudish/issues/1).
 
 1. Find a recurring problem in training outputs or a real Codex-generated diff.
    Include the exact output, relevant code context, model and effort, and a

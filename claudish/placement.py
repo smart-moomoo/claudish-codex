@@ -1,15 +1,15 @@
-"""Does a comment belong here at all?
+"""Evaluate whether a comment belongs at a marked position.
 
-Every case in the main corpus marks a spot where LLVM did write a comment, and
-the generator is told to write one, so nothing so far tests whether a model
-knows when to stay quiet. This corpus mixes those spots with spots where LLVM
-wrote nothing and makes the model decide.
+Every case in the main corpus marks a position where LLVM wrote a comment, and
+the generator is told to write one. It therefore does not test whether a model
+knows when to leave a position uncommented. This corpus mixes those positions
+with positions where LLVM wrote nothing and makes the model decide.
 
-The marker looks identical either way, so the model cannot tell the two apart
-from the context it receives. Upstream's choice is the only ground truth
-available, and it is not a strong one: LLVM leaves plenty of places uncommented
-that could fairly carry a comment. Agreement with upstream is what this
-measures, and disagreement on an uncommented spot is weaker evidence than
+The same marker is used in both kinds of case to avoid revealing whether LLVM
+wrote a comment there. Upstream's choice is the only
+available ground truth, but it is weak: LLVM leaves many positions uncommented
+that could reasonably carry a comment. This measures agreement with upstream,
+and disagreement on an uncommented position is weaker evidence than
 disagreement on a commented one.
 """
 
@@ -50,15 +50,15 @@ def _comment_lines(comments):
 
 
 def anchors(source):
-    """Lines where code follows a blank line with no comment anywhere near.
+    """Lines where code follows a blank line with no comment nearby.
 
-    This is the same shape as a commented case with its comment taken away:
-    blank line, then code. Requiring the blank line keeps the two kinds of case
-    structurally alike, so the marker is the only thing the model can go on.
+    These positions have the same structure as commented cases after removing
+    the comment: a blank line followed by code. Requiring the blank line reduces
+    structural differences between the two kinds of case.
 
-    Nothing may be commented in the lines just above either. A class whose doc
-    comment sits above an enclosing namespace is already explained, and marking
-    the line below it would count an explained location as an unexplained one.
+    The preceding lines must also contain no comments. A class whose doc
+    comment sits above an enclosing namespace is already explained; marking the
+    line below it would treat an explained location as unexplained.
     """
     lookback = 8
     comments, _ = scan(source)

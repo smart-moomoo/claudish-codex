@@ -1,16 +1,14 @@
 """Real LLVM commits, used to ask what a change touches and where.
 
-Invasiveness and placement are properties of a change, and a single comment is
-not a change: it touches nothing and sits where it was told to sit. So this
-corpus swaps the unit. The model gets the files as they stood before a real
-commit, plus that commit's own message, and returns edits. The commit is the
-reference, the same way an upstream comment is the reference elsewhere.
+The comment-writing task fixes the location and leaves code unchanged, so it
+cannot measure where or how broadly the model chooses to edit code. Here the
+model gets the files as they stood before a real commit, plus that commit's
+message, and returns edits. The commit is the reference.
 
-Nothing here builds or runs LLVM, so nothing here says whether a change is
-correct. What it measures is shape: how much was touched, and whether it was
-the part the real fix touched. An empty answer would look perfectly
-uninvasive, so an answer must apply and must overlap the real change before any
-shape number counts.
+LLVM is not built or run, so these measurements do not establish correctness.
+They describe what changed and how much it overlaps the upstream change. An
+answer must apply and overlap that change before shape scores count; otherwise
+an empty answer could appear minimally invasive.
 """
 
 import difflib
@@ -73,7 +71,7 @@ def parse_patch(text):
     """File sections of a git patch, with the pre-change lines each one touches.
 
     A removal touches the line it removes. An insertion touches the line it
-    lands after, so a pure addition still has a position to compare.
+    follows, giving a pure addition a position to compare.
     """
     lines = text.splitlines()
     files, current = [], None
@@ -260,8 +258,8 @@ def select(root, corpus_dir, *, count=40, seed=20260913, scan=400, pin=LLVM_COMM
 def prepare(root, corpus_dir=None):
     """Refetch the frozen pre-change sources and patches, checking every hash.
 
-    The lock is what the repository publishes; the sources and patches
-    themselves are recreated from it, the same way the comment corpora are.
+    The repository publishes the lock. The sources and patches are recreated
+    from it, as they are for the comment corpora.
     """
     data_dir = directory(root, corpus_dir)
     lock = read_json(data_dir / "commits.lock.json")
@@ -428,9 +426,9 @@ def _jaccard(left, right):
 def compare(candidate, reference, *, overlap_threshold=0.5):
     """Invasiveness and placement of an answer against the real commit.
 
-    The one number chosen by hand in this design is the overlap a change must
-    share with the real one to count as being in the right place. The raw
-    overlap is reported, so another threshold can be applied without new calls.
+    The required region overlap is the only threshold chosen by hand in this
+    design. The raw overlap is reported so another threshold can be applied
+    without new calls.
     """
     overlap = _jaccard(candidate["touched_lines"], reference["touched_lines"])
     extra_headers = sorted(set(candidate["headers_touched"]) - set(reference["headers_touched"]))

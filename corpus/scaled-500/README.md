@@ -23,8 +23,9 @@ reference text. They balance sampling and are not semantic ground truth.
 ## Breadth
 
 Earlier corpora drew only on Analysis, Transforms, CodeGen and Support. This
-one spans sixteen subsystems, which is the point: the earlier studies could not
-speak to LLVM beyond the handful of passes they sampled.
+corpus spans sixteen subsystems; the earlier studies covered only the handful
+of passes they sampled and could not support conclusions about LLVM beyond
+them.
 
 | Subsystem | Cases | Subsystem | Cases |
 | --- | ---: | --- | ---: |
@@ -40,10 +41,10 @@ speak to LLVM beyond the handful of passes they sampled.
 ## How the selection was frozen
 
 Candidate files were drawn from every non-target library under `llvm/lib`
-above 15 KB, excluding the 52 files any earlier study had touched. Files the
-comment scanner refuses, mostly those using line splices, were dropped before
-any selection; 69 of 433 candidates fell out that way. Files were then dealt to
-splits longest-comment-first, so each split holds roughly twice the long-block
+above 15 KB, excluding the 52 files touched by any earlier study. Before
+selection, the comment scanner rejected 69 of 433 candidates, mostly for using
+line splices. The remaining files were assigned to splits in
+longest-comment-first order, so each split holds roughly twice the long-block
 supply its quota needs.
 
 `python -m claudish select-corpus --corpus-dir corpus/scaled-500 --train 250

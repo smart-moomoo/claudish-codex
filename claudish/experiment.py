@@ -295,11 +295,11 @@ def run(root, output, *, split="train", repeats=1, judges=1, jobs=2, seed=42,
 
 
 def reload_corpus(manifest):
-    """The run's own corpus, re-read from disk and checked against the manifest.
+    """Re-read the run's corpus from disk and check it against the manifest.
 
-    Generation needs the source text that cases.json leaves out, so a run that
-    is continued or scored later loads the corpus again rather than trusting
-    the copy saved beside its results.
+    Generation needs the source text omitted from cases.json. Continuing or
+    scoring a run later therefore reloads the corpus instead of using the copy
+    saved beside the results.
     """
     data_dir = Path(manifest["corpus_dir"])
     if digest(read_json(data_dir / "cases.json")) != manifest["cases_sha256"]:
@@ -315,8 +315,8 @@ def reload_corpus(manifest):
 def resume(output, *, jobs=2, timeout=240):
     """Continue an interrupted or failed run, reusing every completed call.
 
-    A stopped run keeps everything it already paid for. Only the calls that
-    never finished are made again, so stopping a long run is cheap.
+    Only calls that never finished are made again; completed calls from the
+    stopped run are preserved and reused.
     """
     output = Path(output).resolve()
     manifest = read_json(output / "manifest.json")
@@ -346,10 +346,11 @@ def resume(output, *, jobs=2, timeout=240):
 
 
 def reaggregate(output):
-    """Rebuild the summary and report from saved rows. Makes no model requests.
+    """Rebuild the summary and report from saved rows without model requests.
 
-    A preserved judgment keeps its raw answer and blind mapping, so a repaired
-    validator recovers it here without repeating a call or editing any score.
+    Each preserved judgment retains its raw answer and blind mapping. A
+    repaired validator can therefore recover it without repeating the call or
+    editing any score.
     """
     output = Path(output).resolve()
     manifest = read_json(output / "manifest.json")

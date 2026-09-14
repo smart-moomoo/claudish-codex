@@ -1,8 +1,7 @@
-"""Every command must call its function with keywords that function accepts.
+"""Check that every command uses keywords accepted by its function.
 
-The dispatch is the one place the package is wired together, and a wrong
-keyword there only shows up when a command is run for real, which for most of
-these costs model calls. This checks it without making any.
+The dispatch connects the package's commands to their functions. Check its
+keyword arguments without invoking command handlers or making model calls.
 """
 
 import ast

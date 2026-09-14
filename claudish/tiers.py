@@ -1,19 +1,20 @@
-"""The four evaluation criteria, applied hardest-last.
+"""Apply the four evaluation criteria in their proposed difficulty order.
 
-Clean, effective, invasive, optimal. A criterion is scored only for the cases
-that passed the criterion before it, so every number describes comments that
-already met the easier bars.
+The criteria are clean, effective, invasive and optimal. The ladder counts a
+criterion only for cases that passed the preceding criterion, so each pass rate
+describes comments that already met the preceding bars.
 
-Each bar comes from something the project already defines, not from a number
-chosen here. Where the judge rubric grades a dimension, the bar is its own
-wording: a deficit of 2 is "noticeable", so anything below 2 passes. Where no
-rubric exists, the bar is the upstream comment written at the same location.
-Raw measurements sit beside every verdict, so a different bar can be applied
-later without making a model call.
+Each bar comes from a definition elsewhere in the project. For dimensions
+covered by the judge rubric, the bar follows the rubric's wording: a deficit of
+2 is "noticeable", so anything below 2 passes. Where no rubric exists, the bar
+is the upstream comment at the same location. Raw measurements accompany every
+verdict, allowing a different bar to be applied later without another model
+call.
 
-Truthfulness is not a rung. A comment that misstates the code fails at
-something more basic than style, so the judge's meaning score is reported as a
-precondition next to the ladder rather than inside it.
+The judge's meaning score is reported as a precondition beside the ladder
+because a comment that misstates the code fails at a more basic level than
+style.
+It does not determine whether a comment proceeds through the ladder.
 """
 
 import re
@@ -36,11 +37,12 @@ _IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 
 def code_shaped(token):
-    """Whether a token can only be a code name, never ordinary prose.
+    """Whether a token has the code-name forms recognized by this metric.
 
-    An underscore, an all-caps run or an internal capital. Plain words such as
-    "loop" or "size" are deliberately not counted, even when the code also uses
-    them as identifiers, because a comment may need the ordinary word.
+    The recognized forms contain an underscore, an all-caps run or an internal
+    capital. Plain words such as "loop" or "size" are deliberately excluded,
+    even when the code also uses them as identifiers, because a comment may
+    need the ordinary word.
     """
     if "_" in token:
         return True
@@ -54,10 +56,10 @@ def identifiers(text):
 
 
 def code_only(text):
-    """The text with its comments removed, so prose is compared against code.
+    """Remove comments before comparing prose with code.
 
-    Without this an upstream comment is measured against a file that contains
-    it, and every name it uses looks local by definition.
+    Otherwise, an upstream comment would be measured against a file containing
+    that comment, making every name it uses appear local.
     """
     try:
         comments, _ = scan(text)
@@ -83,10 +85,10 @@ def length_band(word_count):
 def measure_comment(comment, case):
     """Length and coupling measures for one comment at one location.
 
-    restatement_fraction is the share of the comment made of code names that
-    are already visible in the context the writer was given. foreign symbols
-    are code names this file never mentions, so the comment describes something
-    another component owns and breaks when that component changes.
+    restatement_fraction is the share of the comment made up of code names
+    already visible in the context given to the writer. foreign symbols are
+    code names that this file never mentions; the metric treats them as coupling
+    to another component because changes there may invalidate the comment.
     """
     tokens = _IDENTIFIER.findall(comment)
     code_tokens = [token for token in tokens if code_shaped(token)]
@@ -134,8 +136,8 @@ def case_criteria(row, case, arm, file_judgment=None):
             "beats_upstream": all(style[key] <= upstream_style[key] for key in STYLE_DIMENSIONS),
         },
         "effective": {
-            # Two ways to be wrong here: explain the wrong thing, or explain it
-            # at the wrong length. Placement is the third and needs its own corpus.
+            # Effective comments must explain the right thing at the right length.
+            # Placement is the third requirement and needs its own corpus.
             "passed": band_matches and usefulness < NOTICEABLE,
             "length_band_matches": band_matches, "usefulness": usefulness,
             "length_band": candidate["length_band"],
@@ -166,12 +168,12 @@ def _first_failure(criteria):
 
 
 def ladder(scored):
-    """Pass rates down the ladder, plus a check that the order is real.
+    """Compute pass rates down the ladder and check the criterion order.
 
-    Each rate counts only the cases still standing, so it answers "of the
-    comments that got this far, how many cleared the next bar". The ordering
-    claim is testable: a case that clears a harder criterion while failing an
-    easier one contradicts it, and those cases are listed.
+    Each rate counts only the cases still standing and reports how many of them
+    passed the next bar. A case that passes a harder criterion while failing the
+    preceding easier one contradicts the ordering claim, so such cases are
+    listed.
     """
     present = [name for name in CRITERIA if any(name in item for item in scored)]
     summary = {"cases": len(scored), "criteria": present, "reached": {}, "standing": {}}
@@ -221,12 +223,12 @@ def score_rows(rows, corpus, file_judgments=None):
 
 
 def measure_generations(output, corpus_loader):
-    """Length and coupling for a run's saved comments, with no judgments needed.
+    """Measure length and coupling in saved comments without judgments.
 
-    A run that was stopped before judging has already paid for its comments.
-    Everything measurable without a judge is measured here, which is where the
-    length question is settled: how closely a comment's length follows the
-    length the location actually got upstream.
+    A run stopped before judging still contains generated comments. This
+    measures their length and coupling, including how closely
+    each comment's length follows the length of the upstream comment at that
+    location.
     """
     from statistics import correlation, linear_regression, mean, stdev
 
