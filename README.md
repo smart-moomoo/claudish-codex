@@ -1,11 +1,13 @@
 # Claudish Codex
 
-Write useful, plain-English code comments with Codex. Measure the difference
-with fresh agents on LLVM, using actual historical upstream comments as
-references. Improve the spec through reviewed dictionary contributions.
+Guide Codex changes to text, comments and code. Cleanliness and effectiveness
+apply to comments; invasiveness and optimality apply to all three. The existing
+LLVM experiments measure comments and limited code-change proxies against
+historical upstream material. They do not yet validate the broader guidance.
 
-The project contains a usable [Codex spec](specs/codex-comments.md), a
-[dictionary](dictionary/entries.json) that directly generates its guidance,
+The project contains a [general-change spec](specs/codex-changes.md), the
+original [comment-only spec](specs/codex-comments.md), a
+[dictionary](dictionary/entries.json) that generates the comment guidance,
 a C/C++ diff grader, and a reproducible LLVM ablation runner. All model calls
 use `codex exec`; defaults are **gpt-5.6-sol, medium reasoning** for both the
 generator and the judge. There is no API SDK dependency or substitute model.
@@ -44,8 +46,9 @@ file-disjoint, length- and function-stratified comments with two fresh judges
 per pair. The frozen ten-rule candidate improved all four style deficits on 74
 unseen analyzable pairs and modestly improved meaning; usefulness was
 inconclusive. It passed the advisory screen, while remaining substantially more
-verbose than the historical upstream comments. The current spec is this scaled
-candidate; the earlier studies evaluated prior versions.
+verbose than the historical upstream comments. The comment-only spec is this
+scaled candidate; the earlier studies evaluated prior versions. The broader
+change spec adds new, not yet empirically validated guidance.
 
 Raw experiment directories and downloaded LLVM files are private local
 artifacts by default and are excluded from Git. The repository publishes the
@@ -55,16 +58,33 @@ source trees, and run fresh experiments to produce local detailed artifacts.
 
 ## Use the spec
 
-Copy `specs/codex-comments.md` into your repository, then add this instruction
+Copy `specs/codex-changes.md` into your repository, then add this instruction
 to its existing `AGENTS.md`, adjusting the path:
 
 ```text
-When writing or changing code comments, read and follow specs/codex-comments.md.
+When writing or changing text, comments or code, read and follow specs/codex-changes.md.
 ```
 
 Merge this instruction with your existing guidance. The generated spec is
 standalone; it does not need this project's Python package or dictionary at
 runtime. Rebuild and redistribute it when the dictionary changes.
+
+| Criterion | Comments / docstrings | Other text | Code |
+| --- | --- | --- | --- |
+| Cleanliness | Applies | Not applicable | Not applicable |
+| Effectiveness | Applies | Not applicable | Not applicable |
+| Invasiveness | Applies | Applies | Applies |
+| Optimality | Applies | Applies | Applies |
+
+Code refactoring may change implementation while preserving required behavior.
+A small diff is not sufficient if it omits required work. Optimality means
+justified placement and fit in the supplied context, not a globally best
+solution. Correctness and task completion remain requirements for every kind.
+
+Use `specs/codex-comments.md` for comment-only work and existing frozen LLVM
+ablations. Its contents and the historical rubrics/results are unchanged.
+The [scope and review guide](docs/change-scope.md) distinguishes the broader
+contract from the earlier experimental proxies.
 
 ## Run the tools
 
@@ -74,6 +94,19 @@ Run these commands from this project's directory. No Python dependencies are
 needed; `python -m claudish` works directly. Optional: `pip install -e .` adds
 the `claudish` command. Use `--root /path/to/claudish-codex` before the subcommand
 when invoking it from elsewhere.
+
+Review a mixed-content change with explicit artifact types:
+
+```sh
+python -m claudish review-change --input change.json --out runs/change-review
+```
+
+This sends the task, before/after artifacts and their context to one fresh
+judge using a separately versioned rubric. It never edits source files or
+executes the submitted code. See the [input format](docs/change-scope.md#input-format).
+The first two criteria are reported as not applicable for text/code; missing
+context is unassessed, never a pass. This command makes one model call, unlike
+an offline check or the historical commit-shape scorer.
 
 Grade a comment-only diff against the source tree **before** the change:
 

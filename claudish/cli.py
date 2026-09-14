@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 import subprocess
 
-from . import commits, corpus, diff, experiment, filelevel, placement, spec, tiers
+from . import changes, commits, corpus, diff, experiment, filelevel, placement, spec, tiers
 from .io import digest, read_json, write_json
 from .judge import evaluate
 from .metrics import measure
@@ -35,6 +35,12 @@ def main(argv=None):
     commands = parser.add_subparsers(dest="command", required=True)
     build = commands.add_parser("build-spec", help="Generate the spec from the dictionary")
     build.add_argument("--check", action="store_true")
+    review = commands.add_parser("review-change", help="Review text, comments and code with scoped criteria")
+    review.add_argument("--input", required=True, type=Path, help="Task and typed before/after artifacts as JSON")
+    review.add_argument("--out", required=True, type=Path)
+    review.add_argument("--model", default=MODEL)
+    review.add_argument("--effort", default=EFFORT, choices=("low", "medium", "high", "xhigh", "max"))
+    review.add_argument("--timeout", type=int, default=240)
     prepare = commands.add_parser("prepare-corpus", help="Fetch pinned LLVM source and freeze selected references")
     verify = commands.add_parser("verify-corpus", help="Verify source and reference hashes and split isolation")
     for command in (prepare, verify):
@@ -129,6 +135,9 @@ def main(argv=None):
     try:
         if args.command == "build-spec":
             result = spec.build(args.root, args.check)
+        elif args.command == "review-change":
+            result = changes.review(args.root, args.input, args.out,
+                                    model=args.model, effort=args.effort, timeout=args.timeout)
         elif args.command == "prepare-corpus":
             result = corpus.prepare(args.root, args.corpus_dir)
         elif args.command == "verify-corpus":
