@@ -1,10 +1,12 @@
-# Improving the comments
+# Improving the guidance
 
 The four-criterion contract also covers text and code; see
 [its scope](docs/change-scope.md). Shared invasiveness and optimality guidance
-lives in `specs/changes-base.md`. The dictionary remains comment-specific.
+lives in `specs/changes-base.md`. Prose principles shared by both guides live
+in `specs/prose-base.md`. Comment context comes from `specs/base.md`; the
+dictionary supplies comment examples and operations, not a ban list.
 Rebuild both generated guides with `python -m claudish build-spec` after
-changing either source. Broader guidance changes need their own frozen
+changing any source. Broader guidance changes need their own frozen
 evaluation series; existing comment results do not validate them. Do not
 change an evaluation rubric merely to improve the guide's scores.
 
@@ -18,17 +20,26 @@ fails CI. This connection addresses the ambiguity raised in
    Include the exact output, relevant code context, model and effort, and a
    source link or experiment ID. A word alone is not evidence of bad prose.
 2. Edit `dictionary/entries.json`: choose a stable ID and dimension; explain
-   when the pattern is unhelpful; give a faithful synthetic before/after pair;
+   what a good result communicates and how to reach it; give a faithful
+   synthetic before/after pair;
    include at least one legitimate exception. Link evidence to a committed file
    or a public URL; a path into a private run directory is rejected, because a
    reviewer has to be able to open it. Do not present a synthetic example as
    human writing or as an actual model quotation.
+   Preserve facts, conditions, permissions, uncertainty, implications and
+   supported reasons in each pair. Account for both stronger and weaker
+   certainty. If the source is wrong, record the evidence and correction
+   separately; do not present it as a meaning-preserving style improvement.
 3. Run `python -m claudish build-spec`. The generated Markdown is part of the PR.
 4. Run a fresh paired training ablation. Inspect changes in words, structure,
    simplicity, meaning and usefulness. Include failures as well as successes.
    Use the same model, effort, task, corpus, rubric, and repeat count in both
    conditions. Keep the previous artifacts. Never resume a session across arms.
-5. Review the examples and submit the entry, generated spec and experiment
+5. Read complete blocks and documents, not only changed sentences. Choose
+   their organization before polishing wording; verify that moved or deleted
+   paragraphs lose no needed meaning. For a mixed-change review, submit full
+   prose documents and the destinations of moved detail. Review the examples
+   and submit the entry, generated spec and experiment
    report together. Maintainers choose whether to accept the rule. The judge
    provides evidence, not approval. The issue form is also suitable for people
    who do not want to edit JSON.
@@ -37,6 +48,12 @@ Only maintainers run validation and untouched test splits for a release. Once
 test results influence a rule, those cases are development data. Add a new
 holdout before making another generalization claim. Split by file; for a larger
 corpus also group near-duplicate functions and comment families across files.
+
+The current six-entry rebuild is an editorial candidate, not an empirically
+accepted replacement for the ten-rule scaled candidate. Its empty evidence
+lists make no experiment claim. See [the rebuild record](docs/editorial-rebuild.md)
+for the reported failures that motivated it. A proposal may lack an ablation;
+an improvement claim may not. Preserve archived candidates and their results.
 
 The initial LLVM references come from March 2020. To add references, supply an
 immutable upstream revision, file, lines, license and evidence that the prose
@@ -71,13 +88,16 @@ to make a spec revision score better. A rubric change starts a new evaluation
 series with fresh baselines. Human calibration records must contain actual
 reviewer ratings; do not manufacture a human benchmark using an LLM.
 
-Local deterministic validation is deliberately small:
+Choose deterministic checks for the contracts the change affects. For changes
+to guide generation or mixed-change review:
 
 ```sh
 python -m claudish build-spec --check
-python -m claudish verify-corpus
-python -m unittest discover -s tests
+python -m unittest discover -s tests -p 'test_spec.py'
+python -m unittest discover -s tests -p 'test_changes.py'
 ```
 
-These commands make no model calls. CI uses no model credentials. Run model
+Run `verify-corpus` when corpus inputs change, and the relevant parser or
+grading tests when those contracts change. These commands make no model calls.
+CI uses no model credentials. Run model
 experiments deliberately, not on arbitrary contributor pull requests.

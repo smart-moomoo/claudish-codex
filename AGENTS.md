@@ -8,10 +8,11 @@ effectiveness apply only to comments and docstrings; invasiveness and
 optimality apply to all three kinds. Preserve required behavior, not the
 implementation itself, when refactoring code.
 
-Edit `specs/changes-base.md` for shared change guidance. Comment guidance comes
+Edit `specs/prose-base.md` for shared prose principles and
+`specs/changes-base.md` for change scope and workflow. Comment guidance comes
 from `specs/base.md` and `dictionary/entries.json`. Rebuild both generated specs
-with `python -m claudish build-spec`; do not hand-edit them. The comment-only
-`specs/codex-comments.md` remains available for frozen comment experiments.
+with `python -m claudish build-spec`; do not hand-edit them. Historical scaled
+experiments used `specs/archive/scaled-comments.md`, not the current guide.
 
 All model calls use `codex exec`, `gpt-5.6-sol`, medium reasoning unless the
 user explicitly changes those settings. Start fresh sessions for generation

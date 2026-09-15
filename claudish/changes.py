@@ -9,7 +9,7 @@ from .runner import call, MODEL, EFFORT
 
 CRITERIA = ("clean", "effective", "invasive", "optimal")
 APPLIES = {"comment": CRITERIA, "text": CRITERIA[2:], "code": CRITERIA[2:]}
-VERSION = "change-review-v1"
+VERSION = "change-review-v2"
 EVIDENCE = obj({"artifact_id": {"type": "string"},
                 "source": {"type": "string", "enum": ["before", "after", "context"]},
                 "quote": {"type": "string"}})
@@ -129,7 +129,7 @@ def summarize(answer, change):
 def review(root, input_path, output, *, model=MODEL, effort=EFFORT, timeout=240):
     root, output = Path(root).resolve(), Path(output).resolve()
     change = validate_input(read_json(input_path))
-    rubric = (root / "evaluation/change-rubric-v1.md").read_text()
+    rubric = (root / "evaluation/change-rubric-v2.md").read_text()
     manifest = {"version": VERSION, "status": "running", "model": model, "effort": effort,
                 "input_sha256": digest(change), "rubric_sha256": digest(rubric),
                 "schema_sha256": digest(SCHEMA), "authorship": "caller_supplied",

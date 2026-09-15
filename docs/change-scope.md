@@ -1,9 +1,10 @@
 # Scope of the four criteria
 
-The general-change guide is `specs/codex-changes.md`. Its shared instructions
-come from `specs/changes-base.md`; its comment-specific section comes from
-`specs/base.md` and the existing dictionary. `build-spec` generates both this
-guide and the unchanged comment-only `specs/codex-comments.md`.
+The general-change guide is `specs/codex-changes.md`. Its workflow comes from
+`specs/changes-base.md`; prose principles from `specs/prose-base.md`; comment
+guidance from `specs/base.md` and the dictionary. `build-spec` generates this
+guide and the comment-only `specs/codex-comments.md`. Both are new editorial
+candidates; the frozen scaled guide is in `specs/archive/scaled-comments.md`.
 
 | Criterion | Comment or docstring | Other text | Executable code |
 | --- | --- | --- | --- |
@@ -65,9 +66,15 @@ This synthetic example illustrates the format, not a completed model review:
 }
 ```
 
-Provide independently reviewable units. Split mixed files into typed units
-and include relevant callers, surrounding prose and cross-file relationships
-as context. The caller is responsible for classification, completeness and
+Provide complete before/after documents when reviewing their organization;
+do not turn a README into isolated sentence pairs. Include newly linked
+documents as artifacts so the reviewer can track moved explanations. For a
+mixed source file, separate code from comments by kind, but retain complete
+comment blocks and supply the surrounding implementation and relevant callers
+as context. Note intended factual corrections and their evidence in the task
+or context, separately from meaning-preserving rewrites.
+
+The caller is responsible for classification, completeness and
 authorship; the tool does not detect AI-generated content or certify that a
 claimed refactor is safe. Unchanged before/after pairs are allowed so a no-op
 can still be assessed against a task. Empty before/after strings represent
@@ -76,9 +83,15 @@ additions/deletions. Empty context is allowed, but may leave fit unassessed.
 ## Outputs and limitations
 
 One fresh `codex exec` call reviews the supplied units together with
-`gpt-5.6-sol`, medium effort, and `evaluation/change-rubric-v1.md`. The rubric
+`gpt-5.6-sol`, medium effort, and `evaluation/change-rubric-v2.md`. The rubric
 is independent of the generated spec and dictionary. No personal instructions
 or prior judge responses are supplied to the judge.
+
+Version 2 checks meaning and certainty in both directions, supported reasons,
+direct explanation, and whole-document organization. Version 1 and its saved
+reviews remain unchanged. A new rubric starts a new review series; scores
+across versions are not evidence of a spec improvement. Freeze this rubric
+before using it to compare candidates.
 
 The output directory contains the input, rubric, hashed manifest, raw call
 artifacts and `review.json`. Existing directories are refused. Invalid answers

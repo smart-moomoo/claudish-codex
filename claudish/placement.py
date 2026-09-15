@@ -5,12 +5,11 @@ the generator is told to write one, so nothing so far tests whether a model
 knows when to stay quiet. This corpus mixes those spots with spots where LLVM
 wrote nothing and makes the model decide.
 
-The marker looks identical either way, so the model cannot tell the two apart
-from the context it receives. Upstream's choice is the only ground truth
-available, and it is not a strong one: LLVM leaves plenty of places uncommented
-that could fairly carry a comment. Agreement with upstream is what this
-measures, and disagreement on an uncommented spot is weaker evidence than
-disagreement on a commented one.
+Both kinds of case use the same marker, so the marker itself does not reveal
+upstream's choice. The model still sees the surrounding code and comments.
+This measures agreement with upstream, not whether every position needs a
+comment: an uncommented location can reasonably carry one, so disagreement
+there is weaker evidence than disagreement at a commented location.
 """
 
 from pathlib import Path
@@ -50,15 +49,12 @@ def _comment_lines(comments):
 
 
 def anchors(source):
-    """Lines where code follows a blank line with no comment anywhere near.
+    """Find uncommented positions after a blank line, beyond the first 20 lines.
 
-    This is the same shape as a commented case with its comment taken away:
-    blank line, then code. Requiring the blank line keeps the two kinds of case
-    structurally alike, so the marker is the only thing the model can go on.
-
-    Nothing may be commented in the lines just above either. A class whose doc
-    comment sits above an enclosing namespace is already explained, and marking
-    the line below it would count an explained location as an unexplained one.
+    The blank line gives these positions a boundary like a removed comment.
+    Reject positions with a comment in the preceding eight lines or on the
+    previous nonblank line, to avoid selecting code already explained nearby.
+    The remaining code and layout can still differ between the two case kinds.
     """
     lookback = 8
     comments, _ = scan(source)

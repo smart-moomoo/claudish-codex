@@ -1,19 +1,13 @@
-"""The four evaluation criteria, applied hardest-last.
+"""Measure how far comments pass the clean, effective, invasive, optimal ladder.
 
-Clean, effective, invasive, optimal. A criterion is scored only for the cases
-that passed the criterion before it, so every number describes comments that
-already met the easier bars.
+The ladder counts a criterion only among cases that passed the preceding ones.
+Meaning scores appear alongside it, not as a gate: passing the ladder does not
+establish that a comment is true.
 
-Each bar comes from something the project already defines, not from a number
-chosen here. Where the judge rubric grades a dimension, the bar is its own
-wording: a deficit of 2 is "noticeable", so anything below 2 passes. Where no
-rubric exists, the bar is the upstream comment written at the same location.
-Raw measurements sit beside every verdict, so a different bar can be applied
-later without making a model call.
-
-Truthfulness is not a rung. A comment that misstates the code fails at
-something more basic than style, so the judge's meaning score is reported as a
-precondition next to the ladder rather than inside it.
+Judge deficits below 2 pass; the rubric calls 2 "noticeable". Other thresholds
+compare the candidate with the upstream comment at the same location. Each
+verdict includes the raw measurements, so a reader can apply a different
+threshold later without making another model call.
 """
 
 import re
@@ -29,18 +23,18 @@ from .metrics import words
 CRITERIA = ("clean", "effective", "invasive", "optimal")
 STYLE_DIMENSIONS = ("claudishness", "words", "structure", "simplicity")
 ARMS = ("without_spec", "with_spec")
-# The rubric calls 2 "noticeable"; below that is no problem worth reporting.
+# The rubric calls 2 "noticeable"; lower deficits pass this screen.
 NOTICEABLE = 2
 
 _IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 
 def code_shaped(token):
-    """Whether a token can only be a code name, never ordinary prose.
+    """Match an underscore, a multi-character uppercase token, or a-z then A-Z.
 
-    An underscore, an all-caps run or an internal capital. Plain words such as
-    "loop" or "size" are deliberately not counted, even when the code also uses
-    them as identifiers, because a comment may need the ordinary word.
+    This heuristic also matches prose acronyms such as "NASA". It excludes
+    plain words such as "loop" and "size", even when they are identifiers,
+    because a comment may need the ordinary word.
     """
     if "_" in token:
         return True
@@ -83,10 +77,11 @@ def length_band(word_count):
 def measure_comment(comment, case):
     """Length and coupling measures for one comment at one location.
 
-    restatement_fraction is the share of the comment made of code names that
-    are already visible in the context the writer was given. foreign symbols
-    are code names this file never mentions, so the comment describes something
-    another component owns and breaks when that component changes.
+    restatement_fraction counts code-shaped tokens also found in the visible
+    code, divided by all identifier-like tokens in the comment. Foreign symbols
+    are code-shaped tokens absent from the file's code. They can suggest a
+    dependency outside the file, but neither measure establishes ownership or
+    whether the explanation will become stale.
     """
     tokens = _IDENTIFIER.findall(comment)
     code_tokens = [token for token in tokens if code_shaped(token)]

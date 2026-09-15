@@ -1,83 +1,69 @@
-# Codex changes: text, comments and code
+# Codex changes: preserve meaning, improve the whole result
 
-Apply this guide when writing or revising any project artifact. Preserve the
-task's requirements and existing behavior unless the task asks to change them.
-Preserving behavior does not require preserving the implementation: refactor
-code when the change is justified and verify the affected behavior.
+Complete the requested task while preserving its requirements. For a prose
+rewrite, preserve meaning; for a code refactor, preserve required behavior.
+Neither requires preserving the original sentences, paragraphs or implementation.
 
-## Which criteria apply
+## Work from the whole task
+
+Read the relevant document or implementation and its callers before editing.
+Record the facts, conditions, permissions, uncertainty, implications and
+contracts the result must preserve. Separate a requested behavior change or
+an evidenced factual correction from a rewrite that should keep meaning.
+
+Choose the organization before changing individual sentences or statements.
+For a README, explain what the project does, show the first useful action,
+then provide the concepts and evidence the reader needs to go further. Group
+study results by the question they answer, not by when the studies happened.
+Move, merge or delete paragraphs when that improves the reader's path, retaining
+their distinct facts and qualifications. Use linked detail for secondary tasks;
+do not move essential warnings away from the action they qualify.
+
+For code, keep behavior with the component that owns it. Reuse suitable local
+interfaces and patterns. Remove duplicate state, unnecessary wrappers or
+speculative extension points when they complicate the requested work. Retain
+abstractions that enforce invariants or serve actual callers. Inspect error
+handling, boundary cases and caller impact before changing structure.
+
+## Apply the criteria at their proper scope
 
 | Criterion | Comments and docstrings | Other text | Executable code |
 | --- | --- | --- | --- |
-| Clean: clear wording and structure | Yes | Not applicable | Not applicable |
-| Effective: needed explanation, scope and length | Yes | Not applicable | Not applicable |
-| Invasive: unnecessary changes and dependencies | Yes | Yes | Yes |
-| Optimal: placement and fit in the surrounding project | Yes | Yes | Yes |
+| Clean: direct wording and coherent explanation | Yes | Not applicable | Not applicable |
+| Effective: needed facts, reasons, scope and detail | Yes | Not applicable | Not applicable |
+| Invasive: unnecessary changes or dependencies | Yes | Yes | Yes |
+| Optimal: organization, placement and fit | Yes | Yes | Yes |
 
-These criteria have a proposed order, not a proven ranking of difficulty.
-For comments, consider all four. For text and code, start with invasiveness;
-the first two criteria are not automatic passes. A failure in a comment does
-not prevent reviewing code elsewhere in the same change.
+For comments, consider all four criteria. For other text and code, start with
+invasiveness; the first two are not automatic passes. The shared prose
+principles guide writing in any document without adding cleanliness or
+effectiveness scores for non-comment text. Review the remaining applicable
+criteria even if an earlier one fails; a failed comment must not hide a code
+problem elsewhere in the change. This is a proposed order, not a proven ranking.
 
-Correctness, factual accuracy, safety and task completion are requirements
-for all artifact types. None is established by a style score or a small diff.
-Missing context or verification leaves a conclusion unassessed, not passed.
+Invasiveness concerns unnecessary work and dependencies, not the smallest
+diff. Include the code, tests, explanations and cross-file updates the task
+needs. Preserve unrelated user work, commands, links, provenance and historical
+evidence. Keep each instruction in a maintained location rather than copying
+it across documents without a reader need.
 
-## Invasiveness: all artifacts
+Optimality concerns the whole result. A locally clear paragraph in the wrong
+place still fails the reader. Check entry points, paragraph order, repeated
+explanations, terminology and transitions across the document. For code, check
+ownership, interfaces and the burden on callers. State the relevant tradeoff;
+"optimal" here means justified fit in the available context, not proof of a
+globally best solution.
 
-Make the changes needed for the task, including necessary tests and
-documentation. Avoid unrelated edits and new dependencies without a concrete
-need. Judge scope against the requested outcome, not line count alone: a
-shorter patch that omits required work is not less invasive in a useful sense.
+## Check meaning and behavior
 
-For code, use existing interfaces and helpers when they fit. Remove unnecessary
-wrappers, duplicate state and speculative abstraction only when doing so
-simplifies the requested work without breaking contracts. Do not introduce a
-framework or general-purpose extension point for a single known use. Keep
-abstractions that enforce invariants or make actual callers easier to maintain.
+Compare the result with the preservation record, including explicit reasons
+and implications. Check certainty in both directions. Account for removed
+clauses and moved paragraphs; flag factual corrections with their evidence.
+Then read the complete result for coherence, not just the changed lines.
 
-For comments, explain the local reason or contract without repeating nearby
-explanations or depending on unrelated implementation details. Retain
-conditions, examples and caveats needed to understand the code.
-
-For other text, change the relevant sections and preserve necessary facts,
-commands, links and qualifications. Avoid duplicating guidance across files.
-Do not rewrite historical evidence, provenance or reference material to make
-it agree with a current conclusion.
-
-## Optimality: all artifacts
-
-Put each responsibility where its owner and readers expect it. Follow the
-project's established interfaces, terminology and document organization.
-Check how the change interacts with nearby code, comments and documentation,
-not just whether the edited fragment looks reasonable on its own.
-
-For code, keep behavior with the component that owns it, reuse suitable local
-patterns, and avoid moving complexity into callers. Consider error handling,
-boundary cases and maintenance across the affected call sites. Preserve public
-contracts unless changing them is part of the task.
-
-For comments, place the explanation at the relevant operation or contract.
-Check for contradictions and unnecessary repetition across the file. Allocate
-detail according to what each location needs, not a uniform length target.
-
-For other text, put instructions where readers perform the task, keep related
-guidance consistent, and link to a maintained source instead of copying it
-when that is practical. Preserve enough context for the document to stand on
-its own.
-
-Here, optimal means justified fit among the alternatives visible in the
-supplied context. It is not a claim of a globally best solution. Record the
-tradeoff and any missing context instead of asserting certainty.
-
-## Applying and checking changes
-
-Inspect the relevant implementation before editing. Keep unrelated work and
-private artifacts out of the change. Check behavior and contracts affected by
-code refactoring; an identical AST is appropriate for a prose-only edit, not
-a requirement for code cleanup. Use focused checks proportional to the change.
-Never invent test execution, human approval, model judgments or evidence.
-
-The following dictionary-derived guidance applies only to comments and
-docstrings. It does not add cleanliness or effectiveness scores for other text
-or executable code.
+Verify behavior and contracts affected by code changes with focused checks.
+An unchanged AST can check a prose-only edit; it is not a requirement for code
+refactoring. Correctness, factual accuracy, safety and task completion apply
+to every artifact type and are not established by a style score or a small
+diff. Missing evidence leaves a conclusion unassessed. Never invent tests,
+reviewer approval, model results or reference material.

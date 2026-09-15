@@ -51,8 +51,10 @@ def validate(answer, labels, texts):
 
 
 def blind_labels(comments, seed):
-    """Anonymous labels for one judgment. Derived from the seed alone, so a
-    saved answer can be re-read later under the labels it was graded with."""
+    """Shuffle the input arm order with the seed to assign anonymous labels.
+
+    Reuse that order and seed to read a saved answer under its original labels.
+    """
     arms = list(comments)
     random.Random(seed).shuffle(arms)
     return {f"C{i + 1}": arm for i, arm in enumerate(arms)}

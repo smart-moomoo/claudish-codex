@@ -117,6 +117,11 @@ class ReviewRunner(unittest.TestCase):
                 self.assertEqual(call.call_args.kwargs["effort"], "medium")
                 self.assertNotIn("guidance", call.call_args.kwargs)
                 self.assertEqual(read_json(output / "manifest.json")["input_sha256"], digest(change()))
+                rubric = (ROOT / "evaluation/change-rubric-v2.md").read_text()
+                self.assertEqual(read_json(output / "manifest.json")["version"], "change-review-v2")
+                self.assertEqual(read_json(output / "manifest.json")["rubric_sha256"], digest(rubric))
+                self.assertEqual((output / "rubric.md").read_text(), rubric)
+                self.assertIn(rubric, call.call_args.args[0])
                 self.assertEqual(result, read_json(output / "review.json"))
                 with self.assertRaises(FileExistsError):
                     changes.review(ROOT, input_path, output)
@@ -139,11 +144,11 @@ class ReviewRunner(unittest.TestCase):
 
 
 class GeneratedScope(unittest.TestCase):
-    def test_shared_guidance_changes_do_not_change_the_comment_spec(self):
+    def test_change_workflow_updates_do_not_change_the_comment_spec(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "specs").mkdir()
-            for name in ("base.md", "changes-base.md"):
+            for name in ("base.md", "changes-base.md", "prose-base.md"):
                 (root / "specs" / name).write_text((ROOT / "specs" / name).read_text())
             entries = read_json(ROOT / "dictionary/entries.json")
             for item in entries:

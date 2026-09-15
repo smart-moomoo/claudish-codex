@@ -315,8 +315,8 @@ def reload_corpus(manifest):
 def resume(output, *, jobs=2, timeout=240):
     """Continue an interrupted or failed run, reusing every completed call.
 
-    A stopped run keeps everything it already paid for. Only the calls that
-    never finished are made again, so stopping a long run is cheap.
+    Saved, completed calls are reused, so stopping does not make you pay for
+    that work again. Calls without a saved answer may run again on resume.
     """
     output = Path(output).resolve()
     manifest = read_json(output / "manifest.json")
