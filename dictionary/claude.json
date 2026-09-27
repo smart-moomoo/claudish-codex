@@ -1,0 +1,23 @@
+{
+  "upstream_slugs": ["contrastive-reveal", "metaphor-stacking"],
+  "entries": [
+    {
+      "id": "mechanism-and-consequence",
+      "guidance": "Keep a mechanism and its practical consequence distinct when deciding what is redundant. The reader's permission, cost or safety implication must remain explicit; do not require the reader to infer it. When moving that statement, check every affected file and identify where its meaning remains.",
+      "before": "Completed requests are cached and reused. As a result, retrying the batch does not pay for those completed requests again. Requests with no saved result may run again.",
+      "after": "Retrying the batch reuses cached, completed requests, so it does not pay for them again. Requests with no saved result may run again.",
+      "exceptions": ["Correct an unsupported cost implication only when evidence establishes the error, and report the correction separately. An essential warning may belong at several points of use."],
+      "evidence": ["experiments/claude/ITERATIONS.md#round-1"],
+      "example_origin": "synthetic"
+    },
+    {
+      "id": "state-what-was-checked",
+      "guidance": "State the specific checked property and its limits. Do not turn an implementation check or a prose rewrite into a certificate that the whole system is safe, sound or fully verified. Preserve an established guarantee; distinguish a source error from a rewrite regression.",
+      "before": "The guard rejects missing keys; no other paths were checked. This verifies only the missing-key case.",
+      "after": "The guard rejects missing keys. Other paths were not checked.",
+      "exceptions": ["Keep a whole-system guarantee when supplied evidence actually establishes it. Do not weaken it merely to sound cautious."],
+      "evidence": ["experiments/claude/ITERATIONS.md#round-1"],
+      "example_origin": "synthetic"
+    }
+  ]
+}

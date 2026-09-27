@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/programasweights/claudish",
+  "revision": "700588cc0c091a96492eb060255780baca96e7c9",
+  "license": "MIT",
+  "files": {
+    "claudish-to-english.md": "aac1b1496ad2fd57a010b5fd61db0e78d6ab522db8a6d85f953034a2787c9ed0",
+    "entries.json": "02a94861dac28a4a006a7d5e6b98a569196aa97a7caa17b22063f81939700e9b",
+    "LICENSE": "e8645c0e55616cf3158242aa06dd1c830cafb6f171a5da78b36bdc60a493e2bd"
+  }
+}

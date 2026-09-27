@@ -20,6 +20,13 @@ and judging. Do not let personal instructions, reference comments, or previous
 outputs enter the generation environment. Keep the judge rubric fixed during
 a spec iteration. Preserve all real outputs, including regressions.
 
+The Claude counterpart is an explicit exception: generation and rewriting use
+the local Claude CLI with `claude-opus-5-5`, medium effort; independent judging
+still uses the Codex settings above. Its sources are `specs/claude-base.md`,
+`dictionary/claude.json` and pinned `vendor/claudish/` inputs. Build its guide
+with `python -m claudish build-claude-spec`; do not edit the generated guide or
+silently change the upstream pin. Keep Codex guidance independent.
+
 Tune only on training data. Freeze choices before validation and test runs.
 Once test results influence a choice, retire that test split as a holdout.
 Never fabricate human comments, authorship attestations, ratings or model runs.

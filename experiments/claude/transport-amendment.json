@@ -1,0 +1,14 @@
+{
+  "original_freeze_sha256": "11ec0808d959608c7eca00045c31fb590c3fe05873a12d1d4711de3848de4dad",
+  "reason": "Lossless review transport repair after the CLI character limit rejected the large case; no generation, guide, dictionary, task or rubric changes.",
+  "holdout_status": "Exposed test cases retired as untouched holdouts. Recovered reviews are post-hoc.",
+  "changed_sources": {
+    "claudish/claude_experiment.py": {
+      "before": "0619eeaa5e96d48b6b0119dea200362fe52884772ee41ef5d562b5ba51dae2f1",
+      "after": "0af561922c184c50ab078eafb017e4a2690f8b7e8b0bf50522beb27f7a1c7833"
+    }
+  },
+  "added_sources": {
+    "claudish/claude_review.py": "8c632009598674c8db26edf0a0d95edb353c7d76f2cc88652de7c1772bf7e994"
+  }
+}

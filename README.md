@@ -1,5 +1,11 @@
 # Claudish Codex
 
+This branch also includes a [Claude counterpart](docs/claude.md), derived from
+upstream Claudish. It rewrites complete documents and commits—including large
+multi-file changes—with Opus 5.5, and compares plain, upstream and revised
+guidance using fresh Codex judges. The Codex guides remain independent.
+See the [Claude study](experiments/claude/README.md) for evidence and limits.
+
 Claudish Codex gives Codex instructions for writing direct code comments and
 revising prose and code without losing meaning or required behavior. It also
 provides a comment-diff grader, a mixed-change reviewer, and LLVM experiments

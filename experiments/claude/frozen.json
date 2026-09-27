@@ -1,0 +1,135 @@
+{
+  "frozen_at": "2026-09-26T19:23:35.722073+00:00",
+  "selection": {
+    "cases": [
+      {
+        "file": "train-resume-commit.json",
+        "sha256": "cdf5fe4a9ee93364d490de4d4a805afce31296e1149e6d209a694a1c21c786bb",
+        "id": "train-resume-commit",
+        "split": "train",
+        "provenance": {
+          "commit": "98d48f410226e511b6b1ee9be710550bc23039c9",
+          "parent": "d5895f7bdcc26cc9fb6394b478b9c2fb00536709",
+          "authorship": "Claude Opus 5 co-author trailer; individual lines unattested",
+          "diff_sha256": "687467642ddede92d66f332ee1c4fa1487ec57784353cb2b7ee88af11ca22144",
+          "repository": "https://github.com/smart-moomoo/claudish-codex"
+        },
+        "files": 5,
+        "changed_lines": 348,
+        "band": "medium"
+      },
+      {
+        "file": "train-ladder-commit.json",
+        "sha256": "8b5ba58a3b499b9284157767e68a105b232b90f634d53a21e75d798ef3969e47",
+        "id": "train-ladder-commit",
+        "split": "train",
+        "provenance": {
+          "commit": "c8969c6eded15ec6548a530b1dbe40c1cde54e53",
+          "parent": "4dfcf9e382cdd332426d409bcd25f63c727eee31",
+          "authorship": "Claude Opus 5 co-author trailer; individual lines unattested",
+          "diff_sha256": "22ba07b3348f4f21219e2f0611c1573ad3a77914e88aeb51d18469da8f0d2231",
+          "repository": "https://github.com/smart-moomoo/claudish-codex"
+        },
+        "files": 12,
+        "changed_lines": 2121,
+        "band": "large"
+      },
+      {
+        "file": "train-explanation.json",
+        "sha256": "1cec54f651ffc034ac0953ae502704f71235208556c673a9a185fe34b53d7a3a",
+        "id": "train-explanation",
+        "split": "train",
+        "provenance": {
+          "repository": "https://github.com/smart-moomoo/claudish-codex",
+          "authorship": "recorded Claude Opus 5.5 output",
+          "events_sha256": "bbd44f171ea957abc99ee45eb7f51d050d1459c3d3ac9be95f9d2234386f5216",
+          "recovery": "Original parser rejected the built-in agents-md plugin. Recovered the same saved answer with the corrected validator; original failed record retained."
+        },
+        "files": 1,
+        "changed_lines": 13,
+        "band": "small"
+      },
+      {
+        "file": "test-click-medium.json",
+        "sha256": "1a1853da9c57aa8338f240a8fb567df31624a2419ab870aa38e7f620741cc5db",
+        "id": "test-click-medium",
+        "split": "test",
+        "provenance": {
+          "commit": "1784558ed7c75c65764d2a434bd9cbb206ca939d",
+          "parent": "25a3cb272e0afacb5458fffb20c430a863154827",
+          "authorship": "historical upstream commit; individual authorship unattested",
+          "diff_sha256": "550573a4fcc37a6393d31a868986ee3b5fa71b2bdeea4a81dada5d010edbd851",
+          "repository": "https://github.com/pallets/click"
+        },
+        "files": 2,
+        "changed_lines": 14,
+        "band": "medium"
+      },
+      {
+        "file": "test-click-small.json",
+        "sha256": "80bcee87b5aaab619493b7aa1d14e4a37f6e1d8e33756d4972c19575fc3c028b",
+        "id": "test-click-small",
+        "split": "test",
+        "provenance": {
+          "commit": "b9d23a08700c5e30581f2302bf274f7ab2aca959",
+          "parent": "ef1dd690b5eaa4def8baef487fb37e5f0e144ec2",
+          "authorship": "historical upstream commit; individual authorship unattested",
+          "diff_sha256": "33fec02e98887c5f54bb8ee53bdc871dbf2433c0bd72dbe1c95455dadfa477b8",
+          "repository": "https://github.com/pallets/click"
+        },
+        "files": 1,
+        "changed_lines": 2,
+        "band": "small"
+      },
+      {
+        "file": "test-click-large.json",
+        "sha256": "210ce738039d245c87ac64183e2a79c06ad1d751d17490ba9effc289fec4bef9",
+        "id": "test-click-large",
+        "split": "test",
+        "provenance": {
+          "commit": "079f91a2396c5c9264f34f95894259b7b15eb89c",
+          "parent": "3d1dcc28e115507f1eafbdb75465223c5da58205",
+          "authorship": "historical upstream commit; individual authorship unattested",
+          "diff_sha256": "4c12b533ce4fb3fbb0291a15130cb5a77e6e32b200f68981d0330b3ee7441541",
+          "repository": "https://github.com/pallets/click"
+        },
+        "files": 35,
+        "changed_lines": 15289,
+        "band": "large"
+      }
+    ],
+    "selection": "Train: two public Claude-attributed commits plus one fresh Claude document. Test: first exportable commit in each size band walking Click 7.1.2 history, excluding merges and binary/oversized inputs.",
+    "click_head": "1784558ed7c75c65764d2a434bd9cbb206ca939d",
+    "rejected": [
+      {
+        "revision": "718485be48263056e7036ea9a60ce11b47e2fc26",
+        "reason": "Whole input exceeds byte limit; increase explicitly, never silently truncate"
+      },
+      {
+        "revision": "93ba3ba112d2f8ba7bdd8b231e510f74dd0b037e",
+        "reason": "Whole input exceeds byte limit; increase explicitly, never silently truncate"
+      }
+    ]
+  },
+  "sources": {
+    "specs/claude-changes.md": "3d0cf6cfa1ee58a1c432d642d040ce6ee443e1db9b4970f38c97fe169a8a0a72",
+    "specs/claude-base.md": "8727c489b45bf836c47e69e4e9ebc8b10aba7d1a9740b1e83dac7f365782551d",
+    "dictionary/claude.json": "4cf6235a90bf2eed2ce6cf4bf66441012b8c130eba6c4a07426a3da8e2fb1b15",
+    "vendor/claudish/claudish-to-english.md": "aac1b1496ad2fd57a010b5fd61db0e78d6ab522db8a6d85f953034a2787c9ed0",
+    "vendor/claudish/source.json": "a7eafe200314b80aee33e3bae48b602cee3a8f855a37fd064e6dcd8649e4446a",
+    "evaluation/change-rubric-v2.md": "bda832ec9ad3d0155faabbe4ddf662bd413e621c11f750e9fc80cfbc8a23de8d",
+    "claudish/claude_runner.py": "6ab0fd08d65dee18ab0b7718f251cf58ce3e96e40328a6ebcedda4ab8a2add58",
+    "claudish/claude_cases.py": "a643a0ab3f128fc74d03a38104522efcacc6fe992af943178105afe981ac4bbb",
+    "claudish/claude_experiment.py": "0619eeaa5e96d48b6b0119dea200362fe52884772ee41ef5d562b5ba51dae2f1",
+    "claudish/changes.py": "b7b867a36e72b3e1633b39a3fd068f6726fd1e5c2d7b1fe394a4a6fa177686aa",
+    "claudish/runner.py": "1c9cc84aa1430d880d6c97193482f7e8073e9b61df57393f141d553aea7570a8",
+    "claudish/claude_spec.py": "88a86977613aa95eb199851843b2a5a43e6e29f5e2f42a941f3f9e455df0b18b",
+    "claudish/cli.py": "89c1ede465ebd800b86b51cb64640812c131860d447f8732d27599fce522abd3",
+    "experiments/claude/PROTOCOL.md": "3b50fa519d7c102447dab59d7e65f428c220bad45ef5ea22a4915fc67ba60024"
+  },
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "judge": "gpt-5.6-sol",
+  "judge_effort": "medium",
+  "heldout_policy": "No tuning after this freeze; previously exposed LLVM tests are excluded."
+}

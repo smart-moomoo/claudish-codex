@@ -1,4 +1,4 @@
-"""Command-line entry point. All LLM calls go through codex exec."""
+"""Command-line entry point for Codex studies and Claude whole-change rewriting."""
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
@@ -8,6 +8,7 @@ import sys
 import subprocess
 
 from . import changes, commits, corpus, diff, experiment, filelevel, placement, spec, tiers
+from . import claude_cases, claude_experiment, claude_runner, claude_spec
 from .io import digest, read_json, write_json
 from .judge import evaluate
 from .metrics import measure
@@ -35,6 +36,32 @@ def main(argv=None):
     commands = parser.add_subparsers(dest="command", required=True)
     build = commands.add_parser("build-spec", help="Generate the spec from the dictionary")
     build.add_argument("--check", action="store_true")
+    claude_build = commands.add_parser("build-claude-spec", help="Build the upstream-derived Claude guide")
+    claude_build.add_argument("--check", action="store_true")
+    export = commands.add_parser("export-claude-commit", help="Freeze a whole commit as a local rewrite input")
+    export.add_argument("--repo", required=True, type=Path)
+    export.add_argument("--revision", required=True)
+    export.add_argument("--out", required=True, type=Path)
+    export.add_argument("--id", required=True)
+    export.add_argument("--split", choices=("train", "validation", "test"), default="train")
+    export.add_argument("--task", help="Original change requirements; defaults to commit message")
+    export.add_argument("--context", action="append", default=[], help="Additional read-only file at the input revision")
+    export.add_argument("--max-bytes", type=int, default=600_000)
+    for name in ("claude-rewrite", "claude-ablate"):
+        command = commands.add_parser(name, help="Rewrite whole inputs with Claude" if name == "claude-rewrite" else "Compare plain, upstream and counterpart guidance")
+        command.add_argument("--case", type=Path, action="append", required=True)
+        command.add_argument("--out", type=Path, required=True)
+        command.add_argument("--split", choices=("train", "validation", "test"), default="train")
+        command.add_argument("--model", default=claude_runner.MODEL)
+        command.add_argument("--effort", default=claude_runner.EFFORT, choices=("low", "medium", "high", "xhigh", "max"))
+        command.add_argument("--jobs", type=int, default=2)
+        command.add_argument("--timeout", type=int, default=360)
+        command.add_argument("--seed", type=int, default=42)
+        command.add_argument("--spec", type=Path)
+        command.add_argument("--resume", action="store_true")
+        if name == "claude-rewrite":
+            command.add_argument("--guidance", choices=claude_experiment.ARMS, default="counterpart")
+            command.add_argument("--judge", action="store_true", help="Also run a fresh Codex review")
     review = commands.add_parser("review-change", help="Review text, comments and code with scoped criteria")
     review.add_argument("--input", required=True, type=Path, help="Task and typed before/after artifacts as JSON")
     review.add_argument("--out", required=True, type=Path)
@@ -135,6 +162,18 @@ def main(argv=None):
     try:
         if args.command == "build-spec":
             result = spec.build(args.root, args.check)
+        elif args.command == "build-claude-spec":
+            result = claude_spec.build(args.root, args.check)
+        elif args.command == "export-claude-commit":
+            result = claude_cases.export(args.repo, args.revision, args.out, case_id=args.id,
+                                        split=args.split, task=args.task, context=args.context,
+                                        max_bytes=args.max_bytes)
+        elif args.command in ("claude-rewrite", "claude-ablate"):
+            result = claude_experiment.run(args.root, args.case, args.out, split=args.split,
+                model=args.model, effort=args.effort, jobs=args.jobs, timeout=args.timeout,
+                seed=args.seed, resume=args.resume, spec_path=args.spec,
+                judge=args.command == "claude-ablate" or args.judge,
+                arms=claude_experiment.ARMS if args.command == "claude-ablate" else (args.guidance,))
         elif args.command == "review-change":
             result = changes.review(args.root, args.input, args.out,
                                     model=args.model, effort=args.effort, timeout=args.timeout)

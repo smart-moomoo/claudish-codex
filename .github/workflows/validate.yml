@@ -11,6 +11,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m claudish build-spec --check
+      - run: python -m claudish build-claude-spec --check
       - run: python -m claudish prepare-corpus
       - run: python -m claudish prepare-corpus --corpus-dir corpus/long-blocks
       - run: python -m claudish prepare-corpus --corpus-dir corpus/scaled

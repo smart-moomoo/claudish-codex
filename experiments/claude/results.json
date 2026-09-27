@@ -1,0 +1,1718 @@
+{
+  "freeze_sha256": "11ec0808d959608c7eca00045c31fb590c3fe05873a12d1d4711de3848de4dad",
+  "post_freeze_transport_changes": {
+    "claudish/claude_experiment.py": {
+      "before": "0619eeaa5e96d48b6b0119dea200362fe52884772ee41ef5d562b5ba51dae2f1",
+      "after": "0af561922c184c50ab078eafb017e4a2690f8b7e8b0bf50522beb27f7a1c7833"
+    }
+  },
+  "large_review_recovery": {
+    "scope": "Post-hoc transport recovery; not an untouched heldout test. Identical expanded inputs share one fresh judgment, not independent ratings.",
+    "source_sha256": "8c632009598674c8db26edf0a0d95edb353c7d76f2cc88652de7c1772bf7e994",
+    "groups": [
+      {
+        "input_sha256": "71bff56e231595d423395e1e1c488866490458ffa128393c67bb993770ff3bb1",
+        "conditions": [
+          {
+            "case": "test-click-large",
+            "arm": "counterpart"
+          },
+          {
+            "case": "test-click-large",
+            "arm": "plain"
+          },
+          {
+            "case": "test-click-large",
+            "arm": "upstream"
+          }
+        ],
+        "status": "completed",
+        "error": null,
+        "review_sha256": "96fb6deefbb33c3eda362f04ed981da4ac3deaed812346b9c2790475302933d4",
+        "outcomes": {
+          "blocked": 0,
+          "fail": 0,
+          "unassessed": 0,
+          "criteria_passed": 51
+        }
+      }
+    ]
+  },
+  "runs": {
+    "train-r1": {
+      "summary": {
+        "frozen": {
+          "version": "claude-rewrite-v1",
+          "cases_sha256": "76b8e5247d166bf608811b512be678fb89f9eff21a050a24d0a66d9e74491d4c",
+          "guidance_sha256": {
+            "plain": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "upstream": "aac1b1496ad2fd57a010b5fd61db0e78d6ab522db8a6d85f953034a2787c9ed0",
+            "counterpart": "6e564d3795b6707dde77b0a05661798e26d21d1fb9a5177e9b8dfe8580f68aeb"
+          },
+          "task_sha256": "00fce1bd0e8a6c6bbd58cdbaefbcf43a605c096321cf1057757ebb77b8a2ad11",
+          "schema_sha256": "6efcc28d047ff6931727e755f607dff0aade7e014538d2a70031bf942a8c73c4",
+          "rubric_sha256": "bda832ec9ad3d0155faabbe4ddf662bd413e621c11f750e9fc80cfbc8a23de8d",
+          "judge": true,
+          "model": "claude-opus-5-5",
+          "effort": "medium",
+          "judge_model": "gpt-5.6-sol",
+          "judge_effort": "medium",
+          "seed": 42,
+          "split": "train",
+          "arms": [
+            "plain",
+            "upstream",
+            "counterpart"
+          ]
+        },
+        "attempted": 9,
+        "failed": 2,
+        "arms": {
+          "plain": {
+            "attempted": 3,
+            "failed": 1,
+            "noop": 0,
+            "by_kind": {
+              "comment": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 14
+                }
+              },
+              "text": {
+                "reviewed": 2,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              },
+              "code": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 14
+                }
+              }
+            }
+          },
+          "upstream": {
+            "attempted": 3,
+            "failed": 0,
+            "noop": 0,
+            "by_kind": {
+              "comment": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 2,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 13
+                }
+              },
+              "text": {
+                "reviewed": 3,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 2
+                }
+              },
+              "code": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 3,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 12
+                }
+              }
+            }
+          },
+          "counterpart": {
+            "attempted": 3,
+            "failed": 1,
+            "noop": 0,
+            "by_kind": {
+              "comment": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 14
+                }
+              },
+              "text": {
+                "reviewed": 2,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              },
+              "code": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 4,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 11
+                }
+              }
+            }
+          }
+        },
+        "limits": "Descriptive pilot; no correctness or human-authorship certification. Upstream preserves code; counterpart permits refactoring. No generated code was executed."
+      },
+      "cases": [
+        {
+          "case": "train-explanation",
+          "arm": "counterpart",
+          "size": {
+            "files": 1,
+            "changed_lines": 13,
+            "band": "small"
+          },
+          "outcome": "failed_call_or_validation",
+          "error": "Evidence must quote the identified artifact source exactly",
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 923,
+          "prose_words_after": 841
+        },
+        {
+          "case": "train-explanation",
+          "arm": "plain",
+          "size": {
+            "files": 1,
+            "changed_lines": 13,
+            "band": "small"
+          },
+          "outcome": "failed_call_or_validation",
+          "error": "Evidence must quote the identified artifact source exactly",
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 923,
+          "prose_words_after": 932
+        },
+        {
+          "case": "train-explanation",
+          "arm": "upstream",
+          "size": {
+            "files": 1,
+            "changed_lines": 13,
+            "band": "small"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 923,
+          "prose_words_after": 765
+        },
+        {
+          "case": "train-ladder-commit",
+          "arm": "counterpart",
+          "size": {
+            "files": 12,
+            "changed_lines": 2121,
+            "band": "large"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 4,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 4,
+          "prose_words_before": 2084,
+          "prose_words_after": 1985
+        },
+        {
+          "case": "train-ladder-commit",
+          "arm": "plain",
+          "size": {
+            "files": 12,
+            "changed_lines": 2121,
+            "band": "large"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 4,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 2084,
+          "prose_words_after": 2082
+        },
+        {
+          "case": "train-ladder-commit",
+          "arm": "upstream",
+          "size": {
+            "files": 12,
+            "changed_lines": 2121,
+            "band": "large"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 1,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 3,
+          "prose_words_before": 2084,
+          "prose_words_after": 1904
+        },
+        {
+          "case": "train-resume-commit",
+          "arm": "counterpart",
+          "size": {
+            "files": 5,
+            "changed_lines": 348,
+            "band": "medium"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 1,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 2,
+          "prose_words_before": 1986,
+          "prose_words_after": 1951
+        },
+        {
+          "case": "train-resume-commit",
+          "arm": "plain",
+          "size": {
+            "files": 5,
+            "changed_lines": 348,
+            "band": "medium"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 1,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 3,
+          "prose_words_before": 1986,
+          "prose_words_after": 1951
+        },
+        {
+          "case": "train-resume-commit",
+          "arm": "upstream",
+          "size": {
+            "files": 5,
+            "changed_lines": 348,
+            "band": "medium"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 1,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 3,
+          "prose_words_before": 1986,
+          "prose_words_after": 1956
+        }
+      ],
+      "calls": [
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 22.475,
+          "cost_usd_estimate": 0.0901926,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 5117,
+            "cache_read_input_tokens": 1743,
+            "output_tokens": 2445,
+            "output_tokens_details": {
+              "thinking_tokens": 1258
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 5117,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 13.391,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 13348,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 349,
+              "reasoning_output_tokens": 116
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 34.625,
+          "cost_usd_estimate": 0.13046939999999999,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 5116,
+            "cache_read_input_tokens": 4467,
+            "output_tokens": 4432,
+            "output_tokens_details": {
+              "thinking_tokens": 872
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 5116,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 13.181,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 12935,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 561,
+              "reasoning_output_tokens": 407
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 42.375,
+          "cost_usd_estimate": 0.1514702,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 5116,
+            "cache_read_input_tokens": 5671,
+            "output_tokens": 5470,
+            "output_tokens_details": {
+              "thinking_tokens": 1273
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 5116,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 16.909,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 13043,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 595,
+              "reasoning_output_tokens": 340
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 12.018,
+          "cost_usd_estimate": 0.47300400000000004,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 55967,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 1263,
+            "output_tokens_details": {
+              "thinking_tokens": 385
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 55967,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 73.295,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 53609,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 3906,
+              "reasoning_output_tokens": 2612
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 15.887,
+          "cost_usd_estimate": 0.4970024,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 57715,
+            "cache_read_input_tokens": 972,
+            "output_tokens": 1754,
+            "output_tokens_details": {
+              "thinking_tokens": 499
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 57715,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 69.687,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 53839,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 3680,
+              "reasoning_output_tokens": 2037
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 17.896,
+          "cost_usd_estimate": 0.4747782,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 54222,
+            "cache_read_input_tokens": 5671,
+            "output_tokens": 1993,
+            "output_tokens_details": {
+              "thinking_tokens": 680
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 54222,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 67.073,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 53830,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 3580,
+              "reasoning_output_tokens": 2189
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 27.647,
+          "cost_usd_estimate": 1.058888,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 124530,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 3132,
+            "output_tokens_details": {
+              "thinking_tokens": 920
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 124530,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 56.091,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 99996,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 2925,
+              "reasoning_output_tokens": 386
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 60.953,
+          "cost_usd_estimate": 1.1716944,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 126279,
+            "cache_read_input_tokens": 972,
+            "output_tokens": 8063,
+            "output_tokens_details": {
+              "thinking_tokens": 2738
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 126279,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 111.484,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 99579,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 5914,
+              "reasoning_output_tokens": 2849
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 78.218,
+          "cost_usd_estimate": 1.2131264000000002,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 127483,
+            "cache_read_input_tokens": 972,
+            "output_tokens": 9653,
+            "output_tokens_details": {
+              "thinking_tokens": 4264
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 127483,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 75.437,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 99704,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 3992,
+              "reasoning_output_tokens": 1178
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        }
+      ],
+      "raw_results_sha256": "ca20adf5ff178f237f3611dccc5cba11f59e744f903a82251d020150ae98df90"
+    },
+    "train-r2": {
+      "summary": {
+        "frozen": {
+          "version": "claude-rewrite-v1",
+          "cases_sha256": "76b8e5247d166bf608811b512be678fb89f9eff21a050a24d0a66d9e74491d4c",
+          "guidance_sha256": {
+            "plain": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "upstream": "aac1b1496ad2fd57a010b5fd61db0e78d6ab522db8a6d85f953034a2787c9ed0",
+            "counterpart": "3d0cf6cfa1ee58a1c432d642d040ce6ee443e1db9b4970f38c97fe169a8a0a72"
+          },
+          "task_sha256": "00fce1bd0e8a6c6bbd58cdbaefbcf43a605c096321cf1057757ebb77b8a2ad11",
+          "schema_sha256": "6efcc28d047ff6931727e755f607dff0aade7e014538d2a70031bf942a8c73c4",
+          "rubric_sha256": "bda832ec9ad3d0155faabbe4ddf662bd413e621c11f750e9fc80cfbc8a23de8d",
+          "judge": true,
+          "model": "claude-opus-5-5",
+          "effort": "medium",
+          "judge_model": "gpt-5.6-sol",
+          "judge_effort": "medium",
+          "seed": 42,
+          "split": "train",
+          "arms": [
+            "counterpart"
+          ],
+          "implementation_sha256": {
+            "claude_experiment.py": "0619eeaa5e96d48b6b0119dea200362fe52884772ee41ef5d562b5ba51dae2f1",
+            "claude_cases.py": "b0e397aef91971be0c7eff39f6c00ecf9e1b29cfe6797b7480891807fc166e4c",
+            "claude_runner.py": "6ab0fd08d65dee18ab0b7718f251cf58ce3e96e40328a6ebcedda4ab8a2add58",
+            "changes.py": "b7b867a36e72b3e1633b39a3fd068f6726fd1e5c2d7b1fe394a4a6fa177686aa",
+            "runner.py": "1c9cc84aa1430d880d6c97193482f7e8073e9b61df57393f141d553aea7570a8"
+          }
+        },
+        "attempted": 3,
+        "failed": 0,
+        "arms": {
+          "counterpart": {
+            "attempted": 3,
+            "failed": 0,
+            "noop": 0,
+            "by_kind": {
+              "comment": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 2,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 13
+                }
+              },
+              "text": {
+                "reviewed": 3,
+                "outcomes": {
+                  "blocked": 1,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 2
+                }
+              },
+              "code": {
+                "reviewed": 15,
+                "outcomes": {
+                  "blocked": 3,
+                  "fail": 1,
+                  "unassessed": 0,
+                  "criteria_passed": 11
+                }
+              }
+            },
+            "cases_with_python_ast_changes": 2
+          }
+        },
+        "limits": "Descriptive pilot; no correctness or human-authorship certification. Upstream preserves code; counterpart permits refactoring. No generated code was executed."
+      },
+      "cases": [
+        {
+          "case": "train-explanation",
+          "arm": "counterpart",
+          "size": {
+            "files": 1,
+            "changed_lines": 13,
+            "band": "small"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 923,
+          "prose_words_after": 876
+        },
+        {
+          "case": "train-ladder-commit",
+          "arm": "counterpart",
+          "size": {
+            "files": 12,
+            "changed_lines": 2121,
+            "band": "large"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 5,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 3,
+          "prose_words_before": 2084,
+          "prose_words_after": 2028
+        },
+        {
+          "case": "train-resume-commit",
+          "arm": "counterpart",
+          "size": {
+            "files": 5,
+            "changed_lines": 348,
+            "band": "medium"
+          },
+          "outcome": "blocked",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 1,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 3,
+          "prose_words_before": 1986,
+          "prose_words_after": 1974
+        }
+      ],
+      "calls": [
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 54.236,
+          "cost_usd_estimate": 0.22043440000000003,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 10524,
+            "cache_read_input_tokens": 972,
+            "output_tokens": 6802,
+            "output_tokens_details": {
+              "thinking_tokens": 2041
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 10524,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 18.442,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 13079,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 801,
+              "reasoning_output_tokens": 507
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 25.999,
+          "cost_usd_estimate": 0.5336103999999999,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 59626,
+            "cache_read_input_tokens": 972,
+            "output_tokens": 2820,
+            "output_tokens_details": {
+              "thinking_tokens": 1119
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 59626,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 73.325,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 53877,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 3814,
+              "reasoning_output_tokens": 1893
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 113.329,
+          "cost_usd_estimate": 1.2818556,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 122784,
+            "cache_read_input_tokens": 6378,
+            "output_tokens": 14915,
+            "output_tokens_details": {
+              "thinking_tokens": 5400
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 122784,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 84.114,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 99645,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 4445,
+              "reasoning_output_tokens": 1483
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        }
+      ],
+      "raw_results_sha256": "961fe2a2722a34f835c5635e8ae8670f2915dad6f89924b9b3491362de45b51b"
+    },
+    "heldout": {
+      "summary": {
+        "frozen": {
+          "version": "claude-rewrite-v1",
+          "cases_sha256": "a0bfbbb3de9b8049395c48db671162581da3a6781830e8553e2dd63cde984316",
+          "guidance_sha256": {
+            "plain": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "upstream": "aac1b1496ad2fd57a010b5fd61db0e78d6ab522db8a6d85f953034a2787c9ed0",
+            "counterpart": "3d0cf6cfa1ee58a1c432d642d040ce6ee443e1db9b4970f38c97fe169a8a0a72"
+          },
+          "task_sha256": "00fce1bd0e8a6c6bbd58cdbaefbcf43a605c096321cf1057757ebb77b8a2ad11",
+          "schema_sha256": "6efcc28d047ff6931727e755f607dff0aade7e014538d2a70031bf942a8c73c4",
+          "rubric_sha256": "bda832ec9ad3d0155faabbe4ddf662bd413e621c11f750e9fc80cfbc8a23de8d",
+          "judge": true,
+          "model": "claude-opus-5-5",
+          "effort": "medium",
+          "judge_model": "gpt-5.6-sol",
+          "judge_effort": "medium",
+          "seed": 42,
+          "split": "test",
+          "arms": [
+            "plain",
+            "upstream",
+            "counterpart"
+          ],
+          "implementation_sha256": {
+            "claude_experiment.py": "0619eeaa5e96d48b6b0119dea200362fe52884772ee41ef5d562b5ba51dae2f1",
+            "claude_cases.py": "a643a0ab3f128fc74d03a38104522efcacc6fe992af943178105afe981ac4bbb",
+            "claude_runner.py": "6ab0fd08d65dee18ab0b7718f251cf58ce3e96e40328a6ebcedda4ab8a2add58",
+            "changes.py": "b7b867a36e72b3e1633b39a3fd068f6726fd1e5c2d7b1fe394a4a6fa177686aa",
+            "runner.py": "1c9cc84aa1430d880d6c97193482f7e8073e9b61df57393f141d553aea7570a8"
+          }
+        },
+        "attempted": 9,
+        "failed": 3,
+        "arms": {
+          "plain": {
+            "attempted": 3,
+            "failed": 1,
+            "noop": 2,
+            "by_kind": {
+              "comment": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              },
+              "text": {
+                "reviewed": 2,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 2
+                }
+              },
+              "code": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              }
+            },
+            "cases_with_python_ast_changes": 0
+          },
+          "upstream": {
+            "attempted": 3,
+            "failed": 1,
+            "noop": 2,
+            "by_kind": {
+              "comment": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              },
+              "text": {
+                "reviewed": 2,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 2
+                }
+              },
+              "code": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              }
+            },
+            "cases_with_python_ast_changes": 0
+          },
+          "counterpart": {
+            "attempted": 3,
+            "failed": 1,
+            "noop": 2,
+            "by_kind": {
+              "comment": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              },
+              "text": {
+                "reviewed": 2,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 2
+                }
+              },
+              "code": {
+                "reviewed": 1,
+                "outcomes": {
+                  "blocked": 0,
+                  "fail": 0,
+                  "unassessed": 0,
+                  "criteria_passed": 1
+                }
+              }
+            },
+            "cases_with_python_ast_changes": 0
+          }
+        },
+        "limits": "Descriptive pilot; no correctness or human-authorship certification. Upstream preserves code; counterpart permits refactoring. No generated code was executed."
+      },
+      "cases": [
+        {
+          "case": "test-click-large",
+          "arm": "counterpart",
+          "size": {
+            "files": 35,
+            "changed_lines": 15289,
+            "band": "large"
+          },
+          "outcome": "failed_call_or_validation",
+          "error": "codex exec failed; see <project>/runs/claude-counterpart/heldout/cases/test-click-large/counterpart/review/call/stderr.txt",
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 14651,
+          "prose_words_after": 14651
+        },
+        {
+          "case": "test-click-large",
+          "arm": "plain",
+          "size": {
+            "files": 35,
+            "changed_lines": 15289,
+            "band": "large"
+          },
+          "outcome": "failed_call_or_validation",
+          "error": "codex exec failed; see <project>/runs/claude-counterpart/heldout/cases/test-click-large/plain/review/call/stderr.txt",
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 14651,
+          "prose_words_after": 14651
+        },
+        {
+          "case": "test-click-large",
+          "arm": "upstream",
+          "size": {
+            "files": 35,
+            "changed_lines": 15289,
+            "band": "large"
+          },
+          "outcome": "failed_call_or_validation",
+          "error": "codex exec failed; see <project>/runs/claude-counterpart/heldout/cases/test-click-large/upstream/review/call/stderr.txt",
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 14651,
+          "prose_words_after": 14651
+        },
+        {
+          "case": "test-click-medium",
+          "arm": "counterpart",
+          "size": {
+            "files": 2,
+            "changed_lines": 14,
+            "band": "medium"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3627,
+          "prose_words_after": 3627
+        },
+        {
+          "case": "test-click-medium",
+          "arm": "plain",
+          "size": {
+            "files": 2,
+            "changed_lines": 14,
+            "band": "medium"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3627,
+          "prose_words_after": 3627
+        },
+        {
+          "case": "test-click-medium",
+          "arm": "upstream",
+          "size": {
+            "files": 2,
+            "changed_lines": 14,
+            "band": "medium"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": false,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3627,
+          "prose_words_after": 3627
+        },
+        {
+          "case": "test-click-small",
+          "arm": "counterpart",
+          "size": {
+            "files": 1,
+            "changed_lines": 2,
+            "band": "small"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3461,
+          "prose_words_after": 3461
+        },
+        {
+          "case": "test-click-small",
+          "arm": "plain",
+          "size": {
+            "files": 1,
+            "changed_lines": 2,
+            "band": "small"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3461,
+          "prose_words_after": 3461
+        },
+        {
+          "case": "test-click-small",
+          "arm": "upstream",
+          "size": {
+            "files": 1,
+            "changed_lines": 2,
+            "band": "small"
+          },
+          "outcome": "criteria_passed",
+          "error": null,
+          "noop": true,
+          "python_ast_changed_files": 0,
+          "python_syntax_errors": 0,
+          "blocked_artifacts": 0,
+          "prose_words_before": 3461,
+          "prose_words_after": 3461
+        }
+      ],
+      "calls": [
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 2.967,
+          "cost_usd_estimate": 0.16822859999999998,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20574,
+            "cache_read_input_tokens": 1743,
+            "output_tokens": 164,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 20574,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 10.032,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 30954,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 359,
+              "reasoning_output_tokens": 181
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 2.879,
+          "cost_usd_estimate": 0.16852540000000002,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20573,
+            "cache_read_input_tokens": 4467,
+            "output_tokens": 152,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 20573,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 8.977,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 30967,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 337,
+              "reasoning_output_tokens": 159
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 4.555,
+          "cost_usd_estimate": 0.1708796,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20572,
+            "cache_read_input_tokens": 6378,
+            "output_tokens": 251,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 20572,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 9.832,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 30755,
+              "cached_input_tokens": 7424,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 353,
+              "reasoning_output_tokens": 160
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 17.988,
+          "cost_usd_estimate": 3.4950446,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 435561,
+            "cache_read_input_tokens": 1743,
+            "output_tokens": 510,
+            "output_tokens_details": {
+              "thinking_tokens": 123
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 435561,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "failed",
+          "elapsed_seconds": 1.23,
+          "cost_usd_estimate": null,
+          "usage": null,
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 8.359,
+          "cost_usd_estimate": 3.4908094,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 435561,
+            "cache_read_input_tokens": 4467,
+            "output_tokens": 271,
+            "output_tokens_details": {
+              "thinking_tokens": 61
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 435561,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "failed",
+          "elapsed_seconds": 0.829,
+          "cost_usd_estimate": null,
+          "usage": null,
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 11.291,
+          "cost_usd_estimate": 3.4976596,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 435562,
+            "cache_read_input_tokens": 6378,
+            "output_tokens": 594,
+            "output_tokens_details": {
+              "thinking_tokens": 115
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 435562,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "failed",
+          "elapsed_seconds": 0.92,
+          "cost_usd_estimate": null,
+          "usage": null,
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 6.982,
+          "cost_usd_estimate": 0.2010566,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 23765,
+            "cache_read_input_tokens": 1743,
+            "output_tokens": 529,
+            "output_tokens_details": {
+              "thinking_tokens": 127
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 23765,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 20.376,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 33239,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 786,
+              "reasoning_output_tokens": 142
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 6.716,
+          "cost_usd_estimate": 0.2034494,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 23766,
+            "cache_read_input_tokens": 4467,
+            "output_tokens": 621,
+            "output_tokens_details": {
+              "thinking_tokens": 194
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 23766,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 19.381,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 33132,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 856,
+              "reasoning_output_tokens": 144
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        },
+        {
+          "provider": "claude-cli",
+          "model": "claude-opus-5-5",
+          "status": "completed",
+          "elapsed_seconds": 12.095,
+          "cost_usd_estimate": 0.2168396,
+          "usage": {
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 23767,
+            "cache_read_input_tokens": 6378,
+            "output_tokens": 1271,
+            "output_tokens_details": {
+              "thinking_tokens": 306
+            },
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 23767,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "inference_geo": "not_available",
+            "iterations": [],
+            "speed": "standard"
+          },
+          "cli_version": "2.1.283 (Claude Code)"
+        },
+        {
+          "provider": "codex-cli",
+          "model": "gpt-5.6-sol",
+          "status": "completed",
+          "elapsed_seconds": 19.571,
+          "cost_usd_estimate": null,
+          "usage": [
+            {
+              "input_tokens": 33136,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 830,
+              "reasoning_output_tokens": 479
+            }
+          ],
+          "cli_version": "codex-cli 0.157.1"
+        }
+      ],
+      "raw_results_sha256": "f65d5a2c064e6636422e541b2f21e0e1feab8b12638633f1173dff9e625c8cb7"
+    }
+  },
+  "limits": [
+    "Small descriptive study; no statistical or correctness certification.",
+    "Human-era Click commits are preservation controls, not verified Claude outputs.",
+    "Code refactoring is allowed by the counterpart but not by the upstream prose spec.",
+    "Judge blockers can concern inherited defects; they are not all rewrite regressions.",
+    "Raw answers and invalid reviews remain local; failed attempts are included.",
+    "The large-case transport failure informed an implementation change; these exposed test cases are retired as untouched holdouts."
+  ]
+}

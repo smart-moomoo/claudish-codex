@@ -12,7 +12,8 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-MODULES = ("changes", "commits", "corpus", "diff", "experiment", "filelevel", "placement", "spec", "tiers")
+MODULES = ("changes", "commits", "corpus", "diff", "experiment", "filelevel", "placement", "spec", "tiers",
+           "claude_cases", "claude_experiment", "claude_spec")
 
 
 def dispatch_calls():
