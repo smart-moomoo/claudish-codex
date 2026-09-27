@@ -12,6 +12,9 @@ of whole documents. It has not yet been evaluated in a new LLVM ablation.
 
 ## Use the guide
 
+Ready-to-copy [Codex and Claude guides](specs/artifacts/README.md) are published
+in `specs/artifacts/`, with source revisions and redistribution licenses.
+
 Copy [specs/codex-changes.md](specs/codex-changes.md) into your project and add
 this line to its existing AGENTS.md, adjusting the path:
 
