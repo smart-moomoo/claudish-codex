@@ -1,8 +1,8 @@
-# Claude evidence v2 candidate
+# Claude guide source
 
-Use the complete [generated guide](../artifacts/claude-evidence-v2.md), not just
-the [editable base](claude-evidence-v2-base.md). This candidate remains separate
-from the maintained Claude artifact. The [PhiValues results](../../experiments/claude/llvm/PHIVALUES-RESULTS.md)
+Use the complete [generated guide](artifacts/claude.md), not just
+the [editable base](claude-base.md). This is the sole published Claude artifact,
+as requested by the user. The [PhiValues results](../experiments/claude/llvm/PHIVALUES-RESULTS.md)
 show partial recovery, not a complete fix or evidence of general reliability.
 
 The base contains the full experimental revision, including the earlier
@@ -16,7 +16,7 @@ explanation-preservation rule is separate from code justification.
 Use a separate checkout of source commit
 `33546593d16a10f7394d9764b6eb941c38fe7f2f`, which contains the Claude builder,
 dictionary and pinned upstream sources. Replace that checkout's
-`specs/claude-base.md` with `claude-evidence-v2-base.md` from this directory.
+`specs/claude-base.md` with `claude-base.md` from this directory.
 Leave its dictionary, vendor files and evidence records unchanged. Run:
 
 ```sh
@@ -26,7 +26,7 @@ python3 -m claudish build-claude-spec
 The resulting `specs/claude-changes.md` must have SHA-256
 `b94858066b9087a4c019145ce3c256dfe56649fc96031144f6d138e841fe0a83`.
 The published artifact is a byte-for-byte copy of that generated file; do not
-edit it directly. Include the [upstream license](../artifacts/LICENSE.claudish)
+edit it directly. Include the [upstream license](artifacts/LICENSE.claudish)
 when redistributing it.
 
 Only the source, generated guide and evaluation summaries are published here.

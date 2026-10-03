@@ -106,3 +106,12 @@ All three rewrites exceeded the 70% cache-read gate: 75.1%, 72.5% and 71.5%.
 Including context loading, 58.7% of reported input tokens came from cache.
 Raw files, outputs, diffs, session evidence and reviews remain private under
 `runs/claude-llvm/manual-challenge/phivalues-revision-2-network/`.
+
+## Subsequent publication decision
+
+After this evaluation, the user requested replacing the old Claude artifact
+instead of publishing a separate v2. The exact evaluated revision is now the
+sole [Claude artifact](../../../specs/artifacts/claude.md), with its
+[editable source](../../../specs/claude-base.md). The earlier status above
+records the experiment's decision at completion. This publication change does
+not change the findings, satisfy the broader promotion gate or add new evidence.
