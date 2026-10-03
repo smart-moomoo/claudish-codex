@@ -27,3 +27,20 @@ The snapshots do not update automatically when a source changes.
 Both guides are experimental. See the
 [Claude study at this revision](https://github.com/smart-moomoo/claudish-codex/blob/33546593d16a10f7394d9764b6eb941c38fe7f2f/experiments/claude/README.md)
 and the [main project documentation](../../README.md) for evidence and limits.
+
+## Candidate: evidence for added code
+
+[Claude evidence v2](claude-evidence-v2.md) is a separate, evaluated candidate,
+not a replacement for `claude.md`. It requires concrete requirements and
+in-scope test cases for added code, rather than preserving defensive structure
+because its necessity is uncertain. Avoid speculative inputs and redundant tests.
+
+The focused PhiValues comparison recovered one simplification but left repeated
+operand lookups. Its explanation also claimed test coverage without supplied
+evidence. See the [results](../../experiments/claude/llvm/PHIVALUES-RESULTS.md).
+This candidate has not passed the broader promotion gate.
+
+The [editable source and rebuild instructions](../candidates/README.md) reproduce
+the exact evaluated snapshot. SHA-256:
+`b94858066b9087a4c019145ce3c256dfe56649fc96031144f6d138e841fe0a83`.
+The same project and upstream licenses apply.
