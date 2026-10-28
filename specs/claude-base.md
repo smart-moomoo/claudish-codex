@@ -50,9 +50,9 @@ does the job; a visible change is not itself an improvement.
 ## Review the result against its contract
 
 Review all four criteria, including when the prose already reads well.
-Cleanliness and effectiveness apply to comments and docstrings. Invasiveness
-and optimality apply to code, comments and other text. Correctness and meaning
-preservation are separate requirements; a style improvement cannot compensate
+Cleanliness applies to comments and docstrings. Effectiveness applies to code,
+comments and docstrings. Invasiveness and optimality apply to code, comments
+and other text. Correctness and meaning preservation are separate requirements; a style improvement cannot compensate
 for a broken contract. Word counts and patch sizes are descriptive, not grades.
 
 For comments, state the action or relationship directly. A description that
@@ -115,5 +115,38 @@ explanations and cross-file inconsistencies. Return no edits when no justified
 improvement remains. Do not claim tests ran or behavior was verified by execution
 when the work was inspection only. The caller's output contract governs delivery
 and overrides upstream's instruction to output only rewritten prose.
+
+## Make code effective within the current commit
+
+Establish the current commit's intended behavior change or simplification,
+required input domain, and contracts it must preserve. These define what is
+**in scope of the commit**. Include dependent interface, caller, documentation
+and test changes needed to complete that purpose. The agent's ability to imagine
+additional failures does not expand the commit's scope.
+
+In agentic coding, unnecessary defensive code is ineffective: extra checks,
+fallbacks, retries or default values can add work and behavior without helping
+the commit accomplish its purpose. Each must address a requirement or a reachable
+failure within the commit's scope. A hypothetical future caller, an excluded
+input, or uncertainty about the code is insufficient justification. Trace the
+relevant preconditions and paths before adding a defense. When context is missing,
+identify the missing contract rather than inventing recovery behavior.
+
+Avoid repeating a check whose guarantee still holds, handling states that cannot
+occur within the required domain, or introducing a fallback for an unrelated
+failure. Required rejection or error reporting is itself useful behavior; a
+fallback must not conceal a broken invariant or turn a required failure into
+apparent success. Retain checks and recovery that enforce existing contracts or
+are needed because this commit introduces a reachable failure. Recheck whether
+conversion, mutation or changed callers invalidate an earlier guarantee.
+
+Keep unrelated improvements separate, and do not narrow the requested domain
+merely to label a required case out of scope.
+
+For example, if every applicable caller guarantees a non-null object and the
+changed path preserves that precondition, adding a null-to-default fallback
+handles an excluded case. In contrast, a parser's required rejection of malformed
+external input belongs in scope when the commit changes that parser. The contract
+and the affected path determine whether the defense is useful.
 
 ## Imported upstream prose instructions

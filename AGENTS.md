@@ -3,10 +3,11 @@
 Use Python 3.11+ and the standard library. Run commands from this directory or
 pass the project directory with `--root`.
 
-For text, comments and code, follow `specs/codex-changes.md`. Cleanliness and
-effectiveness apply only to comments and docstrings; invasiveness and
-optimality apply to all three kinds. Preserve required behavior, not the
-implementation itself, when refactoring code.
+For text, comments and code, follow `specs/codex-changes.md`. Cleanliness applies
+to comments and docstrings; effectiveness also applies to code and asks whether
+it serves the current commit's requirements. Invasiveness and optimality apply
+to all three kinds. Preserve required behavior, not the implementation itself,
+when refactoring code.
 
 Edit `specs/prose-base.md` for shared prose principles and
 `specs/changes-base.md` for change scope and workflow. Comment guidance comes

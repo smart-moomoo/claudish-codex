@@ -32,6 +32,13 @@ certainty in both directions, and starts with the organization of the whole
 document or implementation. A code refactor may change the implementation;
 it must preserve required behavior.
 
+Both whole-change guides now assess code effectiveness within the scope of the
+current commit. A check or fallback must address a requirement or reachable
+failure in that scope; speculative defenses and redundant checks do not help.
+Required validation and error behavior remain part of the contract. This
+user-requested extension has not been evaluated in new model trials.
+[Guidance scope and the existing review contract](docs/change-scope.md).
+
 ## Review a change
 
 Use Python 3.11+ and an authenticated Codex CLI. Run commands from this
@@ -51,6 +58,9 @@ Neither command modifies the source. Both make model calls through
 `codex exec`, using **gpt-5.6-sol, medium reasoning** by default.
 See the [input contract](docs/change-scope.md#input-format) and
 [grading options and parser limits](docs/reviewing.md).
+
+The version-2 reviewer retains its existing scope; its code assessments do not
+include the newer code-effectiveness guidance:
 
 | Criterion | Comments / docstrings | Other text | Code |
 | --- | --- | --- | --- |

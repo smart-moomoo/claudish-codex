@@ -9,13 +9,14 @@ candidates; the frozen scaled guide is in `specs/archive/scaled-comments.md`.
 | Criterion | Comment or docstring | Other text | Executable code |
 | --- | --- | --- | --- |
 | Clean | Wording and structure | Not applicable | Not applicable |
-| Effective | Need, scope, detail and length | Not applicable | Not applicable |
+| Effective | Need, scope, detail and length | Not applicable | Behavior needed within the current commit |
 | Invasive | Unnecessary reach, duplication | Unnecessary edits, duplicated guidance | Unnecessary scope, coupling, abstractions |
 | Optimal | Placement and consistency | Organization and consistency | Ownership, interfaces, caller impact and fit |
 
-These are applicable review criteria, not four mandatory gates for every
-artifact. Code and text start at invasiveness. A failed comment does not hide
-code from review, and not-applicable criteria never count as passed. Every
+This table describes the current guidance, including both published Codex and
+Claude artifacts. These are applicable criteria, not four mandatory gates for
+every artifact. Code starts at effectiveness; other text starts at invasiveness.
+A failed comment does not hide code from review, and not-applicable criteria never count as passed. Every
 applicable criterion is reviewed independently; results are counted by kind
 rather than pooling different kinds into one pass rate.
 
@@ -24,6 +25,21 @@ requirements. A code cleanup may alter structure, helpers and control flow
 while preserving required behavior. Removing safeguards or necessary tests
 to shorten the diff is not a successful cleanup. Verify affected behavior
 with focused checks; do not require an unchanged AST for a code refactor.
+
+## Existing reviewer contract
+
+The user-requested guide extension treats unnecessary defensive code as an
+effectiveness problem when it serves no requirement or reachable failure within
+the current commit. Commit scope includes necessary caller, interface and test
+changes and required validation; it excludes speculative future support. See
+the guide's “Make code effective within the current commit” section.
+
+The `review-change` tool still uses its frozen version-2 rubric and schema.
+That reviewer assesses clean/effective only for comments/docstrings, and reports
+both as not applicable for code and other text. It does not yet produce a separate
+code-effectiveness assessment. Existing code assessments of invasiveness and
+optimality remain available. Updating that reviewer would require a new version
+and evaluation series; the guide revision does not relabel historical scores.
 
 ## Input format
 
